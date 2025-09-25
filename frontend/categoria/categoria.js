@@ -5,7 +5,7 @@ let currentPersonId = null;
 let operacao = null;
 
 // Elementos do DOM
-const form = document.getElementById('cargoForm');
+const form = document.getElementById('categoriaForm');
 const searchId = document.getElementById('searchId');
 const btnBuscar = document.getElementById('btnBuscar');
 const btnIncluir = document.getElementById('btnIncluir');
@@ -13,19 +13,19 @@ const btnAlterar = document.getElementById('btnAlterar');
 const btnExcluir = document.getElementById('btnExcluir');
 const btnCancelar = document.getElementById('btnCancelar');
 const btnSalvar = document.getElementById('btnSalvar');
-const cargosTableBody = document.getElementById('cargosTableBody');
+const categoriasTableBody = document.getElementById('categoriasTableBody');
 const messageContainer = document.getElementById('messageContainer');
 
-// Carregar lista de cargos ao inicializar
+// Carregar lista de categorias ao inicializar
 document.addEventListener('DOMContentLoaded', () => {
-    carregarCargos();
+    carregarCategorias();
 });
 
 // Event Listeners
-btnBuscar.addEventListener('click', buscarCargo);
-btnIncluir.addEventListener('click', incluirCargo);
-btnAlterar.addEventListener('click', alterarCargo);
-btnExcluir.addEventListener('click', excluirCargo);
+btnBuscar.addEventListener('click', buscarCategoria);
+btnIncluir.addEventListener('click', incluirCategoria);
+btnAlterar.addEventListener('click', alterarCategoria);
+btnExcluir.addEventListener('click', excluirCategoria);
 btnCancelar.addEventListener('click', cancelarOperacao);
 btnSalvar.addEventListener('click', salvarOperacao);
 
@@ -84,8 +84,8 @@ function converterDataParaISO(dataString) {
     return new Date(dataString).toISOString();
 }
 
-// Função para buscar cargo por ID
-async function buscarCargo() {
+// Função para buscar categoria por ID
+async function buscarCategoria() {
     const id = searchId.value.trim();
     if (!id) {
         mostrarMensagem('Digite um ID para buscar', 'warning');
@@ -95,67 +95,67 @@ async function buscarCargo() {
     //focus no campo searchId
     searchId.focus();
     try {
-        const response = await fetch(`${API_BASE_URL}/cargo/${id}`);
+        const response = await fetch(`${API_BASE_URL}/categoria/${id}`);
 
         if (response.ok) {
-            const cargo = await response.json();
-            preencherFormulario(cargo);
+            const categoria = await response.json();
+            preencherFormulario(categoria);
 
             mostrarBotoes(true, false, true, true, false, false);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
-            mostrarMensagem('Cargo encontrado!', 'success');
+            mostrarMensagem('Categoria encontrada!', 'success');
 
         } else if (response.status === 404) {
             limparFormulario();
             searchId.value = id;
             mostrarBotoes(true, true, false, false, false, false); //mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
-            mostrarMensagem('Cargo não encontrado. Você pode incluir um novo cargo.', 'info');
+            mostrarMensagem('Categoria não encontrado. Você pode incluir um novo categoria.', 'info');
             bloquearCampos(false);//bloqueia a pk e libera os demais campos
             //enviar o foco para o campo de nome
         } else {
-            throw new Error('Erro ao buscar cargo');
+            throw new Error('Erro ao buscar categoria');
         }
     } catch (error) {
         console.error('Erro:', error);
-        mostrarMensagem('Erro ao buscar cargo', 'error');
+        mostrarMensagem('Erro ao buscar categoria', 'error');
     }
 }
 
-// Função para preencher formulário com dados da cargo
-function preencherFormulario(cargo) {
-    currentPersonId = cargo.id_cargo;
-    searchId.value = cargo.id_cargo;
-    document.getElementById('nome_cargo').value = cargo.nome_cargo || ''; 
+// Função para preencher formulário com dados da categoria
+function preencherFormulario(categoria) {
+    currentPersonId = categoria.id_categoria;
+    searchId.value = categoria.id_categoria;
+    document.getElementById('nome_categoria').value = categoria.nome_categoria || ''; 
 }
 
 
-// Função para incluir cargo
-async function incluirCargo() {
+// Função para incluir categoria
+async function incluirCategoria() {
 
     mostrarMensagem('Digite os dados!', 'success');
     currentPersonId = searchId.value;
-    // console.log('Incluir nova cargo - currentPersonId: ' + currentPersonId);
+    // console.log('Incluir nova categoria - currentPersonId: ' + currentPersonId);
     limparFormulario();
     searchId.value = currentPersonId;
     bloquearCampos(true);
 
     mostrarBotoes(false, false, false, false, true, true); // mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
-    document.getElementById('nome_cargo').focus();
+    document.getElementById('nome_categoria').focus();
     operacao = 'incluir';
-    // console.log('fim nova cargo - currentPersonId: ' + currentPersonId);
+    // console.log('fim nova categoria - currentPersonId: ' + currentPersonId);
 }
 
-// Função para alterar cargo
-async function alterarCargo() {
+// Função para alterar categoria
+async function alterarCategoria() {
     mostrarMensagem('Digite os dados!', 'success');
     bloquearCampos(true);
     mostrarBotoes(false, false, false, false, true, true);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
-    document.getElementById('nome_cargo').focus();
+    document.getElementById('nome_categoria').focus();
     operacao = 'alterar';
 }
 
-// Função para excluir cargo
-async function excluirCargo() {
-    mostrarMensagem('Excluindo cargo...', 'info');
+// Função para excluir categoria
+async function excluirCategoria() {
+    mostrarMensagem('Excluindo categoria...', 'info');
     currentPersonId = searchId.value;
     //bloquear searchId
     searchId.disabled = true;
@@ -168,52 +168,52 @@ async function salvarOperacao() {
     console.log('Operação:', operacao + ' - currentPersonId: ' + currentPersonId + ' - searchId: ' + searchId.value);
 
     const formData = new FormData(form);
-    const cargo = {
-        id_cargo: searchId.value,
-        nome_cargo: formData.get('nome_cargo')        
+    const categoria = {
+        id_categoria: searchId.value,
+        nome_categoria: formData.get('nome_categoria')        
     };
     let response = null;
     try {
         if (operacao === 'incluir') {
-            response = await fetch(`${API_BASE_URL}/cargo`, {
+            response = await fetch(`${API_BASE_URL}/categoria`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(cargo)
+                body: JSON.stringify(categoria)
             });
         } else if (operacao === 'alterar') {
-            response = await fetch(`${API_BASE_URL}/cargo/${currentPersonId}`, {
+            response = await fetch(`${API_BASE_URL}/categoria/${currentPersonId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(cargo)
+                body: JSON.stringify(categoria)
             });
         } else if (operacao === 'excluir') {
-            // console.log('Excluindo cargo com ID:', currentPersonId);
-            response = await fetch(`${API_BASE_URL}/cargo/${currentPersonId}`, {
+            // console.log('Excluindo categoria com ID:', currentPersonId);
+            response = await fetch(`${API_BASE_URL}/categoria/${currentPersonId}`, {
                 method: 'DELETE'
             });
-            console.log('Cargo excluído' + response.status);
+            console.log('Categoria excluída' + response.status);
         }
         if (response.ok && (operacao === 'incluir' || operacao === 'alterar')) {
-            const novoCargo = await response.json();
+            const novoCategoria = await response.json();
             mostrarMensagem('Operação ' + operacao + ' realizada com sucesso!', 'success');
             limparFormulario();
-            carregarCargos();
+            carregarCategorias();
 
         } else if (operacao !== 'excluir') {
             const error = await response.json();
-            mostrarMensagem(error.error || 'Erro ao incluir cargo', 'error');
+            mostrarMensagem(error.error || 'Erro ao incluir categoria', 'error');
         } else {
-            mostrarMensagem('Cargo excluído com sucesso!', 'success');
+            mostrarMensagem('Categoria excluída com sucesso!', 'success');
             limparFormulario();
-            carregarCargos();
+            carregarCategorias();
         }
     } catch (error) {
         console.error('Erro:', error);
-        mostrarMensagem('Erro ao incluir ou alterar a cargo', 'error');
+        mostrarMensagem('Erro ao incluir ou alterar a categoria', 'error');
     }
 
     mostrarBotoes(true, false, false, false, false, false);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
@@ -230,44 +230,44 @@ function cancelarOperacao() {
     mostrarMensagem('Operação cancelada', 'info');
 }
 
-// Função para carregar lista de cargos
-async function carregarCargos() {
+// Função para carregar lista de categorias
+async function carregarCategorias() {
     try {
-        const response = await fetch(`${API_BASE_URL}/cargo`);
+        const response = await fetch(`${API_BASE_URL}/categoria`);
     //    debugger
         if (response.ok) {
-            const cargos = await response.json();
-            renderizarTabelaCargos(cargos);
+            const categorias = await response.json();
+            renderizarTabelaCategorias(categorias);
         } else {
-            throw new Error('Erro ao carregar cargos');
+            throw new Error('Erro ao carregar categorias');
         }
     } catch (error) {
         console.error('Erro:', error);
-        mostrarMensagem('Erro ao carregar lista de cargos', 'error');
+        mostrarMensagem('Erro ao carregar lista de categorias', 'error');
     }
 }
 
-// Função para renderizar tabela de cargos
-function renderizarTabelaCargos(cargos) {
-    cargosTableBody.innerHTML = '';
+// Função para renderizar tabela de categorias
+function renderizarTabelaCategorias(categorias) {
+    categoriasTableBody.innerHTML = '';
 
-    cargos.forEach(cargo => {
+    categorias.forEach(categoria => {
         const row = document.createElement('tr');
         row.innerHTML = `
                     <td>
-                        <button class="btn-id" onclick="selecionarCargo(${cargo.id_cargo})">
-                            ${cargo.id_cargo}
+                        <button class="btn-id" onclick="selecionarCategoria(${categoria.id_categoria})">
+                            ${categoria.id_categoria}
                         </button>
                     </td>
-                    <td>${cargo.nome_cargo}</td>
+                    <td>${categoria.nome_categoria}</td>
                                  
                 `;
-        cargosTableBody.appendChild(row);
+        categoriasTableBody.appendChild(row);
     });
 }
 
-// Função para selecionar cargo da tabela
-async function selecionarCargo(id) {
+// Função para selecionar categoria da tabela
+async function selecionarCategoria(id) {
     searchId.value = id;
-    await buscarCargo();
+    await buscarCategoria();
 }

@@ -4,40 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD - Avaliação</title>
-    <link rel="stylesheet" href="/avaliacaoHasQuestao/avaliacaoHasQuestao.css">
+    <title>CRUD - Pedido</title>
+    <link rel="stylesheet" href="/pedidoHasProduto/pedidoHasProduto.css">
 </head>
 
 <body>
     <header>
-        <h1>CRUD Questões da Avaliação</h1>
+        <h1>CRUD Produtos do Pedido</h1>
     </header>
 
     <main>
         <section class="form-section">
-            <h2>Questões da Avaliação</h2>
+            <h2>Produtos do Pedido</h2>
 
-            <form id="avaliacaoForm">
+            <form id="pedidoForm">
                 <div class="search-container">
-                    <label for="searchId">Buscar uma AVALIAÇÃO por ID:</label>
+                    <label for="searchId">Buscar uma PEDIDO por ID:</label>
                     <div class="search-input-group">
                         <input type="number" id="searchId" placeholder="Digite o ID para buscar">
                         <button type="button" id="btnBuscar">🔍 Buscar</button>
                     </div>
-                    <div class="infoAvaliacao">
-                        <span id="descricao_avaliacao">desc</span>
-                        <span id="data_avaliacao">data</span>
+                    <div class="infoPedido">
+                        <span id="descricao_pedido">desc</span>
+                        <span id="data_pedido">data</span>
                         <span id="professor_pessoa_id_pessoa">professor</span>
-                        <span id="porcentagem_tolerancia_avaliacao">porcentagem</span>
+                        <span id="porcentagem_tolerancia_pedido">porcentagem</span>
                     </div>
 
                 </div>
             </form>
 
             <div class="tablesContainer">
-                <div class="questoesDaAvaliacaoContainer">
-                    <legend>Questões da Avaliação</legend>
-                    <table id="tabelaQuestoesDaAvaliacao">
+                <div class="produtosDoPedidoContainer">
+                    <legend>Produtos do Pedido</legend>
+                    <table id="tabelaProdutosDoPedido">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -45,13 +45,13 @@
                                 <th>Nota</th>
                             </tr>
                         </thead>
-                        <tbody id="questoesDaAvaliacaoTableBody"></tbody>
+                        <tbody id="produtosDoPedidoTableBody"></tbody>
                     </table>
                 </div>
 
-                <div class="questoesContainer">
-                    <legend>Questões disponíveis</legend>
-                    <table id="tabelaQuestoes">
+                <div class="produtosContainer">
+                    <legend>Produtos disponíveis</legend>
+                    <table id="tabelaProdutos">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -59,7 +59,7 @@
                                 <th>Nota</th>
                             </tr>
                         </thead>
-                        <tbody id="questoesTableBody"></tbody>
+                        <tbody id="produtosTableBody"></tbody>
                     </table>
                 </div>
             </div> <!-- .tablesContainer -->
@@ -67,7 +67,7 @@
 
         <section class="list-section">
             <div class="table-container">
-                <table id="avaliacoesTable">
+                <table id="pedidosTable">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -77,7 +77,7 @@
                             <th>Tolerância</th>
                         </tr>
                     </thead>
-                    <tbody id="avaliacoesTableBody"></tbody>
+                    <tbody id="pedidosTableBody"></tbody>
                 </table>
             </div>
         </section>
@@ -86,12 +86,12 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 CRUD Avaliacao</p>
+        <p>&copy; 2025 CRUD Pedido</p>
     </footer>
 
     <div id="messageContainer" class="message-container"></div>
 
-    <script src="/avaliacaoHasQuestao/avaliacaoHasQuestao.js" defer></script>
+    <script src="/pedidoHasProduto/pedidoHasProduto.js" defer></script>
 
 </body>
 

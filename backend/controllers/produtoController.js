@@ -4,42 +4,42 @@ const { query } = require('../database');
 
 const path = require('path');
 
-exports.abrirCrudCategoria = (req, res) => {
-  console.log('categoriaController - Rota /abrirCrudCategoria - abrir o crudCategoria');
-  res.sendFile(path.join(__dirname, '../../frontend/categoria/categoria.html'));
+exports.abrirCrudProduto = (req, res) => {
+  console.log('produtoController - Rota /abrirCrudProduto - abrir o crudProduto');
+  res.sendFile(path.join(__dirname, '../../frontend/produto/produto.html'));
 }
 
-exports.listarCategorias = async (req, res) => {
+exports.listarProdutos = async (req, res) => {
   try {
-    const result = await query('SELECT * FROM categoria ORDER BY id_categoria');
+    const result = await query('SELECT * FROM produto ORDER BY id_produto');
     // console.log('Resultado do SELECT:', result.rows);//verifica se está retornando algo
     res.json(result.rows);
   } catch (error) {
-    console.error('Erro ao listar categorias:', error);
+    console.error('Erro ao listar produtos:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 }
 
-exports.criarCategoria = async (req, res) => {
-  //  console.log('Criando categoria com dados:', req.body);
+exports.criarProduto = async (req, res) => {
+  //  console.log('Criando produto com dados:', req.body);
   try {
-    const { id_categoria, nome_categoria} = req.body;
+    const { id_produto, nome_produto, quant_estoque} = req.body;
 
     // Validação básica
-    if (!nome_categoria) {
+    if (!nome_produto) {
       return res.status(400).json({
-        error: 'O nome do categoria é obrigatório.'
+        error: 'O nome do produto é obrigatório.'
       });
     }
 
     const result = await query(
-      'INSERT INTO categoria (id_categoria, nome_categoria) VALUES ($1, $2) RETURNING *',
-      [id_categoria, nome_categoria]
+      'INSERT INTO produto (id_produto, nome_produto, quant_estoque) VALUES ($1, $2, $3) RETURNING *',
+      [id_produto, nome_produto, quant_estoque]
     );
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
-    console.error('Erro ao criar categoria:', error);
+    console.error('Erro ao criar produto:', error);
 
 
     // Verifica se é erro de violação de constraint NOT NULL
@@ -53,7 +53,7 @@ exports.criarCategoria = async (req, res) => {
   }
 }
 
-exports.obterCategoria = async (req, res) => {
+exports.obterProduto = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
 
@@ -62,85 +62,86 @@ exports.obterCategoria = async (req, res) => {
     }
 
     const result = await query(
-      'SELECT * FROM categoria WHERE id_categoria = $1',
+      'SELECT * FROM produto WHERE id_produto = $1',
       [id]
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Categoria não encontrado' });
+      return res.status(404).json({ error: 'Produto não encontrado' });
     }
 
     res.json(result.rows[0]);
   } catch (error) {
-    console.error('Erro ao obter categoria:', error);
+    console.error('Erro ao obter produto:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 }
 
-exports.atualizarCategoria = async (req, res) => {
+exports.atualizarProduto = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const { nome_categoria } = req.body;
+    const { nome_produto } = req.body;
+    const { quant_estoque } = req.body;
 
    
-    // Verifica se o categoria existe
+    // Verifica se o produto existe
     const existingPersonResult = await query(
-      'SELECT * FROM categoria WHERE id_categoria = $1',
+      'SELECT * FROM produto WHERE id_produto = $1',
       [id]
     );
 
     if (existingPersonResult.rows.length === 0) {
-      return res.status(404).json({ error: 'Categoria não encontrado' });
+      return res.status(404).json({ error: 'Produto não encontrado' });
     }
 
     // Constrói a query de atualização dinamicamente para campos não nulos
     const currentPerson = existingPersonResult.rows[0];
     const updatedFields = {
-      nome_categoria: nome_categoria !== undefined ? nome_categoria : currentPerson.nome_categoria     
+      nome_produto: nome_produto !== undefined ? nome_produto : currentPerson.nome_produto     
     };
 
-    // Atualiza o categoria
+    // Atualiza o produto
     const updateResult = await query(
-      'UPDATE categoria SET nome_categoria = $1, WHERE id_categoria = $2 RETURNING *',
-      [updatedFields.nome_categoria, id]
+      'UPDATE produto SET nome_produto = $1, WHERE id_produto = $2 RETURNING *',
+      [updatedFields.nome_produto, id]
     );
 
     res.json(updateResult.rows[0]);
   } catch (error) {
-    console.error('Erro ao atualizar categoria:', error);
+    console.error('Erro ao atualizar produto:', error);
 
 
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 }
 
-exports.deletarCategoria = async (req, res) => {
+exports.deletarProduto = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    // Verifica se o categoria existe
+    // Verifica se o produto existe
     const existingPersonResult = await query(
-      'SELECT * FROM categoria WHERE id_categoria = $1',
+      'SELECT * FROM produto WHERE id_produto = $1',
       [id]
     );
 
     if (existingPersonResult.rows.length === 0) {
-      return res.status(404).json({ error: 'Categoria não encontrado' });
+      return res.status(404).json({ error: 'Produto não encontrado' });
     }
 
-    // Deleta o categoria (as constraints CASCADE cuidarão das dependências)
+    // Deleta o produto (as constraints CASCADE cuidarão das dependências)
     await query(
-      'DELETE FROM categoria WHERE id_categoria = $1',
+      'DELETE FROM produto WHERE id_produto = $1',
       [id]
     );
 
     res.status(204).send();
   } catch (error) {
-    console.error('Erro ao deletar categoria:', error);
+    console.error('Erro ao deletar produto:', error);
 
     // Verifica se é erro de violação de foreign key (dependências)
     if (error.code === '23503') {
       return res.status(400).json({
-        error: 'Não é possível deletar categoria com dependências associadas'
+        error: 'Não é possível deletar produto com dependências associadas'
       });
     }
 

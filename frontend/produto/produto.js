@@ -5,7 +5,7 @@ let currentPersonId = null;
 let operacao = null;
 
 // Elementos do DOM
-const form = document.getElementById('cargoForm');
+const form = document.getElementById('produtoForm');
 const searchId = document.getElementById('searchId');
 const btnBuscar = document.getElementById('btnBuscar');
 const btnIncluir = document.getElementById('btnIncluir');
@@ -13,19 +13,19 @@ const btnAlterar = document.getElementById('btnAlterar');
 const btnExcluir = document.getElementById('btnExcluir');
 const btnCancelar = document.getElementById('btnCancelar');
 const btnSalvar = document.getElementById('btnSalvar');
-const cargosTableBody = document.getElementById('cargosTableBody');
+const produtosTableBody = document.getElementById('produtosTableBody');
 const messageContainer = document.getElementById('messageContainer');
 
-// Carregar lista de cargos ao inicializar
+// Carregar lista de produtos ao inicializar
 document.addEventListener('DOMContentLoaded', () => {
-    carregarCargos();
+    carregarProdutos();
 });
 
 // Event Listeners
-btnBuscar.addEventListener('click', buscarCargo);
-btnIncluir.addEventListener('click', incluirCargo);
-btnAlterar.addEventListener('click', alterarCargo);
-btnExcluir.addEventListener('click', excluirCargo);
+btnBuscar.addEventListener('click', buscarProduto);
+btnIncluir.addEventListener('click', incluirProduto);
+btnAlterar.addEventListener('click', alterarProduto);
+btnExcluir.addEventListener('click', excluirProduto);
 btnCancelar.addEventListener('click', cancelarOperacao);
 btnSalvar.addEventListener('click', salvarOperacao);
 
@@ -84,8 +84,8 @@ function converterDataParaISO(dataString) {
     return new Date(dataString).toISOString();
 }
 
-// Função para buscar cargo por ID
-async function buscarCargo() {
+// Função para buscar produto por ID
+async function buscarProduto() {
     const id = searchId.value.trim();
     if (!id) {
         mostrarMensagem('Digite um ID para buscar', 'warning');
@@ -95,67 +95,67 @@ async function buscarCargo() {
     //focus no campo searchId
     searchId.focus();
     try {
-        const response = await fetch(`${API_BASE_URL}/cargo/${id}`);
+        const response = await fetch(`${API_BASE_URL}/produto/${id}`);
 
         if (response.ok) {
-            const cargo = await response.json();
-            preencherFormulario(cargo);
+            const produto = await response.json();
+            preencherFormulario(produto);
 
             mostrarBotoes(true, false, true, true, false, false);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
-            mostrarMensagem('Cargo encontrado!', 'success');
+            mostrarMensagem('Produto encontrado!', 'success');
 
         } else if (response.status === 404) {
             limparFormulario();
             searchId.value = id;
             mostrarBotoes(true, true, false, false, false, false); //mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
-            mostrarMensagem('Cargo não encontrado. Você pode incluir um novo cargo.', 'info');
+            mostrarMensagem('Produto não encontrado. Você pode incluir um novo produto.', 'info');
             bloquearCampos(false);//bloqueia a pk e libera os demais campos
             //enviar o foco para o campo de nome
         } else {
-            throw new Error('Erro ao buscar cargo');
+            throw new Error('Erro ao buscar produto');
         }
     } catch (error) {
         console.error('Erro:', error);
-        mostrarMensagem('Erro ao buscar cargo', 'error');
+        mostrarMensagem('Erro ao buscar produto', 'error');
     }
 }
 
-// Função para preencher formulário com dados da cargo
-function preencherFormulario(cargo) {
-    currentPersonId = cargo.id_cargo;
-    searchId.value = cargo.id_cargo;
-    document.getElementById('nome_cargo').value = cargo.nome_cargo || ''; 
+// Função para preencher formulário com dados da produto
+function preencherFormulario(produto) {
+    currentPersonId = produto.id_produto;
+    searchId.value = produto.id_produto;
+    document.getElementById('nome_produto').value = produto.nome_produto || ''; 
 }
 
 
-// Função para incluir cargo
-async function incluirCargo() {
+// Função para incluir produto
+async function incluirProduto() {
 
     mostrarMensagem('Digite os dados!', 'success');
     currentPersonId = searchId.value;
-    // console.log('Incluir nova cargo - currentPersonId: ' + currentPersonId);
+    // console.log('Incluir nova produto - currentPersonId: ' + currentPersonId);
     limparFormulario();
     searchId.value = currentPersonId;
     bloquearCampos(true);
 
     mostrarBotoes(false, false, false, false, true, true); // mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
-    document.getElementById('nome_cargo').focus();
+    document.getElementById('nome_produto').focus();
     operacao = 'incluir';
-    // console.log('fim nova cargo - currentPersonId: ' + currentPersonId);
+    // console.log('fim nova produto - currentPersonId: ' + currentPersonId);
 }
 
-// Função para alterar cargo
-async function alterarCargo() {
+// Função para alterar produto
+async function alterarProduto() {
     mostrarMensagem('Digite os dados!', 'success');
     bloquearCampos(true);
     mostrarBotoes(false, false, false, false, true, true);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
-    document.getElementById('nome_cargo').focus();
+    document.getElementById('nome_produto').focus();
     operacao = 'alterar';
 }
 
-// Função para excluir cargo
-async function excluirCargo() {
-    mostrarMensagem('Excluindo cargo...', 'info');
+// Função para excluir produto
+async function excluirProduto() {
+    mostrarMensagem('Excluindo produto...', 'info');
     currentPersonId = searchId.value;
     //bloquear searchId
     searchId.disabled = true;
@@ -168,52 +168,52 @@ async function salvarOperacao() {
     console.log('Operação:', operacao + ' - currentPersonId: ' + currentPersonId + ' - searchId: ' + searchId.value);
 
     const formData = new FormData(form);
-    const cargo = {
-        id_cargo: searchId.value,
-        nome_cargo: formData.get('nome_cargo')        
+    const produto = {
+        id_produto: searchId.value,
+        nome_produto: formData.get('nome_produto')        
     };
     let response = null;
     try {
         if (operacao === 'incluir') {
-            response = await fetch(`${API_BASE_URL}/cargo`, {
+            response = await fetch(`${API_BASE_URL}/produto`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(cargo)
+                body: JSON.stringify(produto)
             });
         } else if (operacao === 'alterar') {
-            response = await fetch(`${API_BASE_URL}/cargo/${currentPersonId}`, {
+            response = await fetch(`${API_BASE_URL}/produto/${currentPersonId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(cargo)
+                body: JSON.stringify(produto)
             });
         } else if (operacao === 'excluir') {
-            // console.log('Excluindo cargo com ID:', currentPersonId);
-            response = await fetch(`${API_BASE_URL}/cargo/${currentPersonId}`, {
+            // console.log('Excluindo produto com ID:', currentPersonId);
+            response = await fetch(`${API_BASE_URL}/produto/${currentPersonId}`, {
                 method: 'DELETE'
             });
-            console.log('Cargo excluído' + response.status);
+            console.log('Produto excluído' + response.status);
         }
         if (response.ok && (operacao === 'incluir' || operacao === 'alterar')) {
-            const novoCargo = await response.json();
+            const novoProduto = await response.json();
             mostrarMensagem('Operação ' + operacao + ' realizada com sucesso!', 'success');
             limparFormulario();
-            carregarCargos();
+            carregarProdutos();
 
         } else if (operacao !== 'excluir') {
             const error = await response.json();
-            mostrarMensagem(error.error || 'Erro ao incluir cargo', 'error');
+            mostrarMensagem(error.error || 'Erro ao incluir produto', 'error');
         } else {
-            mostrarMensagem('Cargo excluído com sucesso!', 'success');
+            mostrarMensagem('Produto excluído com sucesso!', 'success');
             limparFormulario();
-            carregarCargos();
+            carregarProdutos();
         }
     } catch (error) {
         console.error('Erro:', error);
-        mostrarMensagem('Erro ao incluir ou alterar a cargo', 'error');
+        mostrarMensagem('Erro ao incluir ou alterar a produto', 'error');
     }
 
     mostrarBotoes(true, false, false, false, false, false);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
@@ -230,44 +230,44 @@ function cancelarOperacao() {
     mostrarMensagem('Operação cancelada', 'info');
 }
 
-// Função para carregar lista de cargos
-async function carregarCargos() {
+// Função para carregar lista de produtos
+async function carregarProdutos() {
     try {
-        const response = await fetch(`${API_BASE_URL}/cargo`);
+        const response = await fetch(`${API_BASE_URL}/produto`);
     //    debugger
         if (response.ok) {
-            const cargos = await response.json();
-            renderizarTabelaCargos(cargos);
+            const produtos = await response.json();
+            renderizarTabelaProdutos(produtos);
         } else {
-            throw new Error('Erro ao carregar cargos');
+            throw new Error('Erro ao carregar produtos');
         }
     } catch (error) {
         console.error('Erro:', error);
-        mostrarMensagem('Erro ao carregar lista de cargos', 'error');
+        mostrarMensagem('Erro ao carregar lista de produtos', 'error');
     }
 }
 
-// Função para renderizar tabela de cargos
-function renderizarTabelaCargos(cargos) {
-    cargosTableBody.innerHTML = '';
+// Função para renderizar tabela de produtos
+function renderizarTabelaProdutos(produtos) {
+    produtosTableBody.innerHTML = '';
 
-    cargos.forEach(cargo => {
+    produtos.forEach(produto => {
         const row = document.createElement('tr');
         row.innerHTML = `
                     <td>
-                        <button class="btn-id" onclick="selecionarCargo(${cargo.id_cargo})">
-                            ${cargo.id_cargo}
+                        <button class="btn-id" onclick="selecionarProduto(${produto.id_produto})">
+                            ${produto.id_produto}
                         </button>
                     </td>
-                    <td>${cargo.nome_cargo}</td>
+                    <td>${produto.nome_produto}</td>
                                  
                 `;
-        cargosTableBody.appendChild(row);
+        produtosTableBody.appendChild(row);
     });
 }
 
-// Função para selecionar cargo da tabela
-async function selecionarCargo(id) {
+// Função para selecionar produto da tabela
+async function selecionarProduto(id) {
     searchId.value = id;
-    await buscarCargo();
+    await buscarProduto();
 }
