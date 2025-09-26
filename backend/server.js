@@ -82,24 +82,14 @@ app.use((err, req, res, next) => {
 const cargoRoutes = require('./routes/cargoRoutes');
 app.use('/cargo', cargoRoutes);
 
-//const professorRoutes = require('./routes/professorRoutes');
-//app.use('/professor', professorRoutes);
-
-//const avaliadorRoutes = require('./routes/avaliadorRoutes');
-//app.use('/avaliador', avaliadorRoutes);
-
-//const avaliadoRoutes = require('./routes/avaliadoRoutes'); 
-//app.use('/avaliado', avaliadoRoutes);
-
-
-//const funcionarioRoutes = require('./routes/funcionarioRoutes');
-//app.use('/funcionario', funcionarioRoutes);
+const funcionarioRoutes = require('./routes/funcionarioRoutes');
+app.use('/funcionario', funcionarioRoutes);
 
 //const produtoRoutes = require('./routes/produtoRoutes');
 //app.use('/produto', produtoRoutes);
 
-//const categoriaRoutes = require('./routes/categoriaRoutes');
-//app.use('/categoria', categoriaRoutes);
+const categoriaRoutes = require('./routes/categoriaRoutes');
+app.use('/categoria', categoriaRoutes);
 
 //const funcionarioHasCargoRoutes = require('./routes/funcionarioHasCargoRoutes');
 //app.use('/funcionarioHasCargo', funcionarioHasCargoRoutes);
@@ -159,15 +149,13 @@ app.use((err, req, res, next) => {
 });
 
 // Middleware para rotas não encontradas (404)
-app.use('', (req, res) => {
+app.use((req, res) => {
   res.status(404).json({
     error: 'Rota não encontrada',
     message: `A rota ${req.originalUrl} não existe`,
     timestamp: new Date().toISOString()
   });
 });
-
-
 
 // Inicialização do servidor
 const startServer = async () => {

@@ -8,8 +8,10 @@ CREATE TABLE cargo (
 CREATE TABLE produto (
     id_produto SERIAL PRIMARY KEY,
     nome_produto VARCHAR(100) NOT NULL,
-    quant_estoque INT NOT NULL
+    quant_estoque INT NOT NULL,
+    preco_produto NUMERIC(10,2) NOT NULL
 );
+
 
 CREATE TABLE cliente (
     cpf_cliente CHAR(11) PRIMARY KEY,
@@ -51,6 +53,11 @@ CREATE TABLE funcionario (
     salario_funcionario NUMERIC(10,2) NOT NULL,
     FOREIGN KEY (CPF_funcionario) REFERENCES pessoa(CPF_pessoa),
     FOREIGN KEY (id_cargo) REFERENCES cargo(id_cargo)
+);
+
+CREATE TABLE categoria (
+    id_categoria INT PRIMARY KEY AUTO_INCREMENT,
+    nome_categoria VARCHAR(100) NOT NULL
 );
 
 INSERT INTO cargo (id_cargo, nome_cargo) VALUES 
@@ -95,9 +102,15 @@ INSERT INTO pessoa (cpf_pessoa, nome_pessoa, data_nasc_pessoa, senha_pessoa, ema
 ('99999999904', 'Ana', '1998-07-14', 'anaSenha', 'ana@email.com'),
 ('99999999905', 'Bruno', '2000-01-05', 'brunoSenha', 'bruno@email.com');
 
-INSERT INTO produto (id_produto, nome_produto, quant_estoque) VALUES 
-(1, 'Pastel de Carne', 50),
-(2, 'Pastel de Queijo', 40),
-(3, 'Pastel de Frango com Catupiry', 30),
-(4, 'Coca-Cola Lata', 80),
-(5, 'Suco Natural de Laranja', 60);
+INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto) VALUES 
+(1, 'Pastel de Carne', 50, 6.00),
+(2, 'Pastel de Queijo', 40, 5.50),
+(3, 'Pastel de Frango com Catupiry', 30, 7.00),
+(4, 'Coca-Cola Lata', 80, 4.00),
+(5, 'Suco Natural de Laranja', 60, 6.50);
+
+INSERT INTO categoria (id_categoria, nome_categoria) VALUES
+(1, 'Pastéis Salgados'),
+(2, 'Pastéis Doces'),
+(3, 'Refrigerantes'),
+(4, 'Sucos');

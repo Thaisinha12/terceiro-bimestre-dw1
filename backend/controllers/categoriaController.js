@@ -101,7 +101,7 @@ exports.atualizarCategoria = async (req, res) => {
 
     // Atualiza o categoria
     const updateResult = await query(
-      'UPDATE categoria SET nome_categoria = $1, WHERE id_categoria = $2 RETURNING *',
+      'UPDATE categoria SET nome_categoria = $1 WHERE id_categoria = $2 RETURNING *',
       [updatedFields.nome_categoria, id]
     );
 
