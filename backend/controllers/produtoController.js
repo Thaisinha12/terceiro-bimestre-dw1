@@ -23,7 +23,7 @@ exports.listarProdutos = async (req, res) => {
 exports.criarProduto = async (req, res) => {
   //  console.log('Criando produto com dados:', req.body);
   try {
-    const { id_produto, nome_produto, quant_estoque} = req.body;
+    const { id_produto, nome_produto, quant_estoque, preco_produto} = req.body;
 
     // Validação básica
     if (!nome_produto) {
@@ -33,8 +33,8 @@ exports.criarProduto = async (req, res) => {
     }
 
     const result = await query(
-      'INSERT INTO produto (id_produto, nome_produto, quant_estoque) VALUES ($1, $2, $3) RETURNING *',
-      [id_produto, nome_produto, quant_estoque]
+      'INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto) VALUES ($1, $2, $3, $4) RETURNING *',
+      [id_produto, nome_produto, quant_estoque, preco_produto]
     );
 
     res.status(201).json(result.rows[0]);
@@ -82,6 +82,7 @@ exports.atualizarProduto = async (req, res) => {
     const id = parseInt(req.params.id);
     const { nome_produto } = req.body;
     const { quant_estoque } = req.body;
+    const { preco_produto } = req.body;
 
    
     // Verifica se o produto existe
@@ -97,13 +98,19 @@ exports.atualizarProduto = async (req, res) => {
     // Constrói a query de atualização dinamicamente para campos não nulos
     const currentPerson = existingPersonResult.rows[0];
     const updatedFields = {
-      nome_produto: nome_produto !== undefined ? nome_produto : currentPerson.nome_produto     
+      nome_produto: nome_produto !== undefined ? nome_produto : currentPerson.nome_produto,
+      quant_estoque: quant_estoque !== undefined ? quant_estoque : currentPerson.quant_estoque,
+      preco_produto: preco_produto !== undefined ? preco_produto : currentPerson.preco_produto
     };
 
     // Atualiza o produto
     const updateResult = await query(
-      'UPDATE produto SET nome_produto = $1, WHERE id_produto = $2 RETURNING *',
-      [updatedFields.nome_produto, id]
+      `UPDATE produto SET 
+          nome_produto = $1,
+          quant_estoque = $2,
+          preco_produto = $3
+       WHERE id_produto = $4 RETURNING *`,
+      [updatedFields.nome_produto, updatedFields.quant_estoque, updatedFields.preco_produto, id]
     );
 
     res.json(updateResult.rows[0]);

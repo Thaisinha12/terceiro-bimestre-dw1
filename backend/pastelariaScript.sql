@@ -39,11 +39,11 @@ CREATE TABLE carrinho (
 
 -- Tabela pessoa
 CREATE TABLE pessoa (
-    CPF_pessoa CHAR(11) PRIMARY KEY,
+	id_pessoa INT PRIMARY KEY,
     nome_pessoa VARCHAR(100) NOT NULL,
-    data_nasc_pessoa DATE NOT NULL,
+	email_pessoa VARCHAR(100) NOT NULL,
     senha_pessoa VARCHAR(255) NOT NULL,
-    email_pessoa VARCHAR(100) NOT NULL
+	cpf_pessoa CHAR(11)
 );
 
 -- Tabela funcionario (herda pessoa e tem FK para cargo)
@@ -95,12 +95,12 @@ INSERT INTO funcionario (cpf_funcionario, id_cargo, salario_funcionario) VALUES
 ('99999999904', 4, 1700.00), 
 ('99999999905', 5, 2000.00);
 
-INSERT INTO pessoa (cpf_pessoa, nome_pessoa, data_nasc_pessoa, senha_pessoa, email_pessoa) VALUES 
-('99999999901', 'João', '1980-02-20', 'joaoSenha', 'joao@email.com'),
-('99999999902', 'Maria', '1992-06-10', 'mariaSenha', 'maria@email.com'),
-('99999999903', 'Carlos', '1995-03-25', 'carlosSenha', 'carlos@email.com'),
-('99999999904', 'Ana', '1998-07-14', 'anaSenha', 'ana@email.com'),
-('99999999905', 'Bruno', '2000-01-05', 'brunoSenha', 'bruno@email.com');
+INSERT INTO pessoa (id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa) VALUES 
+(1, 'João', '1980-02-20', 'joao@email.com', 'joaoSenha', '99999999901'),
+(2, 'Maria', '1992-06-10', 'maria@email.com', 'mariaSenha', '99999999902'),
+(3, 'Carlos', '1995-03-25', 'carlos@email.com', 'carlosSenha', '99999999903'),
+(4, 'Ana', '1998-07-14', 'ana@email.com', 'anaSenha', ''99999999904'),
+(5, 'Bruno', '2000-01-05', 'bruno@email.com', 'brunoSenha', '99999999905');
 
 INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto) VALUES 
 (1, 'Pastel de Carne', 50, 6.00),

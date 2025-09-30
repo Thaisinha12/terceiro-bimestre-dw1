@@ -125,6 +125,8 @@ function preencherFormulario(produto) {
     currentPersonId = produto.id_produto;
     searchId.value = produto.id_produto;
     document.getElementById('nome_produto').value = produto.nome_produto || ''; 
+    document.getElementById('quant_estoque').value = produto.quant_estoque || ''; 
+    document.getElementById('preco_produto').value = produto.preco_produto || ''; 
 }
 
 
@@ -140,9 +142,10 @@ async function incluirProduto() {
 
     mostrarBotoes(false, false, false, false, true, true); // mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
     document.getElementById('nome_produto').focus();
+    document.getElementById('quant_estoque').focus();
+    document.getElementById('preco_produto').focus();
     operacao = 'incluir';
-    // console.log('fim nova produto - currentPersonId: ' + currentPersonId);
-}
+    }
 
 // Função para alterar produto
 async function alterarProduto() {
@@ -150,6 +153,8 @@ async function alterarProduto() {
     bloquearCampos(true);
     mostrarBotoes(false, false, false, false, true, true);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
     document.getElementById('nome_produto').focus();
+    document.getElementById('quant_estoque').focus();
+    document.getElementById('preco_produto').focus();
     operacao = 'alterar';
 }
 
@@ -170,7 +175,9 @@ async function salvarOperacao() {
     const formData = new FormData(form);
     const produto = {
         id_produto: searchId.value,
-        nome_produto: formData.get('nome_produto')        
+        nome_produto: formData.get('nome_produto'),
+        quant_estoque: formData.get('quant_estoque'),
+        preco_produto: formData.get('preco_produto')
     };
     let response = null;
     try {
@@ -260,7 +267,9 @@ function renderizarTabelaProdutos(produtos) {
                         </button>
                     </td>
                     <td>${produto.nome_produto}</td>
-                                 
+                    <td>${produto.quant_estoque}</td>
+                    <td>${produto.preco_produto}</td>
+
                 `;
         produtosTableBody.appendChild(row);
     });

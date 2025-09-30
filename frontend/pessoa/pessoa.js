@@ -57,8 +57,8 @@ function bloquearCampos(bloquearPrimeiro) {
 // Função para limpar formulário
 function limparFormulario() {
     form.reset();
-    document.getElementById('mnemonicoProfessor').value = '';
-    document.getElementById('departamentoProfessor').value = '';
+    document.getElementById('cargo_funcionario').value = '';
+    document.getElementById('salario_funcionario').value = '';
     document.getElementById('checkboxAvaliador').checked = false;    
     document.getElementById('checkboxAvaliado').checked = false;
 }
@@ -86,32 +86,32 @@ function converterDataParaISO(dataString) {
     return new Date(dataString).toISOString();
 }
 
-async function funcaoEhProfessor(pessoaId) {
+async function funcaoEhFuncionario(pessoaId) {
     try {
-        const response = await fetch(`${API_BASE_URL}/professor/${pessoaId}`);
+        const response = await fetch(`${API_BASE_URL}/funcionario/${pessoaId}`);
 
         if (response.status === 404) {
-            return { ehProfessor: false };
+            return { ehFuncionario: false };
         }
 
         if (response.status === 200) {
-            const professorData = await response.json();
+            const funcionarioData = await response.json();
             return {
-                ehProfessor: true, // CORREÇÃO: era "pessoa_id_pessoa: true"
-                mnemonico: professorData.mnemonico_professor, // CORREÇÃO: usar o nome correto do campo
-                departamento: professorData.departamento_professor // CORREÇÃO: usar o nome correto do campo
+                ehFuncionario: true, // CORREÇÃO: era "pessoa_id_pessoa: true"
+                cargo: funcionarioData.cargo_funcionario, // CORREÇÃO: usar o nome correto do campo
+                salario: funcionarioData.salario_funcionario // CORREÇÃO: usar o nome correto do campo
             };
         }
 
         if (!response.ok) {
             const errorData = await response.json();
             console.error('Erro na requisição:', errorData.error);
-            return { ehProfessor: false };
+            return { ehFuncionario: false };
         }
 
     } catch (error) {
-        console.error('Erro ao verificar se é professor:', error);
-        return { ehProfessor: false };
+        console.error('Erro ao verificar se é funcionario:', error);
+        return { ehFuncionario: false };
     }
 }
 
@@ -152,31 +152,31 @@ async function buscarPessoa() {
         mostrarMensagem('Erro ao buscar pessoa', 'error');
     }
 
-    // Verifica se a pessoa é professor
-    const oProfessor = await funcaoEhProfessor(id);
+    // Verifica se a pessoa é funcionario
+    const oFuncionario = await funcaoEhFuncionario(id);
 
-    if (oProfessor.ehProfessor) {
-        // alert('É professor: ' + oProfessor.ehProfessor + ' - ' + oProfessor.mnemonico + ' - ' + oProfessor.departamento);
-        document.getElementById('checkboxProfessor').checked = true;
-        document.getElementById('mnemonicoProfessor').value = oProfessor.mnemonico;
-        document.getElementById('departamentoProfessor').value = oProfessor.departamento;
+    if (oFuncionario.ehFuncionario) {
+        // alert('É funcionario: ' + oFuncionario.ehFuncionario + ' - ' + oFuncionario.cargo + ' - ' + oFuncionario.salario);
+        document.getElementById('checkboxFuncionario').checked = true;
+        document.getElementById('cargo_funcionario').value = oFuncionario.cargo;
+        document.getElementById('salario_funcionario').value = oFuncionario.salario;
     } else {
-        // Não é professor
-        document.getElementById('checkboxProfessor').checked = false;
-        document.getElementById('mnemonicoProfessor').value = '';
-        document.getElementById('departamentoProfessor').value = '';
+        // Não é funcionario
+        document.getElementById('checkboxFuncionario').checked = false;
+        document.getElementById('cargo_funcionario').value = '';
+        document.getElementById('salario_funcionario').value = '';
     }
 
-    //Verifica se a pessoa é avaliador
+    //Verifica se a pessoa é cliente
     try {
-        const responseAvaliador = await fetch(`${API_BASE_URL}/avaliador/${id}`);
+        const responseAvaliador = await fetch(`${API_BASE_URL}/cliente/${id}`);
         if (responseAvaliador.status === 200) {
             document.getElementById('checkboxAvaliador').checked = true;
         } else {
             document.getElementById('checkboxAvaliador').checked = false;
         }
     } catch (error) {
-        console.error('Erro ao verificar se é avaliador:', error);
+        console.error('Erro ao verificar se é cliente:', error);
         document.getElementById('checkboxAvaliador').checked = false;
     }
 
@@ -201,15 +201,14 @@ function preencherFormulario(pessoa) {
     document.getElementById('nome_pessoa').value = pessoa.nome_pessoa || '';
     document.getElementById('email_pessoa').value = pessoa.email_pessoa || '';
     document.getElementById('senha_pessoa').value = pessoa.senha_pessoa || '';
-    document.getElementById('primeiro_acesso_pessoa').value = pessoa.primeiro_acesso_pessoa ? 'true' : 'false';
 
     // Formatação da data para input type="date"
-    if (pessoa.data_nascimento) {
-        const data = new Date(pessoa.data_nascimento);
+    if (pessoa.cpf_pessoa) {
+        const data = new Date(pessoa.cpf_pessoa);
         const dataFormatada = data.toISOString().split('T')[0];
-        document.getElementById('data_nascimento').value = dataFormatada;
+        document.getElementById('cpf_pessoa').value = dataFormatada;
     } else {
-        document.getElementById('data_nascimento').value = '';
+        document.getElementById('cpf_pessoa').value = '';
     }
 }
 
@@ -259,61 +258,60 @@ async function salvarOperacao() {
         nome_pessoa: formData.get('nome_pessoa'),
         email_pessoa: formData.get('email_pessoa'),
         senha_pessoa: formData.get('senha_pessoa'),
-        primeiro_acesso_pessoa: formData.get('primeiro_acesso_pessoa') === 'true',
-        data_nascimento: formData.get('data_nascimento') || null
+        cpf_pessoa: formData.get('cpf_pessoa') || null
     };
 
-    let professor = null;
-    if (document.getElementById('checkboxProfessor').checked) {
-        professor = {
+    let funcionario = null;
+    if (document.getElementById('checkboxFuncionario').checked) {
+        funcionario = {
             pessoa_id_pessoa: pessoa.id_pessoa,
-            mnemonico_professor: document.getElementById('mnemonicoProfessor').value,
-            departamento_professor: document.getElementById('departamentoProfessor').value
+            cargo_funcionario: document.getElementById('cargo_funcionario').value,
+            salario_funcionario: document.getElementById('salario_funcionario').value
         }
     }
 
-    // é avaliador
+    // é cliente
     let ehAvaliador = document.getElementById('checkboxAvaliador').checked; //true ou false
 
     // é avaliado
     let ehAvaliado = document.getElementById('checkboxAvaliado').checked; //true ou false
 
-    let responseProfessor = null;
+    let responseFuncionario = null;
     let responsePessoa = null;
     try {
         if (operacao === 'incluir') {
-            responseProfessor = await fetch(`${API_BASE_URL}/pessoa`, {
+            responseFuncionario = await fetch(`${API_BASE_URL}/pessoa`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(pessoa)
             });
-            responsePessoa = responseProfessor;
-            if (document.getElementById('checkboxProfessor').checked) {
-                responseProfessor = await fetch(`${API_BASE_URL}/professor`, {
+            responsePessoa = responseFuncionario;
+            if (document.getElementById('checkboxFuncionario').checked) {
+                responseFuncionario = await fetch(`${API_BASE_URL}/funcionario`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(professor)
+                    body: JSON.stringify(funcionario)
                 });
             }
             let responseAvaliador = null;
             if (ehAvaliador) {
-                const avaliador = {
+                const cliente = {
                     pessoa_id_pessoa: pessoa.id_pessoa
                 };
-                responseAvaliador = await fetch(`${API_BASE_URL}/avaliador`, {
+                responseAvaliador = await fetch(`${API_BASE_URL}/cliente`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(avaliador)
+                    body: JSON.stringify(cliente)
                 });
             }
 
-            let responseAvaliado = null;
+            /* let responseAvaliado = null;
             if (ehAvaliado) {
                 const avaliado = {
                     pessoa_id_pessoa: pessoa.id_pessoa
@@ -326,43 +324,44 @@ async function salvarOperacao() {
                     body: JSON.stringify(avaliado)
                 });
             }
+            */
 
         } else if (operacao === 'alterar') {
-            responseProfessor = await fetch(`${API_BASE_URL}/pessoa/${currentPersonId}`, {
+            responseFuncionario = await fetch(`${API_BASE_URL}/pessoa/${currentPersonId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(pessoa)
             });
-            responsePessoa = responseProfessor;
+            responsePessoa = responseFuncionario;
 
             if (ehAvaliador) {
-                //se DEIXOU de ser avaliador, excluir da tabela avaliador
-                const caminhoRota = `${API_BASE_URL}/avaliador/${currentPersonId}`;
+                //se DEIXOU de ser cliente, excluir da tabela cliente
+                const caminhoRota = `${API_BASE_URL}/cliente/${currentPersonId}`;
 
                 let respObterAvaliador = await fetch(caminhoRota);
-                //    console.log('Resposta ao obter avaliador ao alterar pessoa: ' + respObterAvaliador.status);
-                let avaliador = null;
+                //    console.log('Resposta ao obter cliente ao alterar pessoa: ' + respObterAvaliador.status);
+                let cliente = null;
                 if (respObterAvaliador.status === 404) {
-                    //incluir avaliador
-                    avaliador = {
+                    //incluir cliente
+                    cliente = {
                         pessoa_id_pessoa: pessoa.id_pessoa
                     }
                 };
                 
-                respObterAvaliador = await fetch(`${API_BASE_URL}/avaliador`, {
+                respObterAvaliador = await fetch(`${API_BASE_URL}/cliente`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(avaliador)
+                    body: JSON.stringify(cliente)
                 });
             } else {
-                //se DEIXOU de ser avaliador, excluir da tabela avaliador
-                const caminhoRota = `${API_BASE_URL}/avaliador/${currentPersonId}`;
+                //se DEIXOU de ser cliente, excluir da tabela cliente
+                const caminhoRota = `${API_BASE_URL}/cliente/${currentPersonId}`;
                 let respObterAvaliador = await fetch(caminhoRota);
-                // console.log('Resposta ao obter avaliador para exclusão: ' + respObterAvaliador.status);
+                // console.log('Resposta ao obter cliente para exclusão: ' + respObterAvaliador.status);
                 if (respObterAvaliador.status === 200) {
                     //existe, pode excluir
                     respObterAvaliador = await fetch(caminhoRota, {
@@ -371,7 +370,7 @@ async function salvarOperacao() {
                 }
             }
 
-             if (ehAvaliado) {
+             /*if (ehAvaliado) {
                 //se DEIXOU de ser avaliado, excluir da tabela avaliado
                 const caminhoRota = `${API_BASE_URL}/avaliado/${currentPersonId}`;
 
@@ -402,52 +401,52 @@ async function salvarOperacao() {
                         method: 'DELETE'
                     });
                 }
-            }
+            }*/
 
 
-            if (document.getElementById('checkboxProfessor').checked) {
-                //   console.log('Vai alterar professor: ' + JSON.stringify(professor));
-                const caminhoRota = `${API_BASE_URL}/professor/${currentPersonId}`;
-                //console.log('Caminho da rota para professor: ' + caminhoRota);
-                //obter o professor para ver se existe
-                const respObterProfessor = await fetch(caminhoRota);
-                if (respObterProfessor.status === 404) {
+            if (document.getElementById('checkboxFuncionario').checked) {
+                //   console.log('Vai alterar funcionario: ' + JSON.stringify(funcionario));
+                const caminhoRota = `${API_BASE_URL}/funcionario/${currentPersonId}`;
+                //console.log('Caminho da rota para funcionario: ' + caminhoRota);
+                //obter o funcionario para ver se existe
+                const respObterFuncionario = await fetch(caminhoRota);
+                if (respObterFuncionario.status === 404) {
                     //não existe, incluir       
-                    responseProfessor = await fetch(`${API_BASE_URL}/professor`, {
+                    responseFuncionario = await fetch(`${API_BASE_URL}/funcionario`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(professor)
+                        body: JSON.stringify(funcionario)
                     });
                 } else {
                     //já existe, alterar
-                    responseProfessor = await fetch(caminhoRota, {
+                    responseFuncionario = await fetch(caminhoRota, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(professor)
+                        body: JSON.stringify(funcionario)
                     });
                 }
             } else {
-                //se DEIXOU de ser professor, excluir da tabela professor
-                const caminhoRota = `${API_BASE_URL}/professor/${currentPersonId}`;
-                const respObterProfessor = await fetch(caminhoRota);
-                //    console.log('Resposta ao obter professor para exclusão: ' + respObterProfessor.status);
-                if (respObterProfessor.status === 200) {
+                //se DEIXOU de ser funcionario, excluir da tabela funcionario
+                const caminhoRota = `${API_BASE_URL}/funcionario/${currentPersonId}`;
+                const respObterFuncionario = await fetch(caminhoRota);
+                //    console.log('Resposta ao obter funcionario para exclusão: ' + respObterFuncionario.status);
+                if (respObterFuncionario.status === 200) {
                     //existe, pode excluir
-                    responseProfessor = await fetch(caminhoRota, {
+                    responseFuncionario = await fetch(caminhoRota, {
                         method: 'DELETE'
                     });
                 }
             }
         } else if (operacao === 'excluir') {
-            //se é avaliador, excluir da tabela avaliador primeiro
+            //se é cliente, excluir da tabela cliente primeiro
             let responseAvaliador = null;
-            const caminhoRotaAvaliador = `${API_BASE_URL}/avaliador/${currentPersonId}`;
+            const caminhoRotaAvaliador = `${API_BASE_URL}/cliente/${currentPersonId}`;
             const respObterAvaliador = await fetch(caminhoRotaAvaliador);
-            //console.log('Resposta ao obter avaliador para exclusão: ' + respObterAvaliador.status);
+            //console.log('Resposta ao obter cliente para exclusão: ' + respObterAvaliador.status);
             if (respObterAvaliador.status === 200) {
                 //existe, pode excluir
                 responseAvaliador = await fetch(caminhoRotaAvaliador, {
@@ -455,7 +454,7 @@ async function salvarOperacao() {
                 });
             }
 
-             //se é avaliado, excluir da tabela avaliado primeiro
+             /*se é avaliado, excluir da tabela avaliado primeiro
             let responseAvaliado = null;
             const caminhoRotaAvaliado = `${API_BASE_URL}/avaliado/${currentPersonId}`;
             const respObterAvaliado = await fetch(caminhoRotaAvaliado);
@@ -465,26 +464,26 @@ async function salvarOperacao() {
                 responseAvaliado = await fetch(caminhoRotaAvaliado, {
                     method: 'DELETE'
                 });
-            }
+            }*/
 
 
-            //verificar se é professor, se for, excluir da tabela professor primeiro
-            const caminhoRota = `${API_BASE_URL}/professor/${currentPersonId}`;
-            const respObterProfessor = await fetch(caminhoRota);
-            //    console.log('Resposta ao obter professor para exclusão: ' + respObterProfessor.status);
-            if (respObterProfessor.status === 200) {
+            //verificar se é funcionario, se for, excluir da tabela funcionario primeiro
+            const caminhoRota = `${API_BASE_URL}/funcionario/${currentPersonId}`;
+            const respObterFuncionario = await fetch(caminhoRota);
+            //    console.log('Resposta ao obter funcionario para exclusão: ' + respObterFuncionario.status);
+            if (respObterFuncionario.status === 200) {
                 //existe, pode excluir
-                responseProfessor = await fetch(caminhoRota, {
+                responseFuncionario = await fetch(caminhoRota, {
                     method: 'DELETE'
                 });
             }
             //agora exclui da tabela pessoa
             // console.log('Excluindo pessoa com ID:', currentPersonId);
-            responseProfessor = await fetch(`${API_BASE_URL}/pessoa/${currentPersonId}`, {
+            responseFuncionario = await fetch(`${API_BASE_URL}/pessoa/${currentPersonId}`, {
                 method: 'DELETE'
             });
-            responsePessoa = responseProfessor;
-            //  console.log('Pessoa excluída' + responseProfessor.status);
+            responsePessoa = responseFuncionario;
+            //  console.log('Pessoa excluída' + responseFuncionario.status);
         }
 
         if (responsePessoa.ok && (operacao === 'incluir' || operacao === 'alterar')) {
@@ -550,8 +549,7 @@ function renderizarTabelaPessoas(pessoas) {
                     </td>
                     <td>${pessoa.nome_pessoa}</td>
                     <td>${pessoa.email_pessoa}</td>
-                    <td>${pessoa.primeiro_acesso_pessoa ? 'Sim' : 'Não'}</td>
-                    <td>${formatarData(pessoa.data_nascimento)}</td>                 
+                    <td>${formatarData(pessoa.cpf_pessoa)}</td>                 
                 `;
         pessoasTableBody.appendChild(row);
     });
