@@ -82,17 +82,15 @@ app.use('/pessoa', pessoaRoutes);
 const cargoRoutes = require('./routes/cargoRoutes');
 app.use('/cargo', cargoRoutes);
 
-//const funcionarioRoutes = require('./routes/funcionarioRoutes');
-//app.use('/funcionario', funcionarioRoutes);
-
 const produtoRoutes = require('./routes/produtoRoutes');
 app.use('/produto', produtoRoutes);
 
 const categoriaRoutes = require('./routes/categoriaRoutes');
 app.use('/categoria', categoriaRoutes);
 
-//const funcionarioHasCargoRoutes = require('./routes/funcionarioHasCargoRoutes');
-//app.use('/funcionarioHasCargo', funcionarioHasCargoRoutes);
+
+//const pedidoRoutes = require('./routes/pedidoRoutes');
+//app.use('/pedido', pedidoRoutes);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

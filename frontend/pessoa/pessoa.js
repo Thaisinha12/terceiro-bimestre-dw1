@@ -59,8 +59,7 @@ function limparFormulario() {
     form.reset();
     document.getElementById('cargo_funcionario').value = '';
     document.getElementById('salario_funcionario').value = '';
-    document.getElementById('checkboxAvaliador').checked = false;    
-    document.getElementById('checkboxAvaliado').checked = false;
+    document.getElementById('checkboxCliente').checked = false;    
 }
 
 
@@ -169,28 +168,15 @@ async function buscarPessoa() {
 
     //Verifica se a pessoa é cliente
     try {
-        const responseAvaliador = await fetch(`${API_BASE_URL}/cliente/${id}`);
-        if (responseAvaliador.status === 200) {
-            document.getElementById('checkboxAvaliador').checked = true;
+        const responseCliente = await fetch(`${API_BASE_URL}/cliente/${id}`);
+        if (responseCliente.status === 200) {
+            document.getElementById('checkboxCliente').checked = true;
         } else {
-            document.getElementById('checkboxAvaliador').checked = false;
+            document.getElementById('checkboxCliente').checked = false;
         }
     } catch (error) {
         console.error('Erro ao verificar se é cliente:', error);
-        document.getElementById('checkboxAvaliador').checked = false;
-    }
-
-    //Verifica se a pessoa é avaliado
-    try {
-        const responseAvaliado = await fetch(`${API_BASE_URL}/avaliado/${id}`);
-        if (responseAvaliado.status === 200) {
-            document.getElementById('checkboxAvaliado').checked = true;
-        } else {
-            document.getElementById('checkboxAvaliado').checked = false;
-        }
-    } catch (error) {
-        console.error('Erro ao verificar se é avaliado:', error);
-        document.getElementById('checkboxAvaliado').checked = false;
+        document.getElementById('checkboxCliente').checked = false;
     }
 }
 
@@ -201,15 +187,7 @@ function preencherFormulario(pessoa) {
     document.getElementById('nome_pessoa').value = pessoa.nome_pessoa || '';
     document.getElementById('email_pessoa').value = pessoa.email_pessoa || '';
     document.getElementById('senha_pessoa').value = pessoa.senha_pessoa || '';
-
-    // Formatação da data para input type="date"
-    if (pessoa.cpf_pessoa) {
-        const data = new Date(pessoa.cpf_pessoa);
-        const dataFormatada = data.toISOString().split('T')[0];
-        document.getElementById('cpf_pessoa').value = dataFormatada;
-    } else {
-        document.getElementById('cpf_pessoa').value = '';
-    }
+    document.getElementById('cpf_pessoa').value = pessoa.cpf_pessoa || '';
 }
 
 
@@ -271,10 +249,7 @@ async function salvarOperacao() {
     }
 
     // é cliente
-    let ehAvaliador = document.getElementById('checkboxAvaliador').checked; //true ou false
-
-    // é avaliado
-    let ehAvaliado = document.getElementById('checkboxAvaliado').checked; //true ou false
+    let ehCliente = document.getElementById('checkboxCliente').checked; //true ou false
 
     let responseFuncionario = null;
     let responsePessoa = null;
@@ -297,12 +272,12 @@ async function salvarOperacao() {
                     body: JSON.stringify(funcionario)
                 });
             }
-            let responseAvaliador = null;
-            if (ehAvaliador) {
+            let responseCliente = null;
+            if (ehCliente) {
                 const cliente = {
                     pessoa_id_pessoa: pessoa.id_pessoa
                 };
-                responseAvaliador = await fetch(`${API_BASE_URL}/cliente`, {
+                responseCliente = await fetch(`${API_BASE_URL}/cliente`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -311,20 +286,6 @@ async function salvarOperacao() {
                 });
             }
 
-            /* let responseAvaliado = null;
-            if (ehAvaliado) {
-                const avaliado = {
-                    pessoa_id_pessoa: pessoa.id_pessoa
-                };
-                responseAvaliado = await fetch(`${API_BASE_URL}/avaliado`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(avaliado)
-                });
-            }
-            */
 
         } else if (operacao === 'alterar') {
             responseFuncionario = await fetch(`${API_BASE_URL}/pessoa/${currentPersonId}`, {
@@ -336,21 +297,21 @@ async function salvarOperacao() {
             });
             responsePessoa = responseFuncionario;
 
-            if (ehAvaliador) {
+            if (ehCliente) {
                 //se DEIXOU de ser cliente, excluir da tabela cliente
                 const caminhoRota = `${API_BASE_URL}/cliente/${currentPersonId}`;
 
-                let respObterAvaliador = await fetch(caminhoRota);
-                //    console.log('Resposta ao obter cliente ao alterar pessoa: ' + respObterAvaliador.status);
+                let respObterCliente = await fetch(caminhoRota);
+                //    console.log('Resposta ao obter cliente ao alterar pessoa: ' + respObterCliente.status);
                 let cliente = null;
-                if (respObterAvaliador.status === 404) {
+                if (respObterCliente.status === 404) {
                     //incluir cliente
                     cliente = {
                         pessoa_id_pessoa: pessoa.id_pessoa
                     }
                 };
                 
-                respObterAvaliador = await fetch(`${API_BASE_URL}/cliente`, {
+                respObterCliente = await fetch(`${API_BASE_URL}/cliente`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -360,49 +321,15 @@ async function salvarOperacao() {
             } else {
                 //se DEIXOU de ser cliente, excluir da tabela cliente
                 const caminhoRota = `${API_BASE_URL}/cliente/${currentPersonId}`;
-                let respObterAvaliador = await fetch(caminhoRota);
-                // console.log('Resposta ao obter cliente para exclusão: ' + respObterAvaliador.status);
-                if (respObterAvaliador.status === 200) {
+                let respObterCliente = await fetch(caminhoRota);
+                // console.log('Resposta ao obter cliente para exclusão: ' + respObterCliente.status);
+                if (respObterCliente.status === 200) {
                     //existe, pode excluir
-                    respObterAvaliador = await fetch(caminhoRota, {
+                    respObterCliente = await fetch(caminhoRota, {
                         method: 'DELETE'
                     });
                 }
             }
-
-             /*if (ehAvaliado) {
-                //se DEIXOU de ser avaliado, excluir da tabela avaliado
-                const caminhoRota = `${API_BASE_URL}/avaliado/${currentPersonId}`;
-
-                let respObterAvaliado = await fetch(caminhoRota);
-                //    console.log('Resposta ao obter avaliado ao alterar pessoa: ' + respObterAvaliado.status);
-                let avaliado = null;
-                if (respObterAvaliado.status === 404) {
-                    //incluir avaliado
-                    avaliado = {
-                        pessoa_id_pessoa: pessoa.id_pessoa
-                    }
-                };
-                respObterAvaliado = await fetch(`${API_BASE_URL}/avaliado`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(avaliado)
-                });
-            } else {
-                //se DEIXOU de ser avaliado, excluir da tabela avaliado
-                const caminhoRota = `${API_BASE_URL}/avaliado/${currentPersonId}`;
-                let respObterAvaliado = await fetch(caminhoRota);
-                // console.log('Resposta ao obter avaliado para exclusão: ' + respObterAvaliado.status);
-                if (respObterAvaliado.status === 200) {
-                    //existe, pode excluir
-                    respObterAvaliado = await fetch(caminhoRota, {
-                        method: 'DELETE'
-                    });
-                }
-            }*/
-
 
             if (document.getElementById('checkboxFuncionario').checked) {
                 //   console.log('Vai alterar funcionario: ' + JSON.stringify(funcionario));
@@ -443,28 +370,16 @@ async function salvarOperacao() {
             }
         } else if (operacao === 'excluir') {
             //se é cliente, excluir da tabela cliente primeiro
-            let responseAvaliador = null;
-            const caminhoRotaAvaliador = `${API_BASE_URL}/cliente/${currentPersonId}`;
-            const respObterAvaliador = await fetch(caminhoRotaAvaliador);
-            //console.log('Resposta ao obter cliente para exclusão: ' + respObterAvaliador.status);
-            if (respObterAvaliador.status === 200) {
+            let responseCliente = null;
+            const caminhoRotaCliente = `${API_BASE_URL}/cliente/${currentPersonId}`;
+            const respObterCliente = await fetch(caminhoRotaCliente);
+            //console.log('Resposta ao obter cliente para exclusão: ' + respObterCliente.status);
+            if (respObterCliente.status === 200) {
                 //existe, pode excluir
-                responseAvaliador = await fetch(caminhoRotaAvaliador, {
+                responseCliente = await fetch(caminhoRotaCliente, {
                     method: 'DELETE'
                 });
             }
-
-             /*se é avaliado, excluir da tabela avaliado primeiro
-            let responseAvaliado = null;
-            const caminhoRotaAvaliado = `${API_BASE_URL}/avaliado/${currentPersonId}`;
-            const respObterAvaliado = await fetch(caminhoRotaAvaliado);
-            //console.log('Resposta ao obter avaliado para exclusão: ' + respObterAvaliado.status);
-            if (respObterAvaliado.status === 200) {
-                //existe, pode excluir
-                responseAvaliado = await fetch(caminhoRotaAvaliado, {
-                    method: 'DELETE'
-                });
-            }*/
 
 
             //verificar se é funcionario, se for, excluir da tabela funcionario primeiro
@@ -549,7 +464,8 @@ function renderizarTabelaPessoas(pessoas) {
                     </td>
                     <td>${pessoa.nome_pessoa}</td>
                     <td>${pessoa.email_pessoa}</td>
-                    <td>${formatarData(pessoa.cpf_pessoa)}</td>                 
+                    <td>${pessoa.senha_pessoa}</td>                 
+                    <td>${pessoa.cpf_pessoa}</td>                 
                 `;
         pessoasTableBody.appendChild(row);
     });
