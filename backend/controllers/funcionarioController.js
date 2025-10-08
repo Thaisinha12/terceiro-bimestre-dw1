@@ -23,7 +23,7 @@ exports.listarFuncionarios = async (req, res) => {
 exports.criarFuncionario = async (req, res) => {
     console.log('Criando funcionario com dados:', req.body);
   try {
-    const { cpf_funcionario, cargo_funcionario, salario_funcionario} = req.body;
+    const { id_pessoa, cargo_funcionario, salario_funcionario} = req.body;
 
 
 
@@ -35,8 +35,8 @@ exports.criarFuncionario = async (req, res) => {
     }
 
     const result = await query(
-      'INSERT INTO funcionario (cpf_funcionario, cargo_funcionario, salario_funcionario) VALUES ($1, $2, $3) RETURNING *',
-      [cpf_funcionario, cargo_funcionario, salario_funcionario]
+      'INSERT INTO funcionario (id_pessoa, cargo_funcionario, salario_funcionario) VALUES ($1, $2, $3) RETURNING *',
+      [id_pessoa, cargo_funcionario, salario_funcionario]
     );
 
     res.status(201).json(result.rows[0]);
@@ -68,8 +68,8 @@ exports.obterFuncionario = async (req, res) => {
     }
 
     const result = await query(
-      'SELECT * FROM funcionario WHERE cpf_funcionario = $1',
-      [cpf_funcionario]
+      'SELECT * FROM funcionario WHERE id_pessoa = $1',
+      [id_pessoa]
     );
 
     console.log('Resultado do SELECT:', result.rows); // Verifica se está retornando algo
@@ -93,7 +93,7 @@ exports.atualizarFuncionario = async (req, res) => {
    
     // Verifica se o funcionario existe
     const existingPersonResult = await query(
-      'SELECT * FROM funcionario WHERE cpf_funcionario = $1',
+      'SELECT * FROM funcionario WHERE id_pessoa = $1',
       [id]
     );
 
@@ -129,7 +129,7 @@ exports.deletarFuncionario = async (req, res) => {
     const id = parseInt(req.params.id);
     // Verifica se o funcionario existe
     const existingPersonResult = await query(
-      'SELECT * FROM funcionario WHERE cpf_funcionario = $1',
+      'SELECT * FROM funcionario WHERE id_pessoa = $1',
       [id]
     );
 
@@ -139,7 +139,7 @@ exports.deletarFuncionario = async (req, res) => {
 
     // Deleta o funcionario (as constraints CASCADE cuidarão das dependências)
     await query(
-      'DELETE FROM funcionario WHERE cpf_funcionario = $1',
+      'DELETE FROM funcionario WHERE id_pessoa = $1',
       [id]
     );
 

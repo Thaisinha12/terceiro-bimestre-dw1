@@ -89,8 +89,8 @@ const categoriaRoutes = require('./routes/categoriaRoutes');
 app.use('/categoria', categoriaRoutes);
 
 
-//const pedidoRoutes = require('./routes/pedidoRoutes');
-//app.use('/pedido', pedidoRoutes);
+const pedidoRoutes = require('./routes/pedidoRoutes');
+app.use('/pedido', pedidoRoutes);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

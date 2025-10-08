@@ -1,107 +1,127 @@
--- ==============================
--- POPULAÇÃO DAS TABELAS
--- ==============================
+-- Tabela cargo
+INSERT INTO cargo (id_cargo, nome_cargo) VALUES (1, 'Atendente');
+INSERT INTO cargo (id_cargo, nome_cargo) VALUES (2, 'Cozinheiro');
+INSERT INTO cargo (id_cargo, nome_cargo) VALUES (3, 'Gerente');
+INSERT INTO cargo (id_cargo, nome_cargo) VALUES (4, 'Auxiliar de Limpeza');
+INSERT INTO cargo (id_cargo, nome_cargo) VALUES (5, 'Caixa');
+INSERT INTO cargo (id_cargo, nome_cargo) VALUES (6, 'Entregador');
+INSERT INTO cargo (id_cargo, nome_cargo) VALUES (7, 'Supervisor');
+INSERT INTO cargo (id_cargo, nome_cargo) VALUES (8, 'Auxiliar de Cozinha');
+INSERT INTO cargo (id_cargo, nome_cargo) VALUES (9, 'Chapeiro');
+INSERT INTO cargo (id_cargo, nome_cargo) VALUES (10, 'Estoquista');
 
--- 1️⃣ Tabela cargo
-INSERT INTO cargo (nome_cargo) VALUES
-('Gerente'),
-('Vendedor'),
-('Caixa'),
-('Estoquista'),
-('Assistente Administrativo'),
-('Analista de Vendas'),
-('Atendente'),
-('Supervisor'),
-('Auxiliar de Limpeza'),
-('Segurança');
+-- Tabela categoria
+INSERT INTO categoria (id_categoria, nome_categoria) VALUES (1, 'Salgado');
+INSERT INTO categoria (id_categoria, nome_categoria) VALUES (2, 'Doce');
+INSERT INTO categoria (id_categoria, nome_categoria) VALUES (3, 'Bebida');
+INSERT INTO categoria (id_categoria, nome_categoria) VALUES (4, 'Vegano');
+INSERT INTO categoria (id_categoria, nome_categoria) VALUES (5, 'Combo');
+INSERT INTO categoria (id_categoria, nome_categoria) VALUES (6, 'Sobremesa');
+INSERT INTO categoria (id_categoria, nome_categoria) VALUES (7, 'Especial');
+INSERT INTO categoria (id_categoria, nome_categoria) VALUES (8, 'Promoção');
+INSERT INTO categoria (id_categoria, nome_categoria) VALUES (9, 'Refrigerante');
+INSERT INTO categoria (id_categoria, nome_categoria) VALUES (10, 'Suco');
 
--- 2️⃣ Tabela categoria
-INSERT INTO categoria (nome_categoria) VALUES
-('Romance'),
-('Ficção Científica'),
-('Fantasia'),
-('Suspense'),
-('Terror'),
-('Biografia'),
-('Autoajuda'),
-('História'),
-('Infantil'),
-('Aventura');
+-- Tabela pessoa
+INSERT INTO pessoa (id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa)
+VALUES (1, 'João Silva', 'joao@email.com', 'senha123', '12345678901');
+INSERT INTO pessoa (id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa)
+VALUES (2, 'Maria Oliveira', 'maria@email.com', 'senha123', '12345678902');
+INSERT INTO pessoa (id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa)
+VALUES (3, 'Carlos Souza', 'carlos@email.com', 'senha123', '12345678903');
+INSERT INTO pessoa (id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa)
+VALUES (4, 'Ana Lima', 'ana@email.com', 'senha123', '12345678904');
+INSERT INTO pessoa (id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa)
+VALUES (5, 'Lucas Rocha', 'lucas@email.com', 'senha123', '12345678905');
+INSERT INTO pessoa (id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa)
+VALUES (6, 'Juliana Costa', 'juliana@email.com', 'senha123', '12345678906');
+INSERT INTO pessoa (id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa)
+VALUES (7, 'Paulo Mendes', 'paulo@email.com', 'senha123', '12345678907');
+INSERT INTO pessoa (id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa)
+VALUES (8, 'Fernanda Dias', 'fernanda@email.com', 'senha123', '12345678908');
+INSERT INTO pessoa (id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa)
+VALUES (9, 'Bruno Martins', 'bruno@email.com', 'senha123', '12345678909');
+INSERT INTO pessoa (id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa)
+VALUES (10, 'Camila Ribeiro', 'camila@email.com', 'senha123', '12345678910');
 
--- 3️⃣ Tabela pessoa
-INSERT INTO pessoa (nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa) VALUES
-('Ana Souza', 'ana.souza@email.com', 'senha123', '11111111111'),
-('Bruno Lima', 'bruno.lima@email.com', 'senha123', '22222222222'),
-('Carlos Silva', 'carlos.silva@email.com', 'senha123', '33333333333'),
-('Daniela Costa', 'daniela.costa@email.com', 'senha123', '44444444444'),
-('Eduardo Alves', 'eduardo.alves@email.com', 'senha123', '55555555555'),
-('Fernanda Dias', 'fernanda.dias@email.com', 'senha123', '66666666666'),
-('Gustavo Rocha', 'gustavo.rocha@email.com', 'senha123', '77777777777'),
-('Helena Nunes', 'helena.nunes@email.com', 'senha123', '88888888888'),
-('Igor Pereira', 'igor.pereira@email.com', 'senha123', '99999999999'),
-('Juliana Ramos', 'juliana.ramos@email.com', 'senha123', '10101010101');
+-- Tabela cliente
+INSERT INTO cliente (id_pessoa, endereco_cliente) VALUES (1, 'Rua A, 123');
+INSERT INTO cliente (id_pessoa, endereco_cliente) VALUES (2, 'Rua B, 456');
+INSERT INTO cliente (id_pessoa, endereco_cliente) VALUES (3, 'Av. Central, 789');
+INSERT INTO cliente (id_pessoa, endereco_cliente) VALUES (4, 'Rua das Flores, 101');
+INSERT INTO cliente (id_pessoa, endereco_cliente) VALUES (5, 'Rua das Laranjeiras, 202');
+INSERT INTO cliente (id_pessoa, endereco_cliente) VALUES (6, 'Rua São João, 303');
+INSERT INTO cliente (id_pessoa, endereco_cliente) VALUES (7, 'Rua Bela Vista, 404');
+INSERT INTO cliente (id_pessoa, endereco_cliente) VALUES (8, 'Rua do Comércio, 505');
+INSERT INTO cliente (id_pessoa, endereco_cliente) VALUES (9, 'Rua do Sol, 606');
+INSERT INTO cliente (id_pessoa, endereco_cliente) VALUES (10, 'Rua das Palmeiras, 707');
 
--- 4️⃣ Tabela cliente
-INSERT INTO cliente (id_pessoa, endereco_cliente) VALUES
-(1, 'Rua das Flores, 123'),
-(2, 'Av. Central, 456'),
-(3, 'Rua do Sol, 789'),
-(4, 'Praça Verde, 321'),
-(5, 'Travessa Azul, 654'),
-(6, 'Rua das Margaridas, 111'),
-(7, 'Av. das Palmeiras, 222'),
-(8, 'Rua Nova, 333'),
-(9, 'Rua do Campo, 444'),
-(10, 'Av. Principal, 555');
+-- Tabela funcionario
+INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES (1, 1, 1800.00);
+INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES (2, 2, 2000.00);
+INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES (3, 3, 3000.00);
+INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES (4, 4, 1600.00);
+INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES (5, 5, 1900.00);
+INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES (6, 6, 1700.00);
+INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES (7, 7, 2500.00);
+INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES (8, 8, 1800.00);
+INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES (9, 9, 2200.00);
+INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES (10, 10, 1650.00);
 
--- 5️⃣ Tabela funcionario
-INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES
-(1, 1, 5000.00),
-(2, 2, 2500.00),
-(3, 3, 2200.00),
-(4, 4, 2100.00),
-(5, 5, 2300.00),
-(6, 6, 2600.00),
-(7, 7, 2000.00),
-(8, 8, 2700.00),
-(9, 9, 1800.00),
-(10, 10, 1900.00);
+-- Tabela produto
+INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto, id_categoria)
+VALUES (1, 'Pastel de Carne', 50, 7.50, 1);
+INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto, id_categoria)
+VALUES (2, 'Pastel de Queijo', 40, 7.00, 1);
+INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto, id_categoria)
+VALUES (3, 'Pastel de Chocolate', 30, 8.00, 2);
+INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto, id_categoria)
+VALUES (4, 'Suco de Laranja', 20, 5.00, 10);
+INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto, id_categoria)
+VALUES (5, 'Coca-Cola Lata', 25, 6.00, 9);
+INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto, id_categoria)
+VALUES (6, 'Combo Pastel + Refri', 15, 12.00, 5);
+INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto, id_categoria)
+VALUES (7, 'Pastel Vegano', 10, 8.50, 4);
+INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto, id_categoria)
+VALUES (8, 'Pastel Especial', 12, 10.00, 7);
+INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto, id_categoria)
+VALUES (9, 'Mousse de Maracujá', 18, 4.50, 6);
+INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto, id_categoria)
+VALUES (10, 'Suco de Uva', 22, 5.00, 10);
 
--- 6️⃣ Tabela produto
-INSERT INTO produto (nome_produto, quant_estoque, preco_produto, id_categoria) VALUES
-('A Culpa é das Estrelas', 30, 39.90, 1),
-('Duna', 15, 59.90, 2),
-('O Hobbit', 25, 49.90, 3),
-('Garota Exemplar', 20, 44.90, 4),
-('It: A Coisa', 10, 69.90, 5),
-('Steve Jobs: A Biografia', 12, 54.90, 6),
-('O Poder do Hábito', 18, 42.90, 7),
-('História do Brasil', 8, 64.90, 8),
-('O Pequeno Príncipe', 40, 29.90, 9),
-('As Aventuras de Pi', 22, 46.90, 10);
+-- Continuação da tabela pedido
+INSERT INTO pedido (id_pedido, data_pedido, id_cliente) VALUES (1, '2025-10-02', 3);
+INSERT INTO pedido (id_pedido, data_pedido, id_cliente) VALUES (2, '2025-10-02', 3);
+INSERT INTO pedido (id_pedido, data_pedido, id_cliente) VALUES (3, '2025-10-02', 3);
+INSERT INTO pedido (id_pedido, data_pedido, id_cliente) VALUES (4, '2025-10-02', 4);
+INSERT INTO pedido (id_pedido, data_pedido, id_cliente) VALUES (5, '2025-10-03', 5);
+INSERT INTO pedido (id_pedido, data_pedido, id_cliente) VALUES (6, '2025-10-03', 6);
+INSERT INTO pedido (id_pedido, data_pedido, id_cliente) VALUES (7, '2025-10-04', 7);
+INSERT INTO pedido (id_pedido, data_pedido, id_cliente) VALUES (8, '2025-10-04', 8);
+INSERT INTO pedido (id_pedido, data_pedido, id_cliente) VALUES (9, '2025-10-05', 9);
+INSERT INTO pedido (id_pedido, data_pedido, id_cliente) VALUES (10, '2025-10-05', 10);
 
--- 7️⃣ Tabela pedido
-INSERT INTO pedido (data_pedido, id_cliente) VALUES
-('2025-10-01', 1),
-('2025-10-02', 2),
-('2025-10-03', 3),
-('2025-10-04', 4),
-('2025-10-05', 5),
-('2025-10-06', 6),
-('2025-10-07', 7),
-('2025-10-08', 8),
-('2025-10-09', 9),
-('2025-10-10', 10);
+-- Tabela carrinho (relacionando pedidos com produtos)
+INSERT INTO carrinho (id_pedido, id_produto, quantidade_carrinho, preco_unitario_carrinho)
+VALUES (1, 1, 2, 7.50);
+INSERT INTO carrinho (id_pedido, id_produto, quantidade_carrinho, preco_unitario_carrinho)
+VALUES (2, 2, 1, 7.00);
+INSERT INTO carrinho (id_pedido, id_produto, quantidade_carrinho, preco_unitario_carrinho)
+VALUES (3, 5, 2, 6.00);
+INSERT INTO carrinho (id_pedido, id_produto, quantidade_carrinho, preco_unitario_carrinho)
+VALUES (4, 3, 1, 8.00);
+INSERT INTO carrinho (id_pedido, id_produto, quantidade_carrinho, preco_unitario_carrinho)
+VALUES (5, 6, 1, 12.00);
+INSERT INTO carrinho (id_pedido, id_produto, quantidade_carrinho, preco_unitario_carrinho)
+VALUES (6, 4, 3, 5.00);
+INSERT INTO carrinho (id_pedido, id_produto, quantidade_carrinho, preco_unitario_carrinho)
+VALUES (7, 7, 1, 8.50);
+INSERT INTO carrinho (id_pedido, id_produto, quantidade_carrinho, preco_unitario_carrinho)
+VALUES (8, 9, 2, 4.50);
+INSERT INTO carrinho (id_pedido, id_produto, quantidade_carrinho, preco_unitario_carrinho)
+VALUES (9, 8, 1, 10.00);
+INSERT INTO carrinho (id_pedido, id_produto, quantidade_carrinho, preco_unitario_carrinho)
+VALUES (10, 10, 2, 5.00);
 
--- 8️⃣ Tabela carrinho
-INSERT INTO carrinho (id_pedido, id_produto, quantidade_carrinho, preco_unitario_carrinho) VALUES
-(1, 1, 1, 39.90),
-(2, 2, 2, 59.90),
-(3, 3, 1, 49.90),
-(4, 4, 3, 44.90),
-(5, 5, 1, 69.90),
-(6, 6, 2, 54.90),
-(7, 7, 1, 42.90),
-(8, 8, 1, 64.90),
-(9, 9, 4, 29.90),
-(10, 10, 2, 46.90);
+

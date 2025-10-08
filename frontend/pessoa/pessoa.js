@@ -118,6 +118,7 @@ async function funcaoEhFuncionario(pessoaId) {
 
 // Função para buscar pessoa por ID
 async function buscarPessoa() {
+    
     const id = searchId.value.trim();
     if (!id) {
         mostrarMensagem('Digite um ID para buscar', 'warning');
@@ -153,9 +154,9 @@ async function buscarPessoa() {
 
     // Verifica se a pessoa é funcionario
     const oFuncionario = await funcaoEhFuncionario(id);
-
+    alert("oi "+oFuncionario.ehFuncionario)
     if (oFuncionario.ehFuncionario) {
-        // alert('É funcionario: ' + oFuncionario.ehFuncionario + ' - ' + oFuncionario.cargo + ' - ' + oFuncionario.salario);
+         alert('É funcionario: ' + oFuncionario.ehFuncionario + ' - ' + oFuncionario.cargo + ' - ' + oFuncionario.salario);
         document.getElementById('checkboxFuncionario').checked = true;
         document.getElementById('cargo_funcionario').value = oFuncionario.cargo;
         document.getElementById('salario_funcionario').value = oFuncionario.salario;
@@ -302,7 +303,7 @@ async function salvarOperacao() {
                 const caminhoRota = `${API_BASE_URL}/cliente/${currentPersonId}`;
 
                 let respObterCliente = await fetch(caminhoRota);
-                //    console.log('Resposta ao obter cliente ao alterar pessoa: ' + respObterCliente.status);
+                    console.log('Resposta ao obter cliente ao alterar pessoa: ' + respObterCliente.status);
                 let cliente = null;
                 if (respObterCliente.status === 404) {
                     //incluir cliente
