@@ -155,3 +155,45 @@ exports.deletarProduto = async (req, res) => {
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 }
+
+//ISSO DAQUI PRA BAIXO A IA QUE FEZ:
+exports.deletarProduto = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    // Verifica se o produto existe
+    const existingProduct = await query(
+      'SELECT * FROM produto WHERE id_produto = $1',
+      [id]
+    );
+
+    if (existingProduct.rows.length === 0) {
+      return res.status(404).json({ error: 'Produto não encontrado' });
+    }
+
+    // Remove o produto do carrinho (se existir lá)
+    await query(
+      'DELETE FROM carrinho WHERE id_produto = $1',
+      [id]
+    );
+
+    // Agora deleta o produto da tabela produto
+    await query(
+      'DELETE FROM produto WHERE id_produto = $1',
+      [id]
+    );
+
+    res.status(204).send(); // sucesso, sem conteúdo
+  } catch (error) {
+    console.error('Erro ao deletar produto:', error);
+
+    // Erro de constraint (caso tenha mais vínculos além de carrinho)
+    if (error.code === '23503') {
+      return res.status(400).json({
+        error: 'Não é possível deletar o produto, pois ele está associado a outros registros.'
+      });
+    }
+
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+};

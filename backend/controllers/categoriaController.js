@@ -147,3 +147,52 @@ exports.deletarCategoria = async (req, res) => {
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 }
+
+//ISSO DAQUI PRA BAIXO A IA QUE FEZ:
+exports.deletarCategoria = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    // 1. Verifica se a categoria existe
+    const categoriaExistente = await query(
+      'SELECT * FROM categoria WHERE id_categoria = $1',
+      [id]
+    );
+
+    if (categoriaExistente.rows.length === 0) {
+      return res.status(404).json({ error: 'Categoria não encontrada' });
+    }
+
+    // 2. Verifica se há produtos vinculados a essa categoria
+    const produtosComCategoria = await query(
+      'SELECT * FROM produto WHERE id_categoria = $1',
+      [id]
+    );
+
+    if (produtosComCategoria.rows.length > 0) {
+      // Estratégia: remover a referência da categoria nos produtos
+      await query(
+        'UPDATE produto SET id_categoria = NULL WHERE id_categoria = $1',
+        [id]
+      );
+    }
+
+    // 3. Deleta a categoria
+    await query(
+      'DELETE FROM categoria WHERE id_categoria = $1',
+      [id]
+    );
+
+    res.status(204).send();
+  } catch (error) {
+    console.error('Erro ao deletar categoria:', error);
+
+    if (error.code === '23503') {
+      return res.status(400).json({
+        error: 'Não é possível deletar categoria com dependências associadas.'
+      });
+    }
+
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+};

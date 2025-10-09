@@ -5,13 +5,13 @@ const { query } = require('../database');
 const path = require('path');
 
 exports.abrirCrudFuncionario = (req, res) => {
-//  console.log('funcionarioController - Rota /abrirCrudFuncionario - abrir o crudFuncionario');
+  console.log('funcionarioController - Rota /abrirCrudFuncionario - abrir o crudFuncionario');
   res.sendFile(path.join(__dirname, '../../frontend/funcionario/funcionario.html'));
-} //
+}
 
 exports.listarFuncionarios = async (req, res) => {
   try {
-    const result = await query('SELECT * FROM funcionario ORDER BY id_funcionario');
+    const result = await query('SELECT * FROM funcionario ORDER BYid_pessoa');
     // console.log('Resultado do SELECT:', result.rows);//verifica se está retornando algo
     res.json(result.rows);
   } catch (error) {
@@ -21,22 +21,20 @@ exports.listarFuncionarios = async (req, res) => {
 }
 
 exports.criarFuncionario = async (req, res) => {
-    console.log('Criando funcionario com dados:', req.body);
+  //  console.log('Criando funcionario com dados:', req.body);
   try {
-    const { id_pessoa, cargo_funcionario, salario_funcionario} = req.body;
-
-
+    const {id_pessoa, id_cargo, salario_funcionario} = req.body;
 
     // Validação básica
-    if (!cargo_funcionario || !salario_funcionario) {
+    if (!id_cargo) {
       return res.status(400).json({
-        error: 'Texto, nota máxima e texto complementar são obrigatórios'
+        error: 'O cargo do funcionario é obrigatório.'
       });
     }
 
     const result = await query(
-      'INSERT INTO funcionario (id_pessoa, cargo_funcionario, salario_funcionario) VALUES ($1, $2, $3) RETURNING *',
-      [id_pessoa, cargo_funcionario, salario_funcionario]
+      'INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES ($1, $2) RETURNING *',
+      [id_pessoa, id_cargo, salario_funcionario]
     );
 
     res.status(201).json(result.rows[0]);
@@ -55,11 +53,7 @@ exports.criarFuncionario = async (req, res) => {
   }
 }
 
-
-
 exports.obterFuncionario = async (req, res) => {
-  console.log('funcionarioController -> obterFuncionario com ID:', req.params.id);
-
   try {
     const id = parseInt(req.params.id);
 
@@ -69,10 +63,8 @@ exports.obterFuncionario = async (req, res) => {
 
     const result = await query(
       'SELECT * FROM funcionario WHERE id_pessoa = $1',
-      [id_pessoa]
+      [id]
     );
-
-    console.log('Resultado do SELECT:', result.rows); // Verifica se está retornando algo
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Funcionario não encontrado' });
@@ -88,12 +80,13 @@ exports.obterFuncionario = async (req, res) => {
 exports.atualizarFuncionario = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const { cargo_funcionario, salario_funcionario} = req.body;
+    const { id_cargo } = req.body;
+    const { salario_funcionario } = req.body;
 
    
     // Verifica se o funcionario existe
     const existingPersonResult = await query(
-      'SELECT * FROM funcionario WHERE id_pessoa = $1',
+      'SELECT * FROM funcionario WHEREid_pessoa = $1',
       [id]
     );
 
@@ -104,20 +97,19 @@ exports.atualizarFuncionario = async (req, res) => {
     // Constrói a query de atualização dinamicamente para campos não nulos
     const currentPerson = existingPersonResult.rows[0];
     const updatedFields = {
-      cargo_funcionario: cargo_funcionario !== undefined ? cargo_funcionario : currentPerson.cargo_funcionario,
-      salario_funcionario: salario_funcionario !== undefined ? salario_funcionario : currentPerson.salario_funcionario,
+      id_cargo: id_cargo !== undefined ? id_cargo : currentPerson.id_cargo,
+      salario_funcionario: salario_funcionario !== undefined ? salario_funcionario : currentPerson.salario_funcionario     
     };
 
     // Atualiza o funcionario
     const updateResult = await query(
-      'UPDATE funcionario SET cargo_funcionario = $1, salario_funcionario = $2 RETURNING *',
-      [updatedFields.cargo_funcionario, updatedFields.salario_funcionario, id]
+      'UPDATE funcionario SET id_cargo = $1, salario_funcionario = $2 WHERE id_pessoa = $3 RETURNING *',
+      [updatedFields.id_cargo, salario_funcionario, id]
     );
 
     res.json(updateResult.rows[0]);
   } catch (error) {
     console.error('Erro ao atualizar funcionario:', error);
-
 
 
     res.status(500).json({ error: 'Erro interno do servidor' });
@@ -129,7 +121,7 @@ exports.deletarFuncionario = async (req, res) => {
     const id = parseInt(req.params.id);
     // Verifica se o funcionario existe
     const existingPersonResult = await query(
-      'SELECT * FROM funcionario WHERE id_pessoa = $1',
+      'SELECT * FROM funcionario WHEREid_pessoa = $1',
       [id]
     );
 
@@ -139,7 +131,7 @@ exports.deletarFuncionario = async (req, res) => {
 
     // Deleta o funcionario (as constraints CASCADE cuidarão das dependências)
     await query(
-      'DELETE FROM funcionario WHERE id_pessoa = $1',
+      'DELETE FROM funcionario WHEREid_pessoa = $1',
       [id]
     );
 
@@ -157,29 +149,3 @@ exports.deletarFuncionario = async (req, res) => {
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 }
-
-// Função adicional para buscar funcionario por descrição
-exports.obterFuncionarioPorDescricao = async (req, res) => {
-  try {
-    const { descricao: descricao } = req.params;
-
-    if (!descricao) {
-      return res.status(400).json({ error: 'A descrição é é obrigatória' });
-    }
-
-    const result = await query(
-      'SELECT * FROM funcionario WHERE cargo_funcionario = $1',
-      [descricao]
-    );
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Funcionario não encontrado' });
-    }
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error('Erro ao obter funcionario por descrição:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
-  }
-}
-

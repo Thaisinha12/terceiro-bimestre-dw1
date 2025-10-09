@@ -57,7 +57,7 @@ function bloquearCampos(bloquearPrimeiro) {
 // Função para limpar formulário
 function limparFormulario() {
     form.reset();
-    document.getElementById('cargo_funcionario').value = '';
+    document.getElementById('id_cargo').value = '';
     document.getElementById('salario_funcionario').value = '';
     document.getElementById('checkboxCliente').checked = false;    
 }
@@ -97,7 +97,7 @@ async function funcaoEhFuncionario(pessoaId) {
             const funcionarioData = await response.json();
             return {
                 ehFuncionario: true, // CORREÇÃO: era "pessoa_id_pessoa: true"
-                cargo: funcionarioData.cargo_funcionario, // CORREÇÃO: usar o nome correto do campo
+                cargo: funcionarioData.id_cargo, // CORREÇÃO: usar o nome correto do campo
                 salario: funcionarioData.salario_funcionario // CORREÇÃO: usar o nome correto do campo
             };
         }
@@ -158,12 +158,12 @@ async function buscarPessoa() {
     if (oFuncionario.ehFuncionario) {
          alert('É funcionario: ' + oFuncionario.ehFuncionario + ' - ' + oFuncionario.cargo + ' - ' + oFuncionario.salario);
         document.getElementById('checkboxFuncionario').checked = true;
-        document.getElementById('cargo_funcionario').value = oFuncionario.cargo;
+        document.getElementById('id_cargo').value = oFuncionario.cargo;
         document.getElementById('salario_funcionario').value = oFuncionario.salario;
     } else {
         // Não é funcionario
         document.getElementById('checkboxFuncionario').checked = false;
-        document.getElementById('cargo_funcionario').value = '';
+        document.getElementById('id_cargo').value = '';
         document.getElementById('salario_funcionario').value = '';
     }
 
@@ -244,7 +244,7 @@ async function salvarOperacao() {
     if (document.getElementById('checkboxFuncionario').checked) {
         funcionario = {
             pessoa_id_pessoa: pessoa.id_pessoa,
-            cargo_funcionario: document.getElementById('cargo_funcionario').value,
+            id_cargo: document.getElementById('id_cargo').value,
             salario_funcionario: document.getElementById('salario_funcionario').value
         }
     }
