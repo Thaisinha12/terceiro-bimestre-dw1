@@ -276,7 +276,8 @@ async function salvarOperacao() {
             let responseCliente = null;
             if (ehCliente) {
                 const cliente = {
-                    pessoa_id_pessoa: pessoa.id_pessoa
+                    pessoa_id_pessoa: pessoa.id_pessoa,
+                    endereco_cliente: pessoa.endereco_cliente
                 };
                 responseCliente = await fetch(`${API_BASE_URL}/cliente`, {
                     method: 'POST',
