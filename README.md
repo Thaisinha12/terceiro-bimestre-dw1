@@ -34,3 +34,4 @@ CRUD Pessoa tem relacionamentos com professor, avaliado e avaliador (relações 
 2.7 - deverá criar as tabelas no bd
 
 Link do vídeo de DW1: https://youtu.be/-UtuCUB65rI?feature=shared
+yegd
