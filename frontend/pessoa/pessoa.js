@@ -96,7 +96,7 @@ async function funcaoEhFuncionario(pessoaId) {
         if (response.status === 200) {
             const funcionarioData = await response.json();
             return {
-                ehFuncionario: true, // CORREÇÃO: era "pessoa_id_pessoa: true"
+                ehFuncionario: true, // CORREÇÃO: era "id_pessoa: true"
                 cargo: funcionarioData.id_cargo, // CORREÇÃO: usar o nome correto do campo
                 salario: funcionarioData.salario_funcionario // CORREÇÃO: usar o nome correto do campo
             };
@@ -243,7 +243,7 @@ async function salvarOperacao() {
     let funcionario = null;
     if (document.getElementById('checkboxFuncionario').checked) {
         funcionario = {
-            pessoa_id_pessoa: pessoa.id_pessoa,
+            id_pessoa: pessoa.id_pessoa,
             id_cargo: document.getElementById('id_cargo').value,
             salario_funcionario: document.getElementById('salario_funcionario').value
         }
@@ -276,7 +276,7 @@ async function salvarOperacao() {
             let responseCliente = null;
             if (ehCliente) {
                 const cliente = {
-                    pessoa_id_pessoa: pessoa.id_pessoa,
+                    id_pessoa: pessoa.id_pessoa,
                     endereco_cliente: pessoa.endereco_cliente
                 };
                 responseCliente = await fetch(`${API_BASE_URL}/cliente`, {
@@ -290,7 +290,9 @@ async function salvarOperacao() {
 
 
         } else if (operacao === 'alterar') {
-            responseFuncionario = await fetch(`${API_BASE_URL}/pessoa/${currentPersonId}`, {
+            let url = `${API_BASE_URL}/pessoa/${currentPersonId}`;
+            alert(url)
+            responseFuncionario = await fetch(url, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -298,18 +300,18 @@ async function salvarOperacao() {
                 body: JSON.stringify(pessoa)
             });
             responsePessoa = responseFuncionario;
-
+            alert(ehCliente)
             if (ehCliente) {
                 //se DEIXOU de ser cliente, excluir da tabela cliente
                 const caminhoRota = `${API_BASE_URL}/cliente/${currentPersonId}`;
-
+                console.log(caminhoRota)
                 let respObterCliente = await fetch(caminhoRota);
                     console.log('Resposta ao obter cliente ao alterar pessoa: ' + respObterCliente.status);
                 let cliente = null;
                 if (respObterCliente.status === 404) {
                     //incluir cliente
                     cliente = {
-                        pessoa_id_pessoa: pessoa.id_pessoa
+                        id_pessoa: pessoa.id_pessoa
                     }
                 };
                 

@@ -11,7 +11,7 @@ exports.abrirCrudFuncionario = (req, res) => {
 
 exports.listarFuncionarios = async (req, res) => {
   try {
-    const result = await query('SELECT * FROM funcionario ORDER BYid_pessoa');
+    const result = await query('SELECT * FROM funcionario ORDER BY id_pessoa');
     // console.log('Resultado do SELECT:', result.rows);//verifica se está retornando algo
     res.json(result.rows);
   } catch (error) {
@@ -86,7 +86,7 @@ exports.atualizarFuncionario = async (req, res) => {
    
     // Verifica se o funcionario existe
     const existingPersonResult = await query(
-      'SELECT * FROM funcionario WHEREid_pessoa = $1',
+      'SELECT * FROM funcionario WHERE id_pessoa = $1',
       [id]
     );
 
