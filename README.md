@@ -1,4 +1,6 @@
-THAIS, EU MODIFIQUEI ESSE DOCUMENTO.
+THAIS, EU MODIFIQUEI ESSE DOCUMENTO. 
+
+vou ajudar no seu projeto
 
 
 # Projeto didático/modelo
