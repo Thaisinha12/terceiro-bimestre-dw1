@@ -1,3 +1,6 @@
+THAIS, EU MODIFIQUEI ESSE DOCUMENTO.
+
+
 # Projeto didático/modelo
 
 AVAP - Sistema de Avaliação por Pares
