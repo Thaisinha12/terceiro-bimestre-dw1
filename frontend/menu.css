@@ -1,241 +1,166 @@
-/* Reset básico */
+/* Reset básico, essencial para evitar problemas de layout */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 /* ---------------------------------------------------------------------------------- */
-/* -- ESTILOS GERAIS: Aprimorando o Fundo e Harmonia -- */
+/* -- ESTILOS GERAIS E FUNDO (Foco na Suavidade) -- */
 /* ---------------------------------------------------------------------------------- */
 body {
-  font-family: "Poppins", sans-serif;
-  /* Manteve o gradiente, mas ajustou a opacidade da cor forte */
-  background: linear-gradient(135deg, #FFECB3, #ffffff); 
-  color: #B22222; /* Cor de texto mantida */
-  text-align: center;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+    /* Fundo mais claro e suave para contraste */
+    background-color: #ff8630; 
+    color: #4a4a4a; /* Cor de texto mais neutra e elegante */
+    text-align: center;
+    min-height: 100vh;
 }
 
 /* ---------------------------------------------------------------------------------- */
-/* -- CABEÇALHO E NAVEGAÇÃO -- */
+/* -- CABEÇALHO (Clean e Sofisticado) -- */
 /* ---------------------------------------------------------------------------------- */
 header {
-  background-color: #FFF3CD;
-  padding: 1.2rem; /* Aumenta o padding para mais "respiro" */
-  /* Sombra mais suave e espalhada */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-  border-bottom: 3px solid #FFCD40; /* Borda um pouco mais grossa */
-  border-radius: 0 0 25px 25px; /* Cantos mais arredondados */
+    /* Cor de fundo neutra e clara */
+    background-color: #f7d331ed; 
+    padding: 1.5rem 0;
+    /* Sombra mais suave e focada */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
+    border-bottom: 5px solid rgb(203, 0, 0); ; /* Linha de destaque na cor principal */
+    /* Remove o arredondamento para um visual mais clean */
+    border-radius: 0; 
 }
 
-header h1, .topo h3 {
-  color: #FF0000; /* Cor mantida */
-  font-size: 2rem; /* Levemente maior */
-  margin-bottom: 0.5rem;
-  /* Adiciona uma sombra de texto sutil para destacar */
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
-}
-
-.topo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1rem;
-  padding: 0 2rem; /* Mais espaçamento lateral */
-}
-
-/* Select do usuário */
-#oUsuario {
-  padding: 10px 15px;
-  border: 2px solid #FFCC00;
-  border-radius: 20px; /* Mais arredondado */
-  background: white;
-  font-family: "Poppins", sans-serif;
-  font-size: 1rem;
-  outline: none;
-  transition: 0.3s;
-  /* Adiciona uma sombra interna fofa */
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-#oUsuario:focus {
-  border-color: #FF4D6D;
-  box-shadow: 0 0 10px #FFCC00;
-}
-
-/* Menu principal */
-.nav {
-  /* Gradiente mais suave e menos contrastante */
-  background: linear-gradient(90deg, #FFF3CD, #FFEB99); 
-  padding: 0.9rem 0; /* Mais padding vertical */
-  border-top: 1px solid #FFCC00;
-  border-bottom: 1px solid #FFCC00;
-}
-
-.nav__menu {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 2.5rem; /* Aumenta a distância entre os itens */
-  flex-wrap: wrap;
-}
-
-.nav__menu-item a {
-  color: #B22222;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 0.6rem 1.4rem;
-  border-radius: 20px; /* Mais arredondado */
-  transition: background 0.3s, transform 0.2s;
-}
-
-.nav__menu-item a:hover {
-  background: #FFCC00;
-  transform: scale(1.08); /* Efeito de "pop" maior */
-}
-
-/* Submenu - Ajusta bordas e sombras */
-.nav__submenu {
-  list-style: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #ffffff;
-  border: 1px solid #FFCC00;
-  border-radius: 15px; /* Mais arredondado */
-  display: none;
-  min-width: 200px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Sombra mais destacada */
-  z-index: 1000;
+header h1 {
+    /* Cor principal vibrante */
+    color: rgb(203, 0, 0); 
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 /* ---------------------------------------------------------------------------------- */
-/* -- CONTEÚDO PRINCIPAL E CARDS DE PRODUTO -- */
+/* -- CARROSSEL E NAVEGAÇÃO (Neumorfismo Suave) -- */
 /* ---------------------------------------------------------------------------------- */
-main {
-  padding: 3rem 2rem; /* Mais padding para "respiro" */
+.carousel-container {
+    position: relative; 
+    max-width: 95%; /* Um pouco mais de largura */
+    margin: 4rem auto; 
+    overflow: hidden; 
+    padding: 30px 0; /* Mais padding para os botões respirarem */
 }
 
-/* Novo estilo para o título da seção (ex: PASTÉIS SALGADOS) */
-.section-title {
-  font-size: 1.8rem;
-  margin: 1.5rem 0 1rem;
-  padding: 0.5rem 2rem;
-  display: inline-block;
-  background-color: #FFEB99; /* Cor de destaque suave (amarelo) */
-  color: rgb(255, 0, 0);
-  border-radius: 30px; /* Efeito de pílula/balão de fala */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+.carousel-track {
+    display: flex; 
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); /* Transição mais "elástica" e suave */
+    padding: 10px 0;
+    justify-content: flex-start; 
 }
 
-.produtos__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Min-width um pouco maior */
-  gap: 2rem; /* Mais espaço entre os cards */
-  margin-top: 2rem;
-  align-items: stretch; /* Garante que todos os cards tenham a mesma altura */
-  margin-bottom: 6rem; /* Espaço entre categorias */
+/* --- Botões de Navegação (Elegantes e Flutuantes) --- */
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    /* Fundo suave, quase branco */
+    background: #ffffff; 
+    color: #FF4500; /* Cor do ícone em destaque */
+    
+    border: none;
+    padding: 20px 24px; 
+    cursor: pointer;
+    z-index: 10;
+    font-size: 1.6em;
+    border-radius: 50%;
+    
+    /* Neumorfismo: Sombra suave dupla para efeito de relevo */
+    box-shadow: 5px 5px 10px #dedede, -5px -5px 10px #ffffff;
+    
+    transition: all 0.3s ease;
+    outline: none;
 }
 
-/* Card genérico para qualquer produto */
-.card-produto {
-  background: #FFFFFF; /* Fundo branco puro para contraste fofo */
-  border: 3px solid #FFCC00; /* Borda um pouco mais grossa */
-  border-radius: 25px; /* Cantos muito arredondados */
-  padding: 1.5rem 1rem; /* Mais padding interno */
-  text-align: center;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15); /* Sombra mais proeminente e suave */
-  transition: transform 0.3s, box-shadow 0.3s;
+.prev-button { left: -30px; }
+.next-button { right: -30px; }
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  height: 380px; /* Altura padronizada aumentada para mais espaço */
-  max-height: 380px;
+.nav-button:hover {
+    color: #B22222; /* Ícone fica mais escuro no hover */
+    /* Sombra mais intensa para destacar a "subida" */
+    box-shadow: 7px 7px 15px #dedede, -7px -7px 15px #ffffff; 
 }
 
-.card-produto:hover {
-  transform: translateY(-5px) scale(1.03); /* Efeito de subida fofa */
-  /* Brilho suave e fofo (tom de laranja/creme) */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 0 20px #FFD700; 
-}
-
-.card-produto h3 {
-  /* Título em negrito e cor principal */
-  font-weight: 700;
-  color: #ff8c00;
-  margin-bottom: 0.3rem;
-}
-
-.card-produto p {
-  font-family: "Poppins", sans-serif; /* mesma fonte do botão */
-  font-weight: bold; /* mesmo peso do botão */
-  color: #FF8C00; /* mantém a cor atual */
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-}
-
-.card-produto img {
-  width: 100%;
-  max-width: 220px;
-  height: auto;
-  min-height: 150px;
-  display: block;
-  margin: 0 auto 1rem auto;
-
-  /* Remove a borda forte original da imagem */
-  border: 4px solid #FFFFFF; 
-  /* Adiciona uma sombra suave (efeito "flutuante") */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  border-radius: 15px; 
-  transition: all 0.3s ease;
-}
-
-/* Botões "Adicionar ao Carrinho" */
-.card-produto button {
-  margin: 0;
-  padding: 12px 25px; /* Mais padding no botão */
-  background-color: #FF4500; /* Cor vermelha/laranja mais suave (Red-Orange) */
-  color: white;
-  border: none;
-  border-radius: 50px; /* Efeito de pílula super fofo */
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-  /* Sombra 3D suave de botão de docinho */
-  box-shadow: 0 4px #CD3700; 
-}
-
-.card-produto button:hover {
-  background-color: #FF6347; /* Cor de hover mais suave */
-  transform: translateY(2px); /* Efeito de clique */
-  box-shadow: 0 2px #CD3700;
+.nav-button:active {
+    /* Efeito de "pressionar" (sombra interna) */
+    box-shadow: inset 2px 2px 5px #dedede, inset -2px -2px 5px #ffffff;
+    transform: translateY(-48%) scale(0.98);
 }
 
 /* ---------------------------------------------------------------------------------- */
-/* -- RODAPÉ -- */
+/* -- ESTILO DE CADA CARD DE PRODUTO (Clean Design) -- */
 /* ---------------------------------------------------------------------------------- */
-footer {
-  margin-top: auto;
-  padding: 1.5rem; /* Mais padding */
-  background: #FFF3CD;
-  border-top: 3px solid #FFCC00;
-  color: #B22222;
-  font-size: 1rem; /* Levemente maior */
-  box-shadow: 0 -4px 10px rgba(0,0,0,0.08); /* Sombra suave para cima */
-  border-radius: 25px 25px 0 0;
+.produto-card {
+    flex: 0 0 300px; 
+    margin-right: 35px; /* Mais separação */
+    
+    /* Fundo branco puro para leve contraste com o body */
+    background-color: #FFFFFF; 
+    
+    /* Borda sutil (cinza claro) em vez da amarela grossa */
+    border: 1px solid #eeeeee; 
+    border-radius: 15px; /* Cantos arredondados, mas menos agressivos */
+    
+    /* Sombra de card mais elegante e suave */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); 
+    
+    padding: 1.5rem 1.2rem;
+    text-align: center;
+    min-height: 400px; /* Um pouco mais alto */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
 }
 
-.categoria-title {
-  font-size: 1.6rem;
-  color: rgb(255, 0, 0); /* Cor fofa para o nome da categoria */
-  text-transform: uppercase; /* Deixa tudo maiúsculo */
-  letter-spacing: 1px;
-  padding: 0.5rem 1.5rem;
-  display: inline-block;
+.produto-card:hover {
+    transform: translateY(-10px); /* Efeito de subida mais proeminente */
+    /* Brilho na cor de destaque no hover (sutil) */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 15px rgba(255, 69, 0, 0.5); 
+}
+
+.produto-card img {
+    width: 100%;
+    max-height: 200px; /* Imagem um pouco maior */
+    object-fit: cover; 
+    
+    border: none; /* Remove a borda branca da imagem */
+    border-radius: 10px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+    margin: 0 auto 20px auto;
+}
+
+.produto-card h3 {
+    /* Cor do título principal */
+    color: rgb(203, 0, 0); ; 
+    margin-top: 0;
+    font-size: 1.6em;
+    font-weight: 800;
+}
+
+.produto-card p {
+    color: #888; 
+    font-size: 0.9em;
+    margin: 5px 0;
+}
+
+.produto-card .preco {
+    font-weight: 900;
+    /* Cor do preço em Vermelho/Laranja de destaque */
+    color: rgb(203, 0, 0); ; 
+    font-size: 2.0em; /* Preço grande e imponente */
+    margin-top: 20px;
+    padding: 10px 0;
+    /* Linha de separação sólida e fina */
+    border-top: 1px solid #f0f0f0; 
+    letter-spacing: 1px;
 }

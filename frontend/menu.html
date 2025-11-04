@@ -1,191 +1,27 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Menu Principal</title>
-  <link rel="stylesheet" href="menu.css">
-
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio</title>
+    <link rel="stylesheet" href="menu.css"> 
 </head>
-
 <body>
-  <header>
-    <div class="topo">
-      <h3>MENU PRINCIPAL</h3>
-      <select id="oUsuario" onchange="handleUserAction(this.value)">
-        <option value="">usuario</option>
-        <option value="gerenciar-conta">Gerenciar Conta</option>
-        <option value="sair">Sair</option>
-      </select>
+
+    <header>
+        <h1>Cardápio</h1>
+    </header>
+
+    <div class="carousel-container">
+        <button class="nav-button prev-button" aria-label="Anterior">&#10094;</button>
+
+        <div class="carousel-track" id="produtos-container">
+            <p id="loading-message">Carregando produtos da API...</p> 
+        </div>
+
+        <button class="nav-button next-button" aria-label="Próximo">&#10095;</button>
     </div>
 
-    <!-- Pastéis Salgados -->
-  <section class="produtos">
-    <h2 class="categoria-title">PASTÉIS SALGADOS</h2>
-    <div class="produtos__grid">
-
-      <div class="card-produto">
-        <img src="imagens/pastelDeQueijo.jpeg" alt="Pastel de Queijo">
-        <h3>PASTEL DE QUEIJO</h3>
-        <p>R$ 06,00</p>
-        <button>ADICIONAR AO CARRINHO</button>
-      </div>
-
-      <div class="card-produto">
-        <img src="imagens/pastelDeCarne.jpeg" alt="Pastel de Carne">
-        <h3>PASTEL DE CARNE</h3>
-        <p>R$ 10,00</p>
-        <button>ADICIONAR AO CARRINHO</button>
-      </div>
-
-      <div class="card-produto">
-        <img src="imagens/pastelDeFrango.jpeg" alt="Pastel de Frango">
-        <h3>PASTEL DE FRANGO</h3>
-        <p>R$ 08,00</p>
-        <button>ADICIONAR AO CARRINHO</button>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Pastéis Doces -->
-  <section class="produtos">
-    <h2 class="categoria-title">PASTÉIS DOCES</h2>
-    <div class="produtos__grid">
-
-      <div class="card-produto">
-        <img src="imagens/pastelDeChocolate.jpeg" alt="Pastel de Chocolate">
-        <h3>PASTEL DE CHOCOLATE</h3>
-        <p>R$ 07,00</p>
-        <button>ADICIONAR AO CARRINHO</button>
-      </div>
-
-      <div class="card-produto">
-        <img src="imagens/pastelDeNutella.jpeg" alt="Pastel de Nutella">
-        <h3>PASTEL DE NUTELLA</h3>
-        <p>R$ 09,00</p>
-        <button>ADICIONAR AO CARRINHO</button>
-      </div>
-
-      <div class="card-produto">
-        <img src="imagens/pastelDeChocolateEMorango.jpeg" alt="Pastel de morango com chocolate">
-        <h3>PASTEL DE MORANGO COM CHOCOLATE</h3>
-        <p>R$ 10,00</p>
-        <button>ADICIONAR AO CARRINHO</button>
-      </div>
-
-    </div>
-  </section>
-
-      <!-- Refrigerantes -->
-<section class="produtos">
-  <h2 class="categoria-title">REFRIGERANTES</h2>
-  <div class="produtos__grid">
-
-    <div class="card-produto">
-      <img src="imagens/guaranaLata.jpeg" alt="Lata de Guaraná">
-      <h3>LATA DE GUARANÁ</h3>
-      <p>R$ 05,00</p>
-      <button>ADICIONAR AO CARRINHO</button>
-    </div>
-
-    <div class="card-produto">
-      <img src="imagens/spriteLata.jpeg" alt="Lata de Sprite">
-      <h3>LATA DE SPRITE</h3>
-      <p>R$ 04,00</p>
-      <button>ADICIONAR AO CARRINHO</button>
-    </div>
-
-    <div class="card-produto">
-      <img src="imagens/cocaLata.jpeg" alt="Lata de Coca-Cola">
-      <h3>LATA DE COCA-COLA</h3>
-      <p>R$ 06,00</p>
-      <button>ADICIONAR AO CARRINHO</button>
-    </div>
-
-  </div>
-</section>
-
-         <!-- Sucos -->
-<section class="produtos">
-  <h2 class="categoria-title">SUCOS</h2>
-  <div class="produtos__grid">
-
-    <div class="card-produto">
-      <img src="imagens/sucoDeLaranja.jpeg" alt="Suco de Laranja">
-      <h3>SUCO DE LARANJA</h3>
-      <p>R$ 05,00</p>
-      <button>ADICIONAR AO CARRINHO</button>
-    </div>
-
-    <div class="card-produto">
-      <img src="imagens/sucoDeUva.jpeg" alt="Suco de Uva">
-      <h3>SUCO DE UVA</h3>
-      <p>R$ 06,00</p>
-      <button>ADICIONAR AO CARRINHO</button>
-    </div>
-
-    <div class="card-produto">
-      <img src="imagens/sucoDeMorango.jpeg" alt="Suco de Morango">
-      <h3>SUCO DE MORANGO</h3>
-      <p>R$ 07,00</p>
-      <button>ADICIONAR AO CARRINHO</button>
-    </div>
-
-  </div>
-</section>
-
-
-    <nav class="nav">
-      <ul class="nav__menu">
-        <li class="nav__menu-item"><a href="#">Home</a></li>
-
-        <li class="nav__menu-item">
-          <a href="#">Cadastros</a>
-          <ul class="nav__submenu">
-           <li class="nav__submenu-item"><a href="http://localhost:3001/pessoa/abrirCrudPessoa">Pessoa</a></li>
-            <li class="nav__submenu-item"><a href="http://localhost:3001/cargo/abrirCrudCargo">Cargo</a></li>         
-            <li class="nav__submenu-item"><a href="http://localhost:3001/produto/abrirCrudProduto">Produto</a></li>
-            <li class="nav__submenu-item"><a href="http://localhost:3001/categoria/abrirCrudCategoria">Categoria</a></li>
-            <li class="nav__submenu-item"><a href="http://localhost:3001/pedido/abrirCrudPedido">Pedido</a></li>
-          </ul>
-        </li>
-
-        <li class="nav__menu-item">
-          <a href="#">About</a>
-          <ul class="nav__submenu">
-            <li class="nav__submenu-item"><a href="#">Our Company</a></li>
-            <li class="nav__submenu-item"><a href="#">Our Team</a></li>
-            <li class="nav__submenu-item"><a href="#">Our Reach</a></li>
-          </ul>
-        </li>
-
-        <li class="nav__menu-item"><a href="#">Blog</a></li>
-        <li class="nav__menu-item"><a href="#">Contact</a></li>
-
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-
-    <section>
-      <p>section main....</p>
-    </section>
-
-  </main>
-
-  <footer>
-    <p>&copy; 2025 - Meu Site</p>
-  </footer>
-
-  <script src="./menu.js"></script>
-
+    <script src="menu.js"></script> 
 </body>
-
 </html>
