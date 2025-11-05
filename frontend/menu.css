@@ -10,9 +10,8 @@
 /* ---------------------------------------------------------------------------------- */
 body {
     font-family: 'Poppins', sans-serif;
-    /* Fundo mais claro e suave para contraste */
     background-color: #ff8630; 
-    color: #4a4a4a; /* Cor de texto mais neutra e elegante */
+    color: #4a4a4a; 
     text-align: center;
     min-height: 100vh;
 }
@@ -21,18 +20,15 @@ body {
 /* -- CABEÇALHO (Clean e Sofisticado) -- */
 /* ---------------------------------------------------------------------------------- */
 header {
-    /* Cor de fundo neutra e clara */
     background-color: #f7d331ed; 
     padding: 1.5rem 0;
-    /* Sombra mais suave e focada */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
-    border-bottom: 5px solid rgb(203, 0, 0); ; /* Linha de destaque na cor principal */
-    /* Remove o arredondamento para um visual mais clean */
+    border-bottom: 5px solid rgb(203, 0, 0); 
     border-radius: 0; 
+    position: relative; /* Essencial para posicionar o botão do carrinho */
 }
 
 header h1 {
-    /* Cor principal vibrante */
     color: rgb(203, 0, 0); 
     font-size: 2.5rem;
     font-weight: 800;
@@ -40,19 +36,61 @@ header h1 {
 }
 
 /* ---------------------------------------------------------------------------------- */
-/* -- CARROSSEL E NAVEGAÇÃO (Neumorfismo Suave) -- */
+/* -- NOVO: BOTÃO VER CARRINHO (Flutuante no Canto) -- */
+/* ---------------------------------------------------------------------------------- */
+.btn-ver-carrinho {
+    position: absolute;
+    top: 50%;
+    right: 30px; /* Mais afastado da borda */
+    transform: translateY(-50%);
+
+    /* Estilo Neumórfico Suave */
+    background: #ffffff; 
+    color: rgb(203, 0, 0); /* Cor do ícone (Vermelho) */
+    
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    
+    width: 55px;
+    height: 55px;
+    text-decoration: none;
+    
+    border-radius: 50%;
+    font-size: 1.8em; 
+    
+    /* Sombra Neumórfica Suave */
+    box-shadow: none;
+    
+    transition: all 0.3s ease;
+}
+
+.btn-ver-carrinho:hover {
+    color: #FF4500; /* Laranja no hover */
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.15), -6px -6px 12px #ffffff;
+}
+
+.btn-ver-carrinho:active {
+    /* Efeito de "pressionar" */
+    box-shadow: inset 2px 2px 5px #dedede, inset -2px -2px 5px #ffffff;
+    transform: translateY(-50%) scale(0.95);
+}
+
+
+/* ---------------------------------------------------------------------------------- */
+/* -- CARROSSEL E NAVEGAÇÃO -- */
 /* ---------------------------------------------------------------------------------- */
 .carousel-container {
     position: relative; 
-    max-width: 95%; /* Um pouco mais de largura */
+    max-width: 95%; 
     margin: 4rem auto; 
     overflow: hidden; 
-    padding: 30px 0; /* Mais padding para os botões respirarem */
+    padding: 30px 0; 
 }
 
 .carousel-track {
     display: flex; 
-    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); /* Transição mais "elástica" e suave */
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); 
     padding: 10px 0;
     justify-content: flex-start; 
 }
@@ -62,21 +100,15 @@ header h1 {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    
-    /* Fundo suave, quase branco */
     background: #ffffff; 
-    color: #FF4500; /* Cor do ícone em destaque */
-    
+    color: #FF4500; 
     border: none;
     padding: 20px 24px; 
     cursor: pointer;
     z-index: 10;
     font-size: 1.6em;
     border-radius: 50%;
-    
-    /* Neumorfismo: Sombra suave dupla para efeito de relevo */
     box-shadow: 5px 5px 10px #dedede, -5px -5px 10px #ffffff;
-    
     transition: all 0.3s ease;
     outline: none;
 }
@@ -85,37 +117,28 @@ header h1 {
 .next-button { right: -30px; }
 
 .nav-button:hover {
-    color: #B22222; /* Ícone fica mais escuro no hover */
-    /* Sombra mais intensa para destacar a "subida" */
+    color: #B22222; 
     box-shadow: 7px 7px 15px #dedede, -7px -7px 15px #ffffff; 
 }
 
 .nav-button:active {
-    /* Efeito de "pressionar" (sombra interna) */
     box-shadow: inset 2px 2px 5px #dedede, inset -2px -2px 5px #ffffff;
     transform: translateY(-48%) scale(0.98);
 }
 
 /* ---------------------------------------------------------------------------------- */
-/* -- ESTILO DE CADA CARD DE PRODUTO (Clean Design) -- */
+/* -- ESTILO DE CADA CARD DE PRODUTO -- */
 /* ---------------------------------------------------------------------------------- */
 .produto-card {
     flex: 0 0 300px; 
-    margin-right: 35px; /* Mais separação */
-    
-    /* Fundo branco puro para leve contraste com o body */
+    margin-right: 35px; 
     background-color: #FFFFFF; 
-    
-    /* Borda sutil (cinza claro) em vez da amarela grossa */
     border: 1px solid #eeeeee; 
-    border-radius: 15px; /* Cantos arredondados, mas menos agressivos */
-    
-    /* Sombra de card mais elegante e suave */
+    border-radius: 15px; 
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); 
-    
     padding: 1.5rem 1.2rem;
     text-align: center;
-    min-height: 400px; /* Um pouco mais alto */
+    min-height: 400px; 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -123,25 +146,22 @@ header h1 {
 }
 
 .produto-card:hover {
-    transform: translateY(-10px); /* Efeito de subida mais proeminente */
-    /* Brilho na cor de destaque no hover (sutil) */
+    transform: translateY(-10px); 
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 15px rgba(255, 69, 0, 0.5); 
 }
 
 .produto-card img {
     width: 100%;
-    max-height: 200px; /* Imagem um pouco maior */
+    max-height: 200px; 
     object-fit: cover; 
-    
-    border: none; /* Remove a borda branca da imagem */
+    border: none; 
     border-radius: 10px; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
     margin: 0 auto 20px auto;
 }
 
 .produto-card h3 {
-    /* Cor do título principal */
-    color: rgb(203, 0, 0); ; 
+    color: rgb(203, 0, 0); 
     margin-top: 0;
     font-size: 1.6em;
     font-weight: 800;
@@ -155,12 +175,39 @@ header h1 {
 
 .produto-card .preco {
     font-weight: 900;
-    /* Cor do preço em Vermelho/Laranja de destaque */
-    color: rgb(203, 0, 0); ; 
-    font-size: 2.0em; /* Preço grande e imponente */
+    color: rgb(203, 0, 0); 
+    font-size: 2.0em; 
     margin-top: 20px;
     padding: 10px 0;
-    /* Linha de separação sólida e fina */
     border-top: 1px solid #f0f0f0; 
     letter-spacing: 1px;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- NOVO: ESTILO PARA O BOTÃO ADICIONAR AO CARRINHO EM CADA CARD -- */
+/* ---------------------------------------------------------------------------------- */
+.btn-adicionar {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: rgb(203, 0, 0); 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(203, 0, 0, 0.3); 
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-adicionar:hover {
+    background-color: #B22222; 
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(203, 0, 0, 0.5);
+}
+
+.btn-adicionar:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(203, 0, 0, 0.3);
 }

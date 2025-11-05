@@ -1,0 +1,190 @@
+/* Baseado e adaptado dos estilos de menu.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ff8630; /* Fundo do tema Laranja */
+    color: #4a4a4a;
+    min-height: 100vh;
+}
+
+/* ------------------ CABEÇALHO ------------------ */
+header {
+    background-color: #f7d331ed; /* Cor de fundo do cabeçalho Amarela */
+    padding: 1.5rem 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
+    border-bottom: 5px solid rgb(203, 0, 0); /* Linha de destaque Vermelha */
+    text-align: center;
+}
+
+header h1 {
+    color: rgb(203, 0, 0); /* Cor do título Vermelha */
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* ------------------ CONTAINER PRINCIPAL DO CARRINHO ------------------ */
+.carrinho-page-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); 
+}
+
+/* ------------------ ITEM DO CARRINHO ------------------ */
+.carrinho-track {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.item-carrinho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 1.1em;
+}
+
+.item-carrinho:last-child {
+    border-bottom: none;
+}
+
+.nome-produto {
+    flex-grow: 1;
+    font-weight: 600;
+}
+
+/* ------------------ CONTROLE DE QUANTIDADE (Estilo Neumórfico) ------------------ */
+.quantidade-controle {
+    display: flex;
+    align-items: center;
+    margin: 0 30px;
+}
+
+.btn-quantidade {
+    /* Estilo Neumórfico Adaptado do .nav-button */
+    background: #ffffff; 
+    color: #FF4500; /* Ícone Laranja */
+    border: none;
+    padding: 8px 12px; 
+    cursor: pointer;
+    font-size: 1.2em;
+    border-radius: 50%;
+    
+    /* Sombra Neumórfica */
+    box-shadow: 3px 3px 6px #dedede, -3px -3px 6px #ffffff; 
+    
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.btn-quantidade:hover {
+    color: #B22222; /* Fica mais escuro no hover */
+    box-shadow: 5px 5px 10px #dedede, -5px -5px 10px #ffffff; 
+}
+
+.btn-quantidade:active {
+    /* Efeito de "pressionar" */
+    box-shadow: inset 1px 1px 3px #dedede, inset -1px -1px 3px #ffffff;
+    transform: scale(0.95);
+}
+
+.quantidade-valor {
+    margin: 0 15px;
+    min-width: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: rgb(203, 0, 0); /* Cor Vermelha */
+}
+
+/* ------------------ PREÇO E REMOÇÃO ------------------ */
+.preco-item {
+    font-weight: 900;
+    color: rgb(203, 0, 0); 
+    font-size: 1.3em;
+    min-width: 100px;
+    text-align: right;
+}
+
+.btn-remover {
+    background-color: transparent;
+    border: none;
+    color: #FF4500; 
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 20px;
+    transition: color 0.2s;
+}
+
+.btn-remover:hover {
+    color: #B22222;
+}
+
+/* ------------------ RESUMO E TOTAL ------------------ */
+.resumo-carrinho {
+    padding: 20px 0;
+}
+
+.resumo-carrinho h2 {
+    color: #4a4a4a;
+    font-size: 1.8em;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.total-linha {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5em;
+    font-weight: 900;
+    padding: 15px 0;
+    border-top: 3px solid rgb(203, 0, 0); 
+}
+
+#preco-total {
+    color: rgb(203, 0, 0);
+}
+
+.btn-comprar {
+    width: 100%;
+    padding: 18px;
+    margin-top: 25px;
+    
+    /* Botão Vermelho de destaque */
+    background-color: rgb(203, 0, 0); 
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(203, 0, 0, 0.4); 
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+
+.btn-comprar:hover {
+    background-color: #B22222; 
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(203, 0, 0, 0.6);
+}
+
+.btn-comprar:active {
+    transform: translateY(0);
+}
+
+.carrinho-vazio {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+    font-size: 1.2em;
+}

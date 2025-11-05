@@ -3,15 +3,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('produtos-container');
     const prevButton = document.querySelector('.prev-button');
     const nextButton = document.querySelector('.next-button');
-    const urlDaApi = 'http://localhost:3001/produto/'; // Sua rota
+    const urlDaApi = 'http://localhost:3001/produto/'; 
     
     let produtos = []; // Onde os dados buscados serão armazenados
     let currentIndex = 0;
     const cardWidth = 320; 
 
+    // **********************************************
+    // FUNÇÕES DE GESTÃO DO CARRINHO (LocalStorage)
+    // **********************************************
+
+    function getCarrinho() {
+        const carrinhoJson = localStorage.getItem('carrinhoItens');
+        return carrinhoJson ? JSON.parse(carrinhoJson) : [];
+    }
+
+    function salvarCarrinho(itens) {
+        localStorage.setItem('carrinhoItens', JSON.stringify(itens));
+    }
+
+    function adicionarAoCarrinho(produto) {
+        let carrinho = getCarrinho();
+        // Usa o id_produto da API para verificar
+        const itemExistente = carrinho.find(item => item.id === produto.id_produto); 
+
+        if (itemExistente) {
+            itemExistente.quantidade++;
+        } else {
+            carrinho.push({
+                id: produto.id_produto,
+                nome: produto.nome_produto, // Nome do produto para exibição rápida
+                precoUnitario: parseFloat(produto.preco_produto), 
+                quantidade: 1
+            });
+        }
+
+        salvarCarrinho(carrinho);
+        alert(`${produto.nome_produto} adicionado ao carrinho!`);
+    }
+
     // FUNÇÃO QUE GERA E INJETA O HTML (A RENDERIZAÇÃO)
     function renderizarProdutos() {
-        // Limpa a mensagem de carregamento
         container.innerHTML = ''; 
 
         if (produtos.length === 0) {
@@ -25,17 +57,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'produto-card';
 
-            // Caminho da imagem: imagens/id_produto.jpeg
             const imagemSrc = `imagens/${produto.id_produto}.jpeg`; 
 
-            // Construção do HTML do produto
+            // Construção do HTML do produto, INCLUINDO O BOTÃO DE ADICIONAR
             card.innerHTML = `
                 <img src="${imagemSrc}" alt="Imagem de ${produto.nome_produto}">
                 <h3>${produto.nome_produto}</h3>
                 <p>Estoque: ${produto.quant_estoque}</p>
-                <p class="preco">R$ ${produto.preco_produto.replace('.', ',')}</p>
+                <p class="preco">R$ ${String(produto.preco_produto).replace('.', ',')}</p>
+                <button class="btn-adicionar" data-id="${produto.id_produto}">Adicionar ao Carrinho</button>
             `;
             container.appendChild(card);
+        });
+
+        // Adiciona o listener para os botões de adicionar
+        document.querySelectorAll('.btn-adicionar').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const idProduto = parseInt(e.target.dataset.id);
+                const produtoSelecionado = produtos.find(p => p.id_produto === idProduto);
+                if (produtoSelecionado) {
+                    adicionarAoCarrinho(produtoSelecionado);
+                }
+            });
         });
 
         // Mostra os botões de navegação
@@ -43,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nextButton.style.display = 'block';
         atualizarCarrossel();
     }
-
+    
     // FUNÇÕES DE NAVEGAÇÃO DO CARROSSEL
     function atualizarCarrossel() {
         const deslocamento = -currentIndex * cardWidth;
@@ -66,26 +109,21 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(urlDaApi);
             if (!response.ok) {
-                // Lança um erro se a resposta HTTP não for bem-sucedida (ex: 404, 500)
                 throw new Error(`Erro HTTP: Status ${response.status}`);
             }
-            // Armazena os dados do JSON na variável 'produtos'
             produtos = await response.json(); 
             
         } catch (error) {
             console.error("Erro fatal ao buscar dados da API. Verifique a rota:", error);
-            // Deixa 'produtos' como array vazio para renderizar a mensagem de erro
             produtos = []; 
         }
 
-        // Chama a renderização com os dados obtidos ou com a mensagem de erro.
         renderizarProdutos(); 
     }
 
-    // INICIALIZAÇÃO
+    // INICIALIZAÇÃO E LISTENERS
     buscarErenderizarProdutos();
 
-    // LISTENERS
     prevButton.addEventListener('click', () => mover('anterior'));
     nextButton.addEventListener('click', () => mover('proximo'));
 });

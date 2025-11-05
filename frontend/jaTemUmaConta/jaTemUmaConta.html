@@ -8,24 +8,23 @@
   <link rel="stylesheet" href="login.css" />
   <script src="login.js" defer></script>
   <script src="jaTemUmaConta.js" defer></script>
-
-
 </head>
 <body>
-  <h1>JÁ TEM UMA CONTA? FAÇA LOGIN!</h1>
+  <div class="container">
+    <h1>Já tem uma conta? Faça login!</h1>
 
-  <div class="form-row">
-    <label for="email">Email:</label>
-    <input type="text" id="email" />
+    <div class="form-row">
+      <label for="email">Email:</label>
+      <input type="text" id="email" />
+    </div>
+
+    <div class="form-row">
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" />
+    </div>
+
+    <button onclick="fazerLogin()">Entrar</button>
+    <span id="respostaDoServidor">.....</span>
   </div>
-
-  <div class="form-row">
-    <label for="senha">Senha:</label>
-    <input type="password" id="senha" />
-  </div>
-
-  <button onclick="fazerLogin()">Entrar</button>
-  <span id="respostaDoServidor">.....</span>
-
 </body>
 </html>

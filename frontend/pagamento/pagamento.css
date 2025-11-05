@@ -1,6 +1,7 @@
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #ffe6f0;
+  /* Fundo Laranja/Vermelho do tema */
+  background-color: #ff8630; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,19 +12,26 @@ body {
   background: white;
   padding: 25px;
   border-radius: 20px;
-  box-shadow: 0 0 10px #ff66b2;
+  /* Detalhe Amarelo: Sombra mais suave, combinando vermelho/laranja com um toque de amarelo */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 0 15px rgba(247, 211, 49, 0.7); 
   width: 320px;
 }
 
 h2 {
   text-align: center;
-  color: #ff66b2;
+  /* Título em Vermelho de destaque */
+  color: rgb(203, 0, 0); 
+  /* Linha inferior sutil em Amarelo */
+  border-bottom: 3px solid #F7D331; 
+  padding-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 label {
   display: block;
   margin-top: 10px;
   font-weight: 600;
+  color: #4a4a4a; /* Cor de texto neutra */
 }
 
 input {
@@ -31,27 +39,52 @@ input {
   padding: 8px;
   margin-top: 5px;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  /* Detalhe Amarelo: Borda amarela sutil */
+  border: 1px solid #F7D331; 
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+  outline: none;
+  /* Detalhe Amarelo: Borda mais grossa e sombra ao focar */
+  border-color: rgb(203, 0, 0); 
+  box-shadow: 0 0 5px rgba(247, 211, 49, 0.8);
 }
 
 button {
   width: 100%;
   margin-top: 15px;
   padding: 10px;
-  background-color: #ff66b2;
+  /* Cor principal do botão: Vermelho */
+  background-color: rgb(203, 0, 0); 
   border: none;
   color: white;
   font-weight: bold;
   border-radius: 10px;
   cursor: pointer;
+  box-shadow: none; 
+  /* Adicionado 'transform' para a transição suave */
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; 
 }
 
 button:hover {
-  background-color: #ff3385;
+  /* Tom mais escuro do Vermelho no hover */
+  background-color: #B22222; 
+  /* ADICIONADO: O movimento de "subida" */
+  transform: translateY(-2px); 
+  /* Adicionada a sombra amarelada no hover */
+  box-shadow: 0 6px 12px rgba(247, 211, 49, 0.6);
+}
+
+button:active {
+  /* Efeito de "clique" forçado */
+  transform: translateY(0); 
 }
 
 #mensagem {
   text-align: center;
   margin-top: 15px;
   font-weight: bold;
+  /* Mensagem em Laranja/Vermelho */
+  color: #FF4500; 
 }
