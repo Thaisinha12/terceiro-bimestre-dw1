@@ -47,6 +47,23 @@ app.use((req, res, next) => {
   next();
 });
 
+// Middleware de log
+app.use((req, res, next) => {
+  try {
+    const timestamp = new Date().toISOString();
+    const method = req.method;
+    const url = req.url || req.originalUrl || 'unknown';
+    console.log(`📝 ${timestamp} - ${method} ${url}`);
+    console.log("   └req.body ->", req.body)
+    //console.log(req.headers.cookie)
+    next();
+  } catch (error) {
+    console.error("❌ Erro no middleware de log:", error);
+    next(); // Continue mesmo com erro no log
+  }
+});
+
+
 // Middleware para adicionar a instância do banco de dados às requisições
 app.use((req, res, next) => {
   req.db = db;
