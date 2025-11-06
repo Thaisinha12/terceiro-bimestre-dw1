@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cardápio</title>
+    <title>Cardápio por Categoria</title>
     <link rel="stylesheet" href="menu.css"> 
 </head>
 <body>
@@ -15,15 +15,10 @@
         </a>
     </header>
 
-    <div class="carousel-container">
-        <button class="nav-button prev-button" aria-label="Anterior">&#10094;</button>
-
-        <div class="carousel-track" id="produtos-container">
-            <p id="loading-message">Carregando produtos da API...</p> 
-        </div>
-
-        <button class="nav-button next-button" aria-label="Próximo">&#10095;</button>
-    </div>
+    <!-- Este container principal receberá todos os carrosséis de categoria gerados pelo JS -->
+    <main id="categorias-container">
+        <p id="loading-message" style="text-align: center; margin-top: 50px; font-size: 1.2em; color: rgb(203, 0, 0);">Carregando categorias e produtos...</p>
+    </main>
 
     <script src="menu.js"></script> 
 </body>

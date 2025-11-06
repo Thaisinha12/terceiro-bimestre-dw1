@@ -10,7 +10,7 @@
 /* ---------------------------------------------------------------------------------- */
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #ff8630; 
+    background-color: #ff8630; /* Fundo Laranja/Pêssego, conforme seu original */
     color: #4a4a4a; 
     text-align: center;
     min-height: 100vh;
@@ -25,7 +25,7 @@ header {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
     border-bottom: 5px solid rgb(203, 0, 0); 
     border-radius: 0; 
-    position: relative; /* Essencial para posicionar o botão do carrinho */
+    position: relative; 
 }
 
 header h1 {
@@ -36,17 +36,16 @@ header h1 {
 }
 
 /* ---------------------------------------------------------------------------------- */
-/* -- NOVO: BOTÃO VER CARRINHO (Flutuante no Canto) -- */
+/* -- BOTÃO VER CARRINHO (Flutuante no Canto) -- */
 /* ---------------------------------------------------------------------------------- */
 .btn-ver-carrinho {
     position: absolute;
     top: 50%;
-    right: 30px; /* Mais afastado da borda */
+    right: 30px; 
     transform: translateY(-50%);
 
-    /* Estilo Neumórfico Suave */
     background: #ffffff; 
-    color: rgb(203, 0, 0); /* Cor do ícone (Vermelho) */
+    color: rgb(203, 0, 0); 
     
     display: flex; 
     align-items: center;
@@ -59,23 +58,42 @@ header h1 {
     border-radius: 50%;
     font-size: 1.8em; 
     
-    /* Sombra Neumórfica Suave */
     box-shadow: none;
-    
     transition: all 0.3s ease;
 }
 
 .btn-ver-carrinho:hover {
-    color: #FF4500; /* Laranja no hover */
+    color: #FF4500; 
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.15), -6px -6px 12px #ffffff;
 }
 
 .btn-ver-carrinho:active {
-    /* Efeito de "pressionar" */
     box-shadow: inset 2px 2px 5px #dedede, inset -2px -2px 5px #ffffff;
     transform: translateY(-50%) scale(0.95);
 }
 
+/* ---------------------------------------------------------------------------------- */
+/* -- NOVO: ESTILOS DE CATEGORIA (Adaptado para seu fundo Laranja) -- */
+/* ---------------------------------------------------------------------------------- */
+#categorias-container {
+    padding: 2rem 0;
+}
+
+.categoria-section {
+    margin-bottom: 4rem; /* Espaçamento entre carrosséis de categorias */
+}
+
+.categoria-title {
+    font-size: 2rem;
+    font-weight: 900;
+    color: rgb(203, 0, 0); /* Vermelho primário */
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 2rem;
+    display: inline-block;
+    background-color: #fff; /* Fundo branco para se destacar no laranja */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
 /* ---------------------------------------------------------------------------------- */
 /* -- CARROSSEL E NAVEGAÇÃO -- */
@@ -83,7 +101,7 @@ header h1 {
 .carousel-container {
     position: relative; 
     max-width: 95%; 
-    margin: 4rem auto; 
+    margin: 0 auto; 
     overflow: hidden; 
     padding: 30px 0; 
 }
@@ -95,19 +113,20 @@ header h1 {
     justify-content: flex-start; 
 }
 
-/* --- Botões de Navegação (Elegantes e Flutuantes) --- */
+/* --- Botões de Navegação --- */
 .nav-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background: #ffffff; 
-    color: #FF4500; 
+    color: #FF4500; /* Laranja suave */
     border: none;
     padding: 20px 24px; 
     cursor: pointer;
     z-index: 10;
     font-size: 1.6em;
     border-radius: 50%;
+    /* Mantendo seu estilo Neumórfico suave */
     box-shadow: 5px 5px 10px #dedede, -5px -5px 10px #ffffff;
     transition: all 0.3s ease;
     outline: none;
@@ -117,7 +136,7 @@ header h1 {
 .next-button { right: -30px; }
 
 .nav-button:hover {
-    color: #B22222; 
+    color: rgb(203, 0, 0); /* Vermelho no hover */
     box-shadow: 7px 7px 15px #dedede, -7px -7px 15px #ffffff; 
 }
 
@@ -147,7 +166,7 @@ header h1 {
 
 .produto-card:hover {
     transform: translateY(-10px); 
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 15px rgba(255, 69, 0, 0.5); 
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 15px rgba(203, 0, 0, 0.5); /* Sombra Vermelha de Destaque */
 }
 
 .produto-card img {
@@ -184,7 +203,7 @@ header h1 {
 }
 
 /* ---------------------------------------------------------------------------------- */
-/* -- NOVO: ESTILO PARA O BOTÃO ADICIONAR AO CARRINHO EM CADA CARD -- */
+/* -- BOTÃO ADICIONAR AO CARRINHO -- */
 /* ---------------------------------------------------------------------------------- */
 .btn-adicionar {
     width: 100%;

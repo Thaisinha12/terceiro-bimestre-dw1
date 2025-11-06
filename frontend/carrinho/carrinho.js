@@ -1,195 +1,101 @@
 const itensCarrinhoContainer = document.getElementById('itens-carrinho');
 const precoTotalElement = document.getElementById('preco-total');
-const urlDaApi = 'http://localhost:3001/produto/';
+const urlProdutos = 'http://localhost:3001/produto';
+const urlCarrinho = 'http://localhost:3001/carrinho'; // rota para o carrinho
 
-// Variáveis para armazenar o estado global
-let produtosAPI = []; // Armazena todos os produtos da API
-let itensSalvos = []; // Armazena ID e quantidade do LocalStorage
-let produtosCarrinhoRenderizaveis = []; // Lista final com todos os dados para renderização
-
-// **********************************************
-// FUNÇÕES DE GESTÃO DO CARRINHO (LocalStorage)
-// **********************************************
-
-// Função que busca os itens salvos no LocalStorage (apenas ID e Quantidade)
-function getItensSalvos() {
-    const carrinhoJson = localStorage.getItem('carrinhoItens');
-    return carrinhoJson ? JSON.parse(carrinhoJson) : [];
-}
-
-// Função que salva a lista atual de itens no LocalStorage.
-function salvarCarrinho() {
-    // Salva APENAS ID e Quantidade
-    const itensParaSalvar = produtosCarrinhoRenderizaveis.map(p => ({
-        id: p.id,
-        quantidade: p.quantidade
-    }));
-    localStorage.setItem('carrinhoItens', JSON.stringify(itensParaSalvar));
-}
-
-// Função para formatar o valor para moeda BRL
+// Função para formatar o valor em moeda BRL
 function formatarMoeda(valor) {
-    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
-// **********************************************
-// NOVO: FUNÇÕES DE BUSCA E PROCESSAMENTO
-// **********************************************
-
-// 1. Função para buscar todos os produtos da API
-async function buscarProdutosAPI() {
-    try {
-        const response = await fetch(urlDaApi);
-        if (!response.ok) {
-            throw new Error(`Erro HTTP: Status ${response.status}`);
-        }
-        const dadosAPI = await response.json();
-        // Mapeia os dados da API para um formato mais fácil de buscar (usando Map ou Array.find)
-        produtosAPI = dadosAPI.map(p => ({
-            id: p.id_produto,
-            nome: p.nome_produto,
-            // Certifica-se de que o preço é um número para cálculos
-            precoUnitario: parseFloat(p.preco_produto) 
-        }));
-    } catch (error) {
-        console.error("Erro ao buscar dados da API:", error);
-        itensCarrinhoContainer.innerHTML = '<p class="carrinho-vazio" style="color: red;">Erro ao carregar o catálogo de produtos da API.</p>';
-        produtosAPI = [];
-    }
+// Buscar os produtos do carrinho (IDs e quantidades)
+async function buscarCarrinho() {
+  try {
+    const resp = await fetch(urlCarrinho);
+    if (!resp.ok) throw new Error(`Erro HTTP ${resp.status}`);
+    return await resp.json(); // exemplo: [{ id_produto: 1, quantidade: 2 }, ...]
+  } catch (err) {
+    console.error('Erro ao buscar carrinho:', err);
+    itensCarrinhoContainer.innerHTML = '<p class="carrinho-vazio" style="color:red;">Erro ao carregar carrinho.</p>';
+    return [];
+  }
 }
 
-// 2. Função para juntar dados do LocalStorage com dados da API
-function montarCarrinhoParaRenderizacao() {
-    itensSalvos = getItensSalvos();
-    produtosCarrinhoRenderizaveis = [];
-
-    itensSalvos.forEach(itemSalvo => {
-        const produtoInfo = produtosAPI.find(p => p.id === itemSalvo.id);
-        
-        if (produtoInfo) {
-            // Se o produto for encontrado na API, cria o objeto completo para renderizar
-            produtosCarrinhoRenderizaveis.push({
-                id: itemSalvo.id,
-                nome: produtoInfo.nome,
-                precoUnitario: produtoInfo.precoUnitario,
-                quantidade: itemSalvo.quantidade
-            });
-        }
-        // Nota: Itens salvos no LocalStorage que não existem mais na API serão ignorados.
-    });
+// Buscar todos os produtos da API
+async function buscarProdutos() {
+  try {
+    const resp = await fetch(urlProdutos);
+    if (!resp.ok) throw new Error(`Erro HTTP ${resp.status}`);
+    return await resp.json(); // [{ id_produto, nome_produto, preco_produto }]
+  } catch (err) {
+    console.error('Erro ao buscar produtos:', err);
+    return [];
+  }
 }
 
+// Montar carrinho com base nas duas rotas
+async function montarCarrinho() {
+  itensCarrinhoContainer.innerHTML = '<p class="carrinho-vazio">Carregando...</p>';
 
-// **********************************************
-// FUNÇÕES DE AÇÃO DO CARRINHO (JÁ EXISTENTES)
-// **********************************************
+  const [produtos, carrinho] = await Promise.all([
+    buscarProdutos(),
+    buscarCarrinho()
+  ]);
 
-// 3. Função para renderizar (desenhar) os itens na tela
-function renderizarCarrinho() {
-    itensCarrinhoContainer.innerHTML = ''; 
+  if (!carrinho.length) {
+    itensCarrinhoContainer.innerHTML = '<p class="carrinho-vazio">Seu carrinho está vazio!</p>';
+    precoTotalElement.textContent = formatarMoeda(0);
+    return;
+  }
 
-    if (produtosCarrinhoRenderizaveis.length === 0) {
-        itensCarrinhoContainer.innerHTML = '<p class="carrinho-vazio">Seu carrinho está vazio!</p>';
-        calcularTotal();
-        return;
-    }
+  itensCarrinhoContainer.innerHTML = '';
+  let total = 0;
 
-    produtosCarrinhoRenderizaveis.forEach(produto => {
-        const itemDiv = document.createElement('div');
-        itemDiv.classList.add('item-carrinho');
-        itemDiv.dataset.id = produto.id;
-
-        const precoTotalItem = produto.precoUnitario * produto.quantidade;
-
-        itemDiv.innerHTML = `
-            <span class="nome-produto">${produto.nome}</span>
-            <div class="quantidade-controle">
-                <button class="btn-quantidade" data-acao="diminuir" data-id="${produto.id}">-</button>
-                <span class="quantidade-valor">${produto.quantidade}</span>
-                <button class="btn-quantidade" data-acao="aumentar" data-id="${produto.id}">+</button>
-            </div>
-            <span class="preco-item">${formatarMoeda(precoTotalItem)}</span>
-            <button class="btn-remover" data-id="${produto.id}">X</button>
-        `;
-
-        itensCarrinhoContainer.appendChild(itemDiv);
-    });
-
-    calcularTotal();
-    adicionarEventListeners();
-}
-
-// 4. Função para calcular e exibir o preço total do carrinho
-function calcularTotal() {
-    const total = produtosCarrinhoRenderizaveis.reduce((soma, produto) => {
-        return soma + (produto.precoUnitario * produto.quantidade);
-    }, 0);
-    
-    precoTotalElement.textContent = formatarMoeda(total);
-}
-
-// 5. Função para remover um item
-function removerItem(id) {
-    const idNum = parseInt(id);
-    produtosCarrinhoRenderizaveis = produtosCarrinhoRenderizaveis.filter(produto => produto.id !== idNum);
-    salvarCarrinho(); // Salva a alteração no LocalStorage
-    renderizarCarrinho(); // Redesenha
-}
-
-// 6. Função para alterar a quantidade
-function alterarQuantidade(id, acao) {
-    const idNum = parseInt(id);
-    const produto = produtosCarrinhoRenderizaveis.find(p => p.id === idNum);
-
+  carrinho.forEach(item => {
+    const produto = produtos.find(p => p.id_produto === item.id_produto);
     if (!produto) return;
 
-    if (acao === 'aumentar') {
-        produto.quantidade++;
-    } else if (acao === 'diminuir' && produto.quantidade > 1) {
-        produto.quantidade--;
-    } else if (acao === 'diminuir' && produto.quantidade === 1) {
-        removerItem(id);
-        return; 
-    }
-    
-    salvarCarrinho(); // Salva a alteração no LocalStorage
-    renderizarCarrinho(); // Redesenha
+    const subtotal = item.quantidade * parseFloat(produto.preco_produto);
+    total += subtotal;
+
+    const div = document.createElement('div');
+    div.classList.add('item-carrinho');
+    div.innerHTML = `
+      <span class="nome-produto">${produto.nome_produto}</span>
+      <span class="quantidade">Qtd: ${item.quantidade}</span>
+      <span class="preco-item">${formatarMoeda(subtotal)}</span>
+      <button class="btn-remover" data-id="${produto.id_produto}">X</button>
+    `;
+    itensCarrinhoContainer.appendChild(div);
+  });
+
+  precoTotalElement.textContent = formatarMoeda(total);
+  adicionarEventListeners();
 }
 
+// Remover produto do carrinho
+async function removerItem(idProduto) {
+  try {
+    await fetch(`${urlCarrinho}/${idProduto}`, { method: 'DELETE' });
+    montarCarrinho(); // recarrega
+  } catch (err) {
+    console.error('Erro ao remover produto:', err);
+  }
+}
 
-// 7. Adiciona os 'ouvintes de eventos' (listeners) aos botões
 function adicionarEventListeners() {
-    document.querySelectorAll('.btn-remover').forEach(button => {
-        button.addEventListener('click', (e) => removerItem(e.target.dataset.id));
-    });
+  document.querySelectorAll('.btn-remover').forEach(btn => {
+    btn.addEventListener('click', () => removerItem(btn.dataset.id));
+  });
 
-    document.querySelectorAll('.btn-quantidade').forEach(button => {
-        button.addEventListener('click', (e) => {
-            alterarQuantidade(e.target.dataset.id, e.target.dataset.acao);
-        });
+  const comprarBtn = document.querySelector('.btn-comprar');
+  if (comprarBtn) {
+    comprarBtn.addEventListener('click', () => {
+      alert('Compra finalizada com sucesso!');
+      window.location.href = '../pagamento/pagamento.html';
     });
-
-    const comprarBtn = document.querySelector('.btn-comprar');
-    if(comprarBtn) {
-         comprarBtn.addEventListener('click', () => {
-            if (produtosCarrinhoRenderizaveis.length > 0) {
-                window.location.href = '../pagamento/pagamento.html';
-            } else {
-                alert('Seu carrinho está vazio. Adicione produtos antes de comprar.');
-            }
-        });
-    }
+  }
 }
 
-// **********************************************
-// INICIALIZAÇÃO PRINCIPAL
-// **********************************************
-
-async function inicializarCarrinho() {
-    itensCarrinhoContainer.innerHTML = '<p class="carrinho-vazio">Carregando dados...</p>';
-    await buscarProdutosAPI();
-    montarCarrinhoParaRenderizacao();
-    renderizarCarrinho();
-}
-
-document.addEventListener('DOMContentLoaded', inicializarCarrinho);
+// Inicialização
+document.addEventListener('DOMContentLoaded', montarCarrinho);
