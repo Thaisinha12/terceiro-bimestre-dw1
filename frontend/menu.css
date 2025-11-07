@@ -17,22 +17,40 @@ body {
 }
 
 /* ---------------------------------------------------------------------------------- */
-/* -- CABEÇALHO (Clean e Sofisticado) -- */
+/* -- CABEÇALHO GERAL (Clean e Sofisticado) -- */
 /* ---------------------------------------------------------------------------------- */
 header {
     background-color: #f7d331ed; 
-    padding: 1.5rem 0;
+    padding: 0; /* Padding será ajustado pelas subseções */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
     border-bottom: 5px solid rgb(203, 0, 0); 
-    border-radius: 0; 
     position: relative; 
 }
 
-header h1 {
+/* Estilos para a barra superior (onde fica o título e o usuário/carrinho) */
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 30px; 
+    position: relative; /* Para o botão do carrinho */
+}
+
+.topo h3 {
     color: rgb(203, 0, 0); 
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     font-weight: 800;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+#oUsuario {
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: 1px solid rgb(203, 0, 0);
+    background-color: white;
+    font-weight: bold;
+    color: #4a4a4a;
+    cursor: pointer;
 }
 
 /* ---------------------------------------------------------------------------------- */
@@ -51,12 +69,12 @@ header h1 {
     align-items: center;
     justify-content: center;
     
-    width: 55px;
-    height: 55px;
+    width: 45px; /* Reduzido para caber no topo */
+    height: 45px; /* Reduzido para caber no topo */
     text-decoration: none;
     
     border-radius: 50%;
-    font-size: 1.8em; 
+    font-size: 1.5em; /* Reduzido */
     
     box-shadow: none;
     transition: all 0.3s ease;
@@ -73,31 +91,90 @@ header h1 {
 }
 
 /* ---------------------------------------------------------------------------------- */
-/* -- NOVO: ESTILOS DE CATEGORIA (Adaptado para seu fundo Laranja) -- */
+/* -- ESTILOS DA NAVEGAÇÃO (Menu Dropdown) -- */
+/* ---------------------------------------------------------------------------------- */
+
+.nav {
+    background-color: rgb(203, 0, 0); /* Fundo vermelho para a barra de navegação */
+    padding: 0;
+}
+
+.nav__menu {
+    list-style: none;
+    display: flex; /* Menu principal em linha */
+    justify-content: center;
+    margin: 0;
+}
+
+.nav__menu-item {
+    position: relative;
+}
+
+.nav__menu-item a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.nav__menu-item:hover > a {
+    background-color: #B22222; /* Vermelho mais escuro no hover */
+}
+
+/* Submenu */
+.nav__submenu {
+    list-style: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 20; /* Garante que fique acima de outros elementos */
+    background-color: #B22222; /* Fundo do submenu */
+    min-width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none; /* Esconde por padrão */
+    text-align: left;
+}
+
+.nav__menu-item:hover .nav__submenu {
+    display: block; /* Exibe ao passar o mouse sobre o item pai */
+}
+
+.nav__submenu-item a {
+    padding: 10px 20px;
+    color: white;
+    font-weight: normal;
+}
+
+.nav__submenu-item:hover a {
+    background-color: rgb(203, 0, 0); /* Vermelho primário no hover do subitem */
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILOS DE CATEGORIA E CARROSSEL (Seu código original) -- */
 /* ---------------------------------------------------------------------------------- */
 #categorias-container {
     padding: 2rem 0;
 }
 
 .categoria-section {
-    margin-bottom: 4rem; /* Espaçamento entre carrosséis de categorias */
+    margin-bottom: 4rem; 
 }
 
 .categoria-title {
     font-size: 2rem;
     font-weight: 900;
-    color: rgb(203, 0, 0); /* Vermelho primário */
+    color: rgb(203, 0, 0); 
     margin-bottom: 1.5rem;
     padding: 0.5rem 2rem;
     display: inline-block;
-    background-color: #fff; /* Fundo branco para se destacar no laranja */
+    background-color: #fff; 
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* ---------------------------------------------------------------------------------- */
-/* -- CARROSSEL E NAVEGAÇÃO -- */
-/* ---------------------------------------------------------------------------------- */
+/* CARROSSEL E NAVEGAÇÃO */
 .carousel-container {
     position: relative; 
     max-width: 95%; 
@@ -113,20 +190,19 @@ header h1 {
     justify-content: flex-start; 
 }
 
-/* --- Botões de Navegação --- */
+/* Botões de Navegação */
 .nav-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background: #ffffff; 
-    color: #FF4500; /* Laranja suave */
+    color: #FF4500; 
     border: none;
     padding: 20px 24px; 
     cursor: pointer;
     z-index: 10;
     font-size: 1.6em;
     border-radius: 50%;
-    /* Mantendo seu estilo Neumórfico suave */
     box-shadow: 5px 5px 10px #dedede, -5px -5px 10px #ffffff;
     transition: all 0.3s ease;
     outline: none;
@@ -136,7 +212,7 @@ header h1 {
 .next-button { right: -30px; }
 
 .nav-button:hover {
-    color: rgb(203, 0, 0); /* Vermelho no hover */
+    color: rgb(203, 0, 0); 
     box-shadow: 7px 7px 15px #dedede, -7px -7px 15px #ffffff; 
 }
 
@@ -145,9 +221,7 @@ header h1 {
     transform: translateY(-48%) scale(0.98);
 }
 
-/* ---------------------------------------------------------------------------------- */
-/* -- ESTILO DE CADA CARD DE PRODUTO -- */
-/* ---------------------------------------------------------------------------------- */
+/* ESTILO DE CADA CARD DE PRODUTO */
 .produto-card {
     flex: 0 0 300px; 
     margin-right: 35px; 
@@ -166,7 +240,7 @@ header h1 {
 
 .produto-card:hover {
     transform: translateY(-10px); 
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 15px rgba(203, 0, 0, 0.5); /* Sombra Vermelha de Destaque */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 15px rgba(203, 0, 0, 0.5); 
 }
 
 .produto-card img {
@@ -202,9 +276,7 @@ header h1 {
     letter-spacing: 1px;
 }
 
-/* ---------------------------------------------------------------------------------- */
-/* -- BOTÃO ADICIONAR AO CARRINHO -- */
-/* ---------------------------------------------------------------------------------- */
+/* BOTÃO ADICIONAR AO CARRINHO */
 .btn-adicionar {
     width: 100%;
     padding: 10px;
@@ -229,4 +301,87 @@ header h1 {
 .btn-adicionar:active {
     transform: translateY(0);
     box-shadow: 0 4px 10px rgba(203, 0, 0, 0.3);
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- RODAPÉ -- */
+/* ---------------------------------------------------------------------------------- */
+footer {
+    padding: 1rem;
+    background-color: #f7d331ed; 
+    color: rgb(203, 0, 0);
+    font-weight: bold;
+    margin-top: 30px;
+    border-top: 5px solid rgb(203, 0, 0); 
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- MEDIA QUERIES (RESPONSIVIDADE BÁSICA) -- */
+/* ---------------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+    /* Menu Principal: Se o espaço for apertado, centraliza itens e permite quebra */
+    .nav__menu {
+        flex-wrap: wrap;
+    }
+    .nav__menu-item a {
+        padding: 12px 15px;
+    }
+    .nav__submenu {
+        /* Garante que o submenu não saia da tela em dispositivos menores */
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 150px;
+        text-align: center;
+    }
+    .topo h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Esconde o menu de navegação e simplifica o topo em telas muito pequenas */
+    .nav {
+        display: none; /* Poderia ser substituído por um menu hamburguer via JS */
+    }
+    .topo {
+        flex-direction: column;
+        gap: 10px;
+        padding: 1rem 15px;
+    }
+    .btn-ver-carrinho {
+        /* Reposiciona o botão do carrinho para ficar no canto superior direito */
+        top: 15px; 
+        right: 15px; 
+        transform: none;
+    }
+    .topo h3 {
+        margin-right: auto;
+    }
+    #oUsuario {
+        margin-left: auto;
+    }
+}
+
+/* --------------------------------------------- */
+/* BARRA DE PESQUISA                             */
+/* --------------------------------------------- */
+.pesquisa-container {
+  margin: 20px auto;
+  text-align: center;
+}
+
+#campo-pesquisa {
+  width: 60%;
+  max-width: 500px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: 2px solid rgb(203, 0, 0);
+  font-size: 1em;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#campo-pesquisa:focus {
+  box-shadow: 0 0 10px rgba(203, 0, 0, 0.4);
+  border-color: #B22222;
 }

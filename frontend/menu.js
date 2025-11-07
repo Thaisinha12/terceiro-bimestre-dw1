@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardWidth = 335; // Largura do card (300px) + margem (35px)
     let carrosseis = {}; // Armazena o estado (currentIndex) de cada carrossel
 
+    let categoriasGlobais = [];
+    let produtosGlobais = [];
+
     /**
      * Auxiliar para agrupar produtos pela chave id_categoria.
      */
@@ -168,6 +171,58 @@ document.addEventListener('DOMContentLoaded', () => {
                     adicionarAoCarrinho(idProduto);
                 }
             });
+
+            categoriasGlobais = categorias;
+            produtosGlobais = produtos;
+            configurarPesquisa();
+function configurarPesquisa() {
+  const campoPesquisa = document.getElementById('campo-pesquisa');
+  if (!campoPesquisa) return;
+
+  campoPesquisa.addEventListener('input', (event) => {
+    const termoBruto = event.target.value.trim().toLowerCase();
+    const termoNormalizado = removerAcentos(termoBruto);
+
+    if (termoNormalizado === '') {
+      // Volta o cardápio completo
+      containerPrincipal.innerHTML = '';
+      categoriasGlobais.forEach(categoria => {
+        const produtosDoGrupo = produtosGlobais.filter(p => p.id_categoria === categoria.id_categoria);
+        renderizarCarrossel(categoria, produtosDoGrupo);
+      });
+      return;
+    }
+
+    // Divide a busca em várias palavras
+    const termos = termoNormalizado.split(/\s+/).filter(t => t.length > 0);
+
+    // Filtra produtos se todas as palavras aparecerem parcialmente no nome
+    const produtosFiltrados = produtosGlobais.filter(produto => {
+      const nomeNormalizado = removerAcentos(produto.nome_produto.toLowerCase());
+      return termos.every(termo => nomeNormalizado.includes(termo));
+    });
+
+    // Agrupa os filtrados por categoria
+    const agrupados = agruparProdutos(produtosFiltrados);
+
+    // Renderiza só os resultados filtrados
+    containerPrincipal.innerHTML = '';
+    categoriasGlobais.forEach(cat => {
+      const grupo = agrupados[cat.id_categoria] || [];
+      renderizarCarrossel(cat, grupo);
+    });
+  });
+}
+
+// Remove acentos e normaliza para comparação
+function removerAcentos(texto) {
+  return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function removerAcentos(texto) {
+  return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 
         } catch (error) {
             console.error("Erro fatal na busca das rotas:", error);

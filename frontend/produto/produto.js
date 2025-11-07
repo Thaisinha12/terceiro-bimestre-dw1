@@ -127,6 +127,7 @@ function preencherFormulario(produto) {
     document.getElementById('nome_produto').value = produto.nome_produto || ''; 
     document.getElementById('quant_estoque').value = produto.quant_estoque || ''; 
     document.getElementById('preco_produto').value = produto.preco_produto || ''; 
+    document.getElementById('id_categoria').value = produto.id_categoria || ''; 
 }
 
 
@@ -142,8 +143,6 @@ async function incluirProduto() {
 
     mostrarBotoes(false, false, false, false, true, true); // mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
     document.getElementById('nome_produto').focus();
-    document.getElementById('quant_estoque').focus();
-    document.getElementById('preco_produto').focus();
     operacao = 'incluir';
     }
 
@@ -153,8 +152,6 @@ async function alterarProduto() {
     bloquearCampos(true);
     mostrarBotoes(false, false, false, false, true, true);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
     document.getElementById('nome_produto').focus();
-    document.getElementById('quant_estoque').focus();
-    document.getElementById('preco_produto').focus();
     operacao = 'alterar';
 }
 
@@ -177,7 +174,8 @@ async function salvarOperacao() {
         id_produto: searchId.value,
         nome_produto: formData.get('nome_produto'),
         quant_estoque: formData.get('quant_estoque'),
-        preco_produto: formData.get('preco_produto')
+        preco_produto: formData.get('preco_produto'),
+        id_categoria: formData.get('id_categoria')
     };
     let response = null;
     try {
@@ -269,6 +267,8 @@ function renderizarTabelaProdutos(produtos) {
                     <td>${produto.nome_produto}</td>
                     <td>${produto.quant_estoque}</td>
                     <td>${produto.preco_produto}</td>
+                    <td>${produto.id_categoria ?? 'Sem categoria'}</td>
+
 
                 `;
         produtosTableBody.appendChild(row);

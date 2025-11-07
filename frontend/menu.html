@@ -1,25 +1,77 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cardápio por Categoria</title>
-    <link rel="stylesheet" href="menu.css"> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cardápio</title>
+  <link rel="stylesheet" href="menu.css">
 </head>
+
 <body>
+  <header>
+    <div class="topo">
+      <h3>Cardápio</h3>
+      
+      <select id="oUsuario" onchange="handleUserAction(this.value)">
+        <option value="">usuario</option>        
+        <option value="sair">Sair</option>
+      </select>
 
-    <header>
-        <h1>Cardápio</h1>
-        <a href="/frontend/carrinho/carrinho.html" class="btn-ver-carrinho" aria-label="Ver Carrinho">
-            &#128722; 
-        </a>
-    </header>
+      <a href="/frontend/carrinho/carrinho.html" class="btn-ver-carrinho" aria-label="Ver Carrinho">
+          &#128722; 
+      </a>
+    </div>
 
-    <!-- Este container principal receberá todos os carrosséis de categoria gerados pelo JS -->
-    <main id="categorias-container">
-        <p id="loading-message" style="text-align: center; margin-top: 50px; font-size: 1.2em; color: rgb(203, 0, 0);">Carregando categorias e produtos...</p>
-    </main>
+    <nav class="nav">
+      <ul class="nav__menu">
+        <li class="nav__menu-item"><a href="#">Home</a></li>
 
-    <script src="menu.js"></script> 
-</body>
+        <li class="nav__menu-item">
+          <a href="#">CRUDs</a>
+          <ul class="nav__submenu">
+            <li class="nav__submenu-item"><a href="http://localhost:3001/pessoa/abrirCrudPessoa">Pessoa</a></li>
+            <li class="nav__submenu-item"><a href="http://localhost:3001/cargo/abrirCrudCargo">Cargo</a></li>
+            <li class="nav__submenu-item"><a href="http://localhost:3001/produto/abrirCrudProduto">Produto</a></li>
+            <li class="nav__submenu-item"><a href="http://localhost:3001/pedido/abrirCrudPedido">Pedido</a></li>
+            <li class="nav__submenu-item"><a href="http://localhost:3001/categoria/abrirCrudCategoria">Categoria</a></li>
+          </ul>
+        </li>
+
+        <li class="nav__menu-item">
+          <a href="#">About</a>
+          <ul class="nav__submenu">
+            <li class="nav__submenu-item"><a href="#">Our Company</a></li>
+            <li class="nav__submenu-item"><a href="#">Our Team</a></li>
+            <li class="nav__submenu-item"><a href="#">Our Reach</a></li>
+          </ul>
+        </li>
+
+        <li class="nav__menu-item"><a href="#">Blog</a></li>
+        <li class="nav__menu-item"><a href="#">Contact</a></li>
+
+      </ul>
+    </nav>
+  </header>
+
+  <section class="pesquisa-container">
+  <input 
+    type="text" 
+    id="campo-pesquisa" 
+    placeholder="🔍 Pesquisar produto..."
+  >
+</section>
+
+
+  <main id="categorias-container">
+    <p id="loading-message" style="text-align: center; margin-top: 50px; font-size: 1.2em; color: rgb(203, 0, 0);">Carregando categorias e produtos...</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 - Meu Site</p>
+  </footer>
+
+  <script src="./menu.js"></script>
+  </body>
+
 </html>

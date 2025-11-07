@@ -23,7 +23,7 @@ exports.listarProdutos = async (req, res) => {
 exports.criarProduto = async (req, res) => {
   //  console.log('Criando produto com dados:', req.body);
   try {
-    const { id_produto, nome_produto, quant_estoque, preco_produto} = req.body;
+    const { id_produto, nome_produto, quant_estoque, preco_produto, id_categoria} = req.body;
 
     // Validação básica
     if (!nome_produto) {
@@ -33,8 +33,8 @@ exports.criarProduto = async (req, res) => {
     }
 
     const result = await query(
-      'INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto) VALUES ($1, $2, $3, $4) RETURNING *',
-      [id_produto, nome_produto, quant_estoque, preco_produto]
+      'INSERT INTO produto (id_produto, nome_produto, quant_estoque, preco_produto, id_categoria) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [id_produto, nome_produto, quant_estoque, preco_produto, id_categoria]
     );
 
     res.status(201).json(result.rows[0]);
@@ -80,11 +80,8 @@ exports.obterProduto = async (req, res) => {
 exports.atualizarProduto = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const { nome_produto } = req.body;
-    const { quant_estoque } = req.body;
-    const { preco_produto } = req.body;
+    const { nome_produto, quant_estoque, preco_produto, id_categoria } = req.body;
 
-   
     // Verifica se o produto existe
     const existingPersonResult = await query(
       'SELECT * FROM produto WHERE id_produto = $1',
@@ -100,18 +97,26 @@ exports.atualizarProduto = async (req, res) => {
     const updatedFields = {
       nome_produto: nome_produto !== undefined ? nome_produto : currentPerson.nome_produto,
       quant_estoque: quant_estoque !== undefined ? quant_estoque : currentPerson.quant_estoque,
-      preco_produto: preco_produto !== undefined ? preco_produto : currentPerson.preco_produto
+      preco_produto: preco_produto !== undefined ? preco_produto : currentPerson.preco_produto,
+      id_categoria: id_categoria !== undefined ? id_categoria : currentPerson.id_categoria
     };
 
     // Atualiza o produto
-    const updateResult = await query(
-      `UPDATE produto SET 
-          nome_produto = $1,
-          quant_estoque = $2,
-          preco_produto = $3
-       WHERE id_produto = $4 RETURNING *`,
-      [updatedFields.nome_produto, updatedFields.quant_estoque, updatedFields.preco_produto, id]
-    );
+   const updateResult = await query(
+  `UPDATE produto SET 
+      nome_produto = $1,
+      quant_estoque = $2,
+      preco_produto = $3,
+      id_categoria = $4
+   WHERE id_produto = $5 RETURNING *`,
+  [
+    updatedFields.nome_produto,
+    updatedFields.quant_estoque,
+    updatedFields.preco_produto,
+    updatedFields.id_categoria,
+    id
+  ]
+);
 
     res.json(updateResult.rows[0]);
   } catch (error) {
