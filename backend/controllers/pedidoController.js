@@ -5,14 +5,24 @@ const { query } = require('../database');
 const path = require('path');
 
 exports.abrirCrudPedido = (req, res) => {
-  console.log('pedidoController - Rota /abrirCrudPedido - abrir o crudPedido');
-  res.sendFile(path.join(__dirname, '../../frontend/pedido/pedido.html'));
+  // console.log('pedidoController - Rota /abrirCrudPedido - abrir o crudPedido');
+  
+  const usuario = req.cookies.usuarioLogado; // O cookie deve conter o nome/ID do usuário
+  
+  // Se o cookie 'usuario' existe (o valor é uma string/nome do usuário)
+  if (usuario) {
+   res.sendFile(path.join(__dirname, '../../frontend/pedido/pedido.html'));   
+  } else {
+    // Cookie não existe. Usuário NÃO está logado.
+    res.redirect('/login');
+  }
+  
 }
 
 exports.listarPedidos = async (req, res) => {
   try {
     const result = await query('SELECT * FROM pedido ORDER BY id_pedido');
-    // console.log('Resultado do SELECT:', result.rows);//verifica se está retornando algo
+    //  console.log('Resultado do SELECT:', result.rows);//verifica se está retornando algo
     res.json(result.rows);
   } catch (error) {
     console.error('Erro ao listar pedidos:', error);
@@ -20,26 +30,21 @@ exports.listarPedidos = async (req, res) => {
   }
 }
 
+
 exports.criarPedido = async (req, res) => {
   //  console.log('Criando pedido com dados:', req.body);
   try {
-    const { id_pedido, data_pedido, cpf_cliente} = req.body;
-
-    // Validação básica
-    if (!data_pedido) {
-      return res.status(400).json({
-        error: 'A data do pedido é obrigatório.'
-      });
-    }
+    const { id_pedido, data_pedido, cliente_pessoa_cpf_pessoa, funcionario_pessoa_cpf_pessoa } = req.body;
 
     const result = await query(
-      'INSERT INTO pedido (id_pedido, data_pedido, cpf_cliente) VALUES ($1, $2, $3) RETURNING *',
-      [id_pedido, data_pedido, cpf_cliente]
+      'INSERT INTO pedido (id_pedido, data_pedido, cliente_pessoa_cpf_pessoa, funcionario_pessoa_cpf_pessoa) VALUES ($1, $2, $3,$4) RETURNING *',
+      [id_pedido, data_pedido, cliente_pessoa_cpf_pessoa, funcionario_pessoa_cpf_pessoa]
     );
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error('Erro ao criar pedido:', error);
+
 
 
     // Verifica se é erro de violação de constraint NOT NULL
@@ -57,6 +62,7 @@ exports.obterPedido = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
 
+    // console.log("estou no obter pedido id="+ id);
     if (isNaN(id)) {
       return res.status(400).json({ error: 'ID deve ser um número válido' });
     }
@@ -65,6 +71,8 @@ exports.obterPedido = async (req, res) => {
       'SELECT * FROM pedido WHERE id_pedido = $1',
       [id]
     );
+
+    //console.log(result)
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Pedido não encontrado' });
@@ -79,57 +87,50 @@ exports.obterPedido = async (req, res) => {
 
 exports.atualizarPedido = async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
-    const { data_pedido } = req.body;
-    const { cpf_cliente } = req.body;
-   
-    // Verifica se o pedido existe
-    const existingPersonResult = await query(
-      'SELECT * FROM pedido WHERE id_pedido = $1',
-      [id]
-    );
+    const id = parseInt(req.params.id, 10);
+    if (isNaN(id)) return res.status(400).json({ error: 'ID inválido' });
 
-    if (existingPersonResult.rows.length === 0) {
+    const { data_pedido, cliente_pessoa_cpf_pessoa, funcionario_pessoa_cpf_pessoa } = req.body;
+
+    // Verifica se o pedido existe
+    const existing = await query('SELECT * FROM pedido WHERE id_pedido = $1', [id]);
+    if (existing.rows.length === 0) {
       return res.status(404).json({ error: 'Pedido não encontrado' });
     }
-
-    // Constrói a query de atualização dinamicamente para campos não nulos
-    const currentPerson = existingPersonResult.rows[0];
-    const updatedFields = {
-  data_pedido: data_pedido !== undefined ? data_pedido : currentPerson.data_pedido,
-  cpf_cliente: cpf_cliente !== undefined ? cpf_cliente : currentPerson.cpf_cliente
-};
-
-
     // Atualiza o pedido
-    const updateResult = await query(
-  'UPDATE pedido SET data_pedido = $1, cpf_cliente = $2 WHERE id_pedido = $3 RETURNING *',
-  [updatedFields.data_pedido, updatedFields.cpf_cliente, id]
-);
+    const sql = `
+      UPDATE pedido
+      SET data_pedido = $1,
+          cliente_pessoa_cpf_pessoa = $2,
+          funcionario_pessoa_cpf_pessoa = $3
+      WHERE id_pedido = $4
+      RETURNING *
+    `;
+    const values = [data_pedido, cliente_pessoa_cpf_pessoa, funcionario_pessoa_cpf_pessoa, id];
 
-    res.json(updateResult.rows[0]);
+    const updateResult = await query(sql, values);
+    return res.json(updateResult.rows[0]);
   } catch (error) {
     console.error('Erro ao atualizar pedido:', error);
-
-
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    return res.status(500).json({ error: 'Erro interno do servidor' });
   }
-}
+};
+
 
 exports.deletarPedido = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    // Verifica se o pedido existe
+    // Verifica se a pedido existe
     const existingPersonResult = await query(
       'SELECT * FROM pedido WHERE id_pedido = $1',
       [id]
     );
 
     if (existingPersonResult.rows.length === 0) {
-      return res.status(404).json({ error: 'Pedido não encontrado' });
+      return res.status(404).json({ error: 'Pedido não encontrada' });
     }
 
-    // Deleta o pedido (as constraints CASCADE cuidarão das dependências)
+    // Deleta a pedido (as constraints CASCADE cuidarão das dependências)
     await query(
       'DELETE FROM pedido WHERE id_pedido = $1',
       [id]
@@ -149,3 +150,4 @@ exports.deletarPedido = async (req, res) => {
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 }
+

@@ -91,6 +91,7 @@ h2 {
     display: flex;
     gap: 10px;
     align-items: center;
+    /* Ajustado para centralizar botões e campo de busca por ID */
 }
 
 .search-input-group input[type="number"] {
@@ -104,6 +105,7 @@ h2 {
     border: 1px solid #e0e0e0;
     padding: 20px;
     border-radius: 8px;
+    margin-bottom: 15px; /* Manter espaçamento */
 }
 
 #formFields legend {
@@ -115,7 +117,8 @@ h2 {
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
+    gap: 15px; /* Adicionado gap para espaçar os inputs dentro do form-group */
+    margin-bottom: 0; /* Removido o margin-bottom do form-group pois o gap já espaça */
 }
 
 .form-group label {
@@ -124,20 +127,84 @@ h2 {
     color: #4a4a4a;
 }
 
-/* Estiliza inputs de texto e date */
+/* Estiliza inputs de texto e date, e combobox/select */
 .form-group input[type="text"],
-.form-group input[type="date"] { /* ATUALIZADO: Inclui input[type="date"] */
+.form-group input[type="date"],
+.form-group input[type="number"],
+.search-bar-container input[type="text"],
+.search-select { /* ATUALIZADO: Estilos para todos os inputs e select de busca dinâmica */
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
+    width: 100%; /* Garantir que ocupem a largura total dentro do form-group/container */
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILOS PARA PESQUISA DINÂMICA (CLIENTE/FUNCIONÁRIO) -- NOVO */
+/* ---------------------------------------------------------------------------------- */
+.search-bar-container {
+    position: relative;
+    display: flex;
+    /* Ajuste para alinhar select e input lado a lado se necessário, mas mantido em coluna como no HTML */
+}
+
+.search-select {
+    width: 30%; /* Exemplo: Ocupa 30% */
+    /* Se quiser ao lado: display: inline-block; */
+}
+
+.search-bar-container input[type="text"] {
+    /* flex-grow: 1; */
+}
+
+.results-list {
+    position: absolute;
+    top: 100%; /* Aparece abaixo do input */
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background-color: white;
+    border: 1px solid #ff8630;
+    border-top: none;
+    max-height: 150px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.results-list li {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.results-list li:hover {
+    background-color: #fff3e0;
+}
+
+/* Se for necessário colocar select e input lado a lado: */
+.search-bar-container {
+    display: flex;
+    gap: 5px;
+}
+.search-select {
+    width: 30%;
+}
+.search-bar-container input[type="text"] {
+    width: 70%;
 }
 
 /* ---------------------------------------------------------------------------------- */
 /* -- ESTILOS DOS BOTÕES -- */
 /* ---------------------------------------------------------------------------------- */
 .search-input-group button,
-.btn-primary, .btn-secondary, .btn-danger, .btn-save, .btn-cancel {
+.btn-primary, .btn-secondary, .btn-danger, .btn-save, .btn-cancel,
+#btnAdicionarItem /* NOVO */
+ {
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -159,16 +226,22 @@ h2 {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Botão de Alterar */
-.btn-secondary {
+/* Botão de Alterar e Adicionar Item */
+.btn-secondary, #btnAdicionarItem { /* ADAPTADO: inclui btnAdicionarItem */
     background-color: #f7d331;
     color: rgb(203, 0, 0);
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover, #btnAdicionarItem:hover {
     background-color: #ffde40;
     transform: translateY(-1px);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para botão pequeno (usado em itens) */
+.btn-small {
+    padding: 5px 10px;
+    font-size: 0.9em;
 }
 
 /* Botão de Excluir */
@@ -196,13 +269,16 @@ h2 {
 }
 
 /* ---------------------------------------------------------------------------------- */
-/* -- ESTILOS DA TABELA -- */
+/* -- ESTILOS GERAIS PARA TABELAS -- */
 /* ---------------------------------------------------------------------------------- */
 .table-container {
     overflow-x: auto;
     margin-top: 1.5rem;
 }
 
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILOS DA TABELA DE PEDIDOS (MANTIDOS) -- */
+/* ---------------------------------------------------------------------------------- */
 #pedidosTable { /* ADAPTADO */
     width: 100%;
     border-collapse: collapse;
@@ -230,6 +306,81 @@ h2 {
 }
 
 /* ---------------------------------------------------------------------------------- */
+/* -- ESTILOS DA SEÇÃO ITENS DO PEDIDO -- NOVO */
+/* ---------------------------------------------------------------------------------- */
+.itensDoPedido {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+.itensDoPedido > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5rem;
+    color: rgb(203, 0, 0);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #ff8630;
+    padding-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.item-table-container {
+    overflow-x: auto;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILOS DA TABELA DE ITENS (#itensTable) -- NOVO */
+/* ---------------------------------------------------------------------------------- */
+#itensTable {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    margin-top: 15px;
+}
+
+#itensTable thead {
+    background-color: #ff8630; /* Laranja/Pêssego */
+    color: white;
+}
+
+#itensTable th, #itensTable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+#itensTable tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#itensTable tbody tr:hover {
+    background-color: #ffe0c0; /* Laranja mais claro */
+}
+
+/* Estilo para inputs dentro da tabela de itens */
+#itensTable input[type="number"],
+#itensTable input[type="text"] {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: right;
+}
+
+/* Coluna de Ações na tabela de itens */
+#itensTable td:last-child,
+#itensTable td:nth-last-child(2) {
+    text-align: center;
+    width: 100px; /* Largura fixa para os botões de ação */
+}
+
+
+/* ---------------------------------------------------------------------------------- */
 /* -- FOOTER -- */
 /* ---------------------------------------------------------------------------------- */
 footer {
@@ -254,26 +405,11 @@ footer {
 
 
 /* ---------------------------------------------------------------------------------- */
-/* -- ESTILOS DO FIELDSET E LEGEND -- */
-/* ---------------------------------------------------------------------------------- */
-#formFields {
-    border: 1px solid #e0e0e0;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-}
-
-#formFields legend {
-    color: rgb(203, 0, 0);
-    font-weight: 600;
-    padding: 0 10px;
-}
-
-/* ---------------------------------------------------------------------------------- */
 /* -- ESTILOS DOS INPUTS DE DADOS (Foco) -- */
 /* ---------------------------------------------------------------------------------- */
-#data_pedido:focus, /* NOVO */
-#cpf_cliente:focus { /* ADAPTADO (era nome_cargo) */
+#data_pedido:focus,
+#cliente_pessoa_cpf_pessoa:focus, /* Foco no campo de cliente/busca */
+#funcionario_pessoa_cpf_pessoa:focus { /* Foco no campo de funcionário */
     border-color: rgb(203, 0, 0);
     outline: none;
     box-shadow: 0 0 5px rgba(203, 0, 0, 0.5);

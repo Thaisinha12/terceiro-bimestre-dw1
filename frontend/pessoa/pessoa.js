@@ -59,9 +59,11 @@ function limparFormulario() {
     form.reset();
     document.getElementById('id_cargo').value = '';
     document.getElementById('salario_funcionario').value = '';
-    document.getElementById('checkboxCliente').checked = false;    
+    document.getElementById('checkboxFuncionario').checked = false;
+    document.getElementById('checkboxCliente').checked = false;
+    const enderecoField = document.getElementById('endereco_cliente');
+    if (enderecoField) enderecoField.value = ''; // limpa endereço se existir
 }
-
 
 function mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar) {
     btnBuscar.style.display = btBuscar ? 'inline-block' : 'none';
@@ -151,6 +153,15 @@ async function buscarPessoa() {
         console.error('Erro:', error);
         mostrarMensagem('Erro ao buscar pessoa', 'error');
     }
+
+    // Dentro de buscarPessoa(), logo antes de verificar se é funcionário e cliente
+    document.getElementById('checkboxFuncionario').checked = false;
+    document.getElementById('id_cargo').value = '';
+    document.getElementById('salario_funcionario').value = '';
+    document.getElementById('checkboxCliente').checked = false;
+
+// Depois, rode as verificações normalmente
+
 
     // Verifica se a pessoa é funcionario
     const oFuncionario = await funcaoEhFuncionario(id);

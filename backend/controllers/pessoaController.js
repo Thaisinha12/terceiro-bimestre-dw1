@@ -23,7 +23,9 @@ exports.listarPessoas = async (req, res) => {
 exports.criarPessoa = async (req, res) => {
   //  console.log('Criando pessoa com dados:', req.body);
   try {
-    const { id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa = true} = req.body;
+    //MUDEI PQ O CHAT PEDIU
+    const { id_pessoa, nome_pessoa, email_pessoa, senha_pessoa, cpf_pessoa = true } = req.body;
+
 
     // Validação básica
     if (!nome_pessoa || !email_pessoa || !senha_pessoa) {
