@@ -96,15 +96,16 @@ exports.atualizarPedido = async (req, res) => {
     // Constrói a query de atualização dinamicamente para campos não nulos
     const currentPerson = existingPersonResult.rows[0];
     const updatedFields = {
-      data_pedido: data_pedido !== undefined ? data_pedido : currentPerson.data_pedido     
-    };
+  data_pedido: data_pedido !== undefined ? data_pedido : currentPerson.data_pedido,
+  cpf_cliente: cpf_cliente !== undefined ? cpf_cliente : currentPerson.cpf_cliente
+};
+
 
     // Atualiza o pedido
     const updateResult = await query(
-      'UPDATE pedido SET data_pedido = $1, WHERE id_pedido = $2 RETURNING *',
-      [updatedFields.data_pedido, id]
-      [updatedFields.cpf_cliente, id]
-    );
+  'UPDATE pedido SET data_pedido = $1, cpf_cliente = $2 WHERE id_pedido = $3 RETURNING *',
+  [updatedFields.data_pedido, updatedFields.cpf_cliente, id]
+);
 
     res.json(updateResult.rows[0]);
   } catch (error) {

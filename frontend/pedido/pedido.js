@@ -75,7 +75,7 @@ function mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCa
 function formatarData(dataString) {
     if (!dataString) return '';
     const data = new Date(dataString);
-    return data.toLocaleDateString('pt-BR');
+    return data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 }
 
 // Função para converter data para formato ISO
@@ -170,11 +170,12 @@ async function excluirPedido() {
 async function salvarOperacao() {
     console.log('Operação:', operacao + ' - currentPersonId: ' + currentPersonId + ' - searchId: ' + searchId.value);
 
-    const formData = new FormData(form);
     const pedido = {
-        id_pedido: searchId.value,
-        data_pedido: formData.get('data_pedido')        
-    };
+    id_pedido: searchId.value,
+    data_pedido: formData.get('data_pedido'),
+    cpf_cliente: formData.get('cpf_cliente')
+};
+
     let response = null;
     try {
         if (operacao === 'incluir') {
@@ -262,7 +263,7 @@ function renderizarTabelaPedidos(pedidos) {
                             ${pedido.id_pedido}
                         </button>
                     </td>
-                    <td>${pedido.data_pedido}</td>
+                    <td>${formatarData(pedido.data_pedido)}</td>
                     <td>${pedido.cpf_cliente}</td>
                                  
                 `;
