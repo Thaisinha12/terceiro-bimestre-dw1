@@ -13,15 +13,23 @@
     <div class="topo">
       <h3>Cardápio</h3>
       
-      <select id="oUsuario" onchange="handleUserAction(this.value)">
-        <option value="">usuario</option>        
-        <option value="sair">Sair</option>
-      </select>
+      <div class="topo-right-side"> <select id="oUsuario" onchange="handleUserAction(this.value)">
+      <option value="">Usuário</option>        
+      <option value="sair">Sair</option>
+    </select>
 
-      <a href="/frontend/carrinho/carrinho.html" class="btn-ver-carrinho" aria-label="Ver Carrinho">
-          &#128722; 
-      </a>
-    </div>
+    <a href="/frontend/carrinho/carrinho.html" class="btn-ver-carrinho" aria-label="Ver Carrinho">
+        &#128722; 
+    </a>
+  </div> </div>
+
+     <section class="pesquisa-container">
+  <input 
+    type="text" 
+    id="campo-pesquisa" 
+    placeholder="🔍 Pesquisar produto..."
+  >
+</section>
 
     <nav class="nav">
       <ul class="nav__menu">
@@ -53,15 +61,6 @@
       </ul>
     </nav>
   </header>
-
-  <section class="pesquisa-container">
-  <input 
-    type="text" 
-    id="campo-pesquisa" 
-    placeholder="🔍 Pesquisar produto..."
-  >
-</section>
-
 
   <main id="categorias-container">
     <p id="loading-message" style="text-align: center; margin-top: 50px; font-size: 1.2em; color: rgb(203, 0, 0);">Carregando categorias e produtos...</p>

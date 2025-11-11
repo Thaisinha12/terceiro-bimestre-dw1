@@ -19,6 +19,7 @@ body {
 /* ---------------------------------------------------------------------------------- */
 /* -- CABEÇALHO GERAL (Clean e Sofisticado) -- */
 /* ---------------------------------------------------------------------------------- */
+
 header {
     background-color: #f7d331ed; 
     padding: 0; /* Padding será ajustado pelas subseções */
@@ -34,6 +35,12 @@ header {
     align-items: center;
     padding: 1rem 30px; 
     position: relative; /* Para o botão do carrinho */
+}
+
+.topo-right-side {
+    display: flex; /* ESSENCIAL: Coloca os filhos (select e a) lado a lado */
+    align-items: center; /* Alinha verticalmente no centro */
+    gap: 15px; /* Espaçamento entre o select e o botão do carrinho */
 }
 
 .topo h3 {
@@ -56,11 +63,9 @@ header {
 /* ---------------------------------------------------------------------------------- */
 /* -- BOTÃO VER CARRINHO (Flutuante no Canto) -- */
 /* ---------------------------------------------------------------------------------- */
-.btn-ver-carrinho {
-    position: absolute;
-    top: 50%;
+.btn-ver-carrinho { 
     right: 30px; 
-    transform: translateY(-50%);
+    
 
     background: #ffffff; 
     color: rgb(203, 0, 0); 
@@ -87,7 +92,7 @@ header {
 
 .btn-ver-carrinho:active {
     box-shadow: inset 2px 2px 5px #dedede, inset -2px -2px 5px #ffffff;
-    transform: translateY(-50%) scale(0.95);
+    transform: scale(0.95);
 }
 
 /* ---------------------------------------------------------------------------------- */
@@ -166,12 +171,7 @@ header {
     font-size: 2rem;
     font-weight: 900;
     color: rgb(203, 0, 0); 
-    margin-bottom: 1.5rem;
-    padding: 0.5rem 2rem;
     display: inline-block;
-    background-color: #fff; 
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* CARROSSEL E NAVEGAÇÃO */
