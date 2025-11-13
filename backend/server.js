@@ -14,24 +14,33 @@ const PORT_FIXA = 3001; // Porta fixa
 
 // serve a pasta frontend como arquivos estáticos
 
-// serve a pasta frontend como arquivos estáticos
-
 const caminhoFrontend = path.join(__dirname, '../frontend');
 console.log('Caminho frontend:', caminhoFrontend);
 
 app.use(express.static(caminhoFrontend));
 
+// >>>>>>>>>>> SERVINDO PASTA DE IMAGENS <<<<<<<<<<
 
+const caminhoImagensProduto = path.join(__dirname, '../imagens', 'produto');
+console.log('Caminho Imagens Produto:', caminhoImagensProduto);
+
+// Mapeamos a pasta real para a rota virtual '/imagens-produtos'
+// A URL para acessar as imagens será: http://localhost:3001/imagens-produtos/nome_da_imagem.jpeg
+app.use('/imagens-produtos', express.static(caminhoImagensProduto));
+
+// >>>>>>>>>>> FIM DO AJUSTE <<<<<<<<<<
+
+// Middlewares
+app.use(express.json());
 
 app.use(cookieParser());
-
 // Middleware para permitir CORS (Cross-Origin Resource Sharing)
 // Isso é útil se você estiver fazendo requisições de um frontend que está rodando em um domínio diferente
 // ou porta do backend.
 // Em produção, você deve restringir isso para domínios específicos por segurança.
 // Aqui, estamos permitindo qualquer origem, o que é útil para desenvolvimento, mas deve ser ajustado em produção.
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://127.0.0.1:5500','http://localhost:5500', 'http://127.0.0.1:5501', 'http://localhost:3000', 'http://localhost:3001'];
+  const allowedOrigins = ['http://127.0.0.1:5500','http://localhost:5500', 'http://localhost:5501', 'http://127.0.0.1:5501', 'http://localhost:3000', 'http://localhost:3001'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
@@ -47,21 +56,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware de log
-app.use((req, res, next) => {
-  try {
-    const timestamp = new Date().toISOString();
-    const method = req.method;
-    const url = req.url || req.originalUrl || 'unknown';
-    console.log(`📝 ${timestamp} - ${method} ${url}`);
-    console.log("   └req.body ->", req.body)
-    //console.log(req.headers.cookie)
-    next();
-  } catch (error) {
-    console.error("❌ Erro no middleware de log:", error);
-    next(); // Continue mesmo com erro no log
-  }
-});
 
 
 // Middleware para adicionar a instância do banco de dados às requisições
@@ -70,8 +64,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middlewares
-app.use(express.json());
+
 
 // Middleware de tratamento de erros JSON malformado
 app.use((err, req, res, next) => {
@@ -87,35 +80,48 @@ app.use((err, req, res, next) => {
 // só mexa nessa parte
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Importando as rotas
-//const loginRoutes = require('./routes/loginRoutes');
-//app.use('/login', loginRoutes);
+// const loginRoutes = require('./routes/loginRoutes');
+// app.use('/login', loginRoutes);
 
-//const menuRoutes = require('./routes/menuRoutes');
-//app.use('/menu', menuRoutes);
+const menuRoutes = require('./routes/menuRoutes');
+app.use('/menu', menuRoutes);
+
+const imageRoutes = require('./routes/imageRoutes'); 
+app.use('/', imageRoutes); // Rota /upload-image
+
+const cargoRoutes = require('./routes/cargoRoutes');
+app.use('/cargo', cargoRoutes);
+
+const forma_pagamentoRoutes = require('./routes/forma_pagamentoRoutes');
+app.use('/forma_pagamento', forma_pagamentoRoutes);
+
+const produtoRoutes = require('./routes/produtoRoutes');
+app.use('/produto', produtoRoutes);
+
+const pedidoRoutes = require('./routes/pedidoRoutes');
+app.use('/pedido', pedidoRoutes);
+
+
+
+const pedido_has_produtoRoutes = require('./routes/pedido_has_produtoRoutes');
+app.use('/pedido_has_produto', pedido_has_produtoRoutes);
+
+//clienteRoutes tem que vir antes de pessoaRoutes
+const clienteRoutes = require('./routes/clienteRoutes');
+app.use('/cliente', clienteRoutes);
+
+//funcionarioRoutes tem que vir antes de pessoaRoutes
+const funcionarioRoutes = require('./routes/funcionarioRoutes');
+app.use('/funcionario', funcionarioRoutes);
 
 const pessoaRoutes = require('./routes/pessoaRoutes');
 app.use('/pessoa', pessoaRoutes);
 
 
-const funcionarioRoutes = require('./routes/funcionarioRoutes');
-app.use('/funcionario', funcionarioRoutes);
+const loginRoutes = require('./routes/loginRoutes');
+app.use('/login', loginRoutes);
 
 
-const clienteRoutes = require('./routes/clienteRoutes');
-app.use('/cliente', clienteRoutes);
-
-const cargoRoutes = require('./routes/cargoRoutes');
-app.use('/cargo', cargoRoutes);
-
-const produtoRoutes = require('./routes/produtoRoutes');
-app.use('/produto', produtoRoutes);
-
-const categoriaRoutes = require('./routes/categoriaRoutes');
-app.use('/categoria', categoriaRoutes);
-
-
-const pedidoRoutes = require('./routes/pedidoRoutes');
-app.use('/pedido', pedidoRoutes);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -171,6 +177,7 @@ app.use((err, req, res, next) => {
   });
 });
 
+
 // Middleware para rotas não encontradas (404)
 app.use((req, res) => {
   res.status(404).json({
@@ -179,6 +186,8 @@ app.use((req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+
 
 // Inicialização do servidor
 const startServer = async () => {
@@ -200,7 +209,8 @@ const startServer = async () => {
     app.listen(PORT, () => {
       console.log(`🚀 Servidor rodando em http://${HOST}:${PORT}`);
       console.log(`📊 Health check disponível em http://${HOST}:${PORT}/health`);
-      console.log(`🗄️ Banco de dados: PostgreSQL`);
+      console.log(`🗄️ Banco de dados: PostgreSQL =>`);
+      // console.log(`🗄️ Banco de dados: PostgreSQL =>`+ nomeDoBancoDeDados);
       console.log(`🌍 Ambiente: ${process.env.NODE_ENV || 'development'}`);
     });
 

@@ -3,9 +3,13 @@ const router = express.Router();
 const loginController = require('../controllers/loginController');
 
 // Rotas de autenticação
+
+router.get('/', loginController.abrirTelaLogin);
+
 router.post('/verificarEmail', loginController.verificarEmail);
 router.post('/verificarSenha', loginController.verificarSenha);
-router.post('/verificaSeUsuarioEstaLogado', loginController.verificaSeUsuarioEstaLogado);
+router.get('/verificaSeUsuarioEstaLogado', loginController.verificaSeUsuarioEstaLogado);
+router.get('/logout', loginController.logout);
 
 // Rotas 
 router.get('/', loginController.listarPessoas);
