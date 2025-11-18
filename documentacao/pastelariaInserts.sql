@@ -124,4 +124,46 @@ VALUES (9, 8, 1, 10.00);
 INSERT INTO carrinho (id_pedido, id_produto, quantidade_carrinho, preco_unitario_carrinho)
 VALUES (10, 10, 2, 5.00);
 
+--Tabela pedido_has_produto
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (2, 1, 2, 7.00);   
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (3, 1, 1, 8.00);   
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (9, 2, 3, 6.00);  
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (10, 3, 1, 5.00);  
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (11, 3, 2, 4.00);  
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (6, 4, 1, 5.00);   
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (7, 4, 1, 5.00);   
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (5, 5, 2, 7.50);   
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (4, 6, 1, 5.00);   
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (8, 6, 1, 4.00);   
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (12, 7, 1, 10.00); 
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (13, 8, 1, 7.50);  
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (14, 9, 2, 7.50);  
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (15, 10, 1, 8.50); 
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (16, 11, 3, 4.50); 
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (17, 12, 1, 6.00); 
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (18, 12, 1, 4.00); 
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (19, 13, 2, 6.00);
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (20, 14, 1, 4.50); 
+INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade, preco_unitario)
+VALUES (21, 15, 1, 9.00); 
+
 

@@ -86,14 +86,14 @@ app.use((err, req, res, next) => {
 const menuRoutes = require('./routes/menuRoutes');
 app.use('/menu', menuRoutes);
 
-const imageRoutes = require('./routes/imageRoutes'); 
-app.use('/', imageRoutes); // Rota /upload-image
+//const imageRoutes = require('./routes/imageRoutes'); 
+//app.use('/', imageRoutes); // Rota /upload-image
 
 const cargoRoutes = require('./routes/cargoRoutes');
 app.use('/cargo', cargoRoutes);
 
-const forma_pagamentoRoutes = require('./routes/forma_pagamentoRoutes');
-app.use('/forma_pagamento', forma_pagamentoRoutes);
+//const pagamentoRoutes = require('./pagamentoRoutes');
+//app.use('/pagamento', pagamentoRoutes);
 
 const produtoRoutes = require('./routes/produtoRoutes');
 app.use('/produto', produtoRoutes);
@@ -103,12 +103,12 @@ app.use('/pedido', pedidoRoutes);
 
 
 
-const pedido_has_produtoRoutes = require('./routes/pedido_has_produtoRoutes');
-app.use('/pedido_has_produto', pedido_has_produtoRoutes);
+//const pedido_has_produtoRoutes = require('./routes/pedido_has_produtoRoutes');
+//app.use('/pedido_has_produto', pedido_has_produtoRoutes);
 
 //clienteRoutes tem que vir antes de pessoaRoutes
-const clienteRoutes = require('./routes/clienteRoutes');
-app.use('/cliente', clienteRoutes);
+//const clienteRoutes = require('./routes/clienteRoutes');
+//app.use('/cliente', clienteRoutes);
 
 //funcionarioRoutes tem que vir antes de pessoaRoutes
 const funcionarioRoutes = require('./routes/funcionarioRoutes');
@@ -117,9 +117,12 @@ app.use('/funcionario', funcionarioRoutes);
 const pessoaRoutes = require('./routes/pessoaRoutes');
 app.use('/pessoa', pessoaRoutes);
 
+const categoriaRoutes = require('./routes/categoriaRoutes');
+app.use('/categoria', categoriaRoutes);
 
-const loginRoutes = require('./routes/loginRoutes');
-app.use('/login', loginRoutes);
+
+//const loginRoutes = require('./routes/loginRoutes');
+//app.use('/login', loginRoutes);
 
 
 
