@@ -11,6 +11,10 @@ function formatarMoeda(valor) {
 // Buscar os produtos do carrinho (IDs e quantidades)
 async function buscarCarrinho() {
   try {
+
+//pegar os dados do local storage
+
+
     const resp = await fetch(urlCarrinho);
     if (!resp.ok) throw new Error(`Erro HTTP ${resp.status}`);
     return await resp.json(); // exemplo: [{ id_produto: 1, quantidade: 2 }, ...]
