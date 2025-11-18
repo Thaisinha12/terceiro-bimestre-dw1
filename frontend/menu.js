@@ -27,7 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function adicionarAoCarrinho(idProduto) {
     // Usa a mesma chave que o carrinho.js lê
-    let carrinho = JSON.parse(localStorage.getItem('carrinhoItens')) || [];
+
+    //Chat mandou comentar a linha de baixo
+    //let carrinho = JSON.parse(localStorage.getItem('carrinhoItens')) || [];
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
 
     // Verifica se o produto já está no carrinho
     const produtoExistente = carrinho.find(item => item.id === idProduto);
@@ -42,7 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Salva com a MESMA chave usada no carrinho.js
-    localStorage.setItem('carrinhoItens', JSON.stringify(carrinho));
+
+    //Chat mandou comentar a linha de baixo
+    //localStorage.setItem('carrinhoItens', JSON.stringify(carrinho));
+
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
     alert('✅ Produto adicionado ao carrinho!');
     console.log(`Produto ${idProduto} adicionado com sucesso!`);
