@@ -1,5 +1,14 @@
 const db = require('../database.js');
 
+// Adicione a função que falta no seu loginController.js
+//Chat mandou colocar a linha de baixo
+exports.abrirTelaLogin = (req, res) => {
+
+  // Certifique-se de ter o 'path' importado ou o 'express.static' configurado corretamente
+  const path = require('path');
+  res.sendFile(path.resolve(__dirname, '../../frontend/login.html'));
+};
+
 exports.verificaSeUsuarioEstaLogado = (req, res) => {
   console.log('loginController - Acessando rota /verificaSeUsuarioEstaLogado');
   let nome = req.cookies.usuarioLogado;
@@ -47,6 +56,7 @@ exports.verificarEmail = async (req, res) => {
 
 
 // Verificar senha
+//Chat mandou comentar essa funcao
 exports.verificarSenha = async (req, res) => {
   const { email, senha } = req.body;
 
