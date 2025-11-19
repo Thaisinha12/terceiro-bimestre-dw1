@@ -121,8 +121,8 @@ const categoriaRoutes = require('./routes/categoriaRoutes');
 app.use('/categoria', categoriaRoutes);
 
 
-//const loginRoutes = require('./routes/loginRoutes');
-//app.use('/login', loginRoutes);
+const loginRoutes = require('./routes/loginRoutes');
+app.use('/login', loginRoutes);
 
 
 

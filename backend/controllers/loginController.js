@@ -4,7 +4,7 @@ exports.verificaSeUsuarioEstaLogado = (req, res) => {
   console.log('loginController - Acessando rota /verificaSeUsuarioEstaLogado');
   let nome = req.cookies.usuarioLogado;
   console.log('Cookie usuarioLogado:', nome);
-  nome = "Berola da silva"; /////////// isso é um teste, apagar depois
+  //nome = "Berola da silva"; /////////// isso é um teste, apagar depois
   if (nome) {
     res.json({ status: 'ok', nome });
   } else {
@@ -88,14 +88,22 @@ exports.verificarSenha = async (req, res) => {
     }
 
     // 3. Define cookie
-
-    res.cookie('usuarioLogado', nome_pessoa, {
+    //Estava assim, o Chat mandou trocar pro de baixo!!!!!!!!!!!!!!!!!!!!!!!!!
+    /*res.cookie('usuarioLogado', nome_pessoa, {
       sameSite: 'None',
       secure: true,
       httpOnly: true,
       path: '/',
       maxAge: 24 * 60 * 60 * 1000, // 1 dia
-    });
+    });*/
+
+  //Cookies
+  res.cookie('usuarioLogado', nome_pessoa, {
+  sameSite: 'Lax',
+  secure: false,
+  httpOnly: true,
+  path: '/',
+});
 
     console.log("Cookie 'usuarioLogado' definido com sucesso");
 

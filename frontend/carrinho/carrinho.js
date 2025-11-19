@@ -11,6 +11,8 @@ function carregarCarrinho() {
     let total = 0;
 
     if (carrinho.length === 0) {
+        // CORREÇÃO: ZERA O TOTAL NA INTERFACE QUANDO O CARRINHO ESTÁ VAZIO
+        totalGeral.textContent = `Total: ${formatarPreco(0)}`;
         corpo.innerHTML = `<tr><td colspan="6" style="text-align:center;">Seu carrinho está vazio.</td></tr>`;
         document.getElementById('btn-finalizar').disabled = true;
         document.getElementById('btn-limpar').disabled = true;
@@ -18,7 +20,7 @@ function carregarCarrinho() {
     }
 
     carrinho.forEach((item, index) => {
-        const subtotal = item.preco * (item.quantidade / 1000);
+        const subtotal = item.preco * item.quantidade;
         total += subtotal;
 
         const linha = document.createElement('tr');
@@ -26,7 +28,7 @@ function carregarCarrinho() {
           <td>${item.id}</td>
           <td>${item.nome}</td>
           <td>
-            <input type="number" min="50" step="50" value="${item.quantidade}" onchange="atualizarQuantidade(${index}, this.value)">
+            <input type="number" min="1" step="1" value="${item.quantidade}" onchange="atualizarQuantidade(${index}, this.value)">
           </td>
           <td>${formatarPreco(item.preco)}</td>
           <td>${formatarPreco(subtotal)}</td>
@@ -64,10 +66,10 @@ function limparCarrinho() {
 function finalizarPedido() {
     const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
     if (carrinho.length === 0) {
-        alert("Seu carrinho está vazio.");
+        alert("Seu carrinho está vazio."); 
         return;
     }
-    window.location.href = "finalizar.html";
+    window.location.href = "../pagamento/pagamento.html";
 }
 
 document.getElementById('btn-finalizar').addEventListener('click', finalizarPedido);

@@ -1,85 +1,231 @@
-/* Baseado e adaptado dos estilos de menu.css */
+/* --- CONFIGURAÇÃO DE CORES E FONTES (Adaptado do Tailwind) --- */
+:root {
+    --theme-orange: #ff8630;
+    --primary-red: rgb(203, 0, 0);
+    --icon-orange: #FF4500;
+    --dark-red-hover: #B22222;
+    --light-text: #4a4a4a;
+    --header-bg: #f7d331ed;
+    --card-bg: #FFFFFF;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Aplicação de fundos e texto principais */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #ff8630; /* Fundo do tema Laranja */
-    color: #4a4a4a;
+    font-family: 'Inter', Arial, sans-serif;
+    background-color: var(--theme-orange);
+    color: var(--light-text);
     min-height: 100vh;
+    /* Classes Tailwind: p-4 sm:p-8 */
+    padding: 1rem;
+}
+@media (min-width: 640px) {
+    body {
+        padding: 2rem;
+    }
 }
 
-/* ------------------ CABEÇALHO ------------------ */
-header {
-    background-color: #f7d331ed; /* Cor de fundo do cabeçalho Amarela */
-    padding: 1.5rem 0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
-    border-bottom: 5px solid rgb(203, 0, 0); /* Linha de destaque Vermelha */
-    text-align: center;
+
+/* --- CONTAINER PRINCIPAL (.container) --- */
+.container {
+    /* Classes Tailwind: max-w-3xl mx-auto my-8 p-6 sm:p-8 bg-white rounded-xl shadow-2xl */
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+@media (min-width: 640px) {
+    .container {
+        padding: 2rem;
+    }
 }
 
-header h1 {
-    color: rgb(203, 0, 0); /* Cor do título Vermelha */
+/* Estilo do Título Principal (h1 dentro de .container) */
+.container h1 {
+    /* Classes Tailwind: text-primary-red text-3xl sm:text-4xl font-extrabold pb-4 mb-4 text-center border-b-4 border-primary-red */
+    color: var(--primary-red);
     font-size: 2.5rem;
     font-weight: 800;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    border-bottom: 4px solid var(--primary-red);
 }
 
-/* ------------------ CONTAINER PRINCIPAL DO CARRINHO ------------------ */
-.carrinho-page-container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 30px;
-    background-color: #FFFFFF;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); 
+
+/* --- TABELA DE ITENS (Replicando o estilo de item-carrinho) --- */
+#tabela-carrinho {
+    /* Classes Tailwind: min-w-full text-left */
+    width: 100%;
+    min-width: 100%;
+    text-align: left;
+    border-collapse: collapse; /* Tira o espaçamento padrão da tabela */
 }
 
-/* ------------------ ITEM DO CARRINHO ------------------ */
-.carrinho-track {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
+#tabela-carrinho thead th {
+    /* Classes Tailwind: py-3 px-2 text-sm uppercase font-semibold text-gray-500 border-b border-gray-200 */
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #6b7280; /* gray-500 */
+    border-bottom: 1px solid #e5e7eb; /* gray-200 */
 }
 
-.item-carrinho {
+#corpo-tabela tr {
+    /* Estilo de linha de item - simulando item-carrinho */
+    /* Classes Tailwind: text-lg text-gray-700 border-b border-gray-100 transition duration-200 */
+    font-size: 1.125rem;
+    color: #4a4a4a; /* light-text */
+    border-bottom: 1px solid #f3f4f6; /* gray-100 */
+    transition: all 0.2s;
+}
+
+#corpo-tabela tr:hover {
+    background-color: #fcfcfc;
+}
+
+#corpo-tabela td {
+    /* Classes Tailwind: py-4 px-2 */
+    padding: 1rem 0.5rem;
+    vertical-align: middle;
+}
+
+/* Estilo para o subtotal */
+#corpo-tabela td:nth-child(5) {
+    /* Classes Tailwind: text-right font-black text-xl text-primary-red whitespace-nowrap */
+    text-align: right;
+    font-weight: 900;
+    font-size: 1.25rem;
+    color: var(--primary-red);
+    white-space: nowrap;
+}
+
+/* Botão Remover (Assumindo que está na última coluna) */
+.btn-remover {
+    /* Classes Tailwind: text-2xl text-icon-orange hover:text-dark-red-hover transition duration-200 */
+    background-color: transparent;
+    border: none;
+    color: var(--icon-orange);
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 1rem;
+    transition: color 0.2s;
+}
+
+.btn-remover:hover {
+    color: var(--dark-red-hover);
+}
+
+/* --- TOTAL GERAL (.total) --- */
+.total {
+    /* Classes Tailwind: flex justify-between items-center text-xl sm:text-2xl font-black py-4 mt-8 border-t-4 border-primary-red */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid #f0f0f0;
-    font-size: 1.1em;
+    font-size: 1.5rem;
+    font-weight: 900;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-top: 2rem;
+    border-top: 4px solid var(--primary-red);
+}
+@media (min-width: 640px) {
+    .total {
+        font-size: 1.875rem; /* text-3xl */
+    }
 }
 
-.item-carrinho:last-child {
-    border-bottom: none;
+#preco-total {
+    color: var(--primary-red);
 }
 
-.nome-produto {
-    flex-grow: 1;
-    font-weight: 600;
-}
-
-/* ------------------ CONTROLE DE QUANTIDADE (Estilo Neumórfico) ------------------ */
-.quantidade-controle {
+/* --- AÇÕES (.acoes) --- */
+.acoes {
+    /* Classes Tailwind: flex flex-col sm:flex-row mt-6 gap-4 */
     display: flex;
-    align-items: center;
-    margin: 0 30px;
+    flex-direction: column;
+    margin-top: 1.5rem;
+    gap: 1rem;
+}
+@media (min-width: 640px) {
+    .acoes {
+        flex-direction: row;
+    }
 }
 
+.btn {
+    /* Estilo base para todos os botões de ação */
+    /* Classes Tailwind: flex-1 p-4 rounded-lg font-bold text-lg transition duration-300 shadow-md text-center */
+    flex: 1 1 0%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    font-size: 1.125rem;
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+
+/* Botões Secundários (Limpar e Continuar Comprando) */
+.acoes .btn {
+    /* Classes Tailwind: bg-gray-200 text-light-text hover:bg-gray-300 */
+    background-color: #e5e7eb; /* gray-200 */
+    color: var(--light-text);
+    border: none;
+    cursor: pointer;
+}
+
+.acoes .btn:hover {
+    background-color: #d1d5db; /* gray-300 */
+}
+
+/* Botão Finalizar Pedido (#btn-finalizar) */
+#btn-finalizar {
+    /* Classes Tailwind: bg-primary-red text-white shadow-xl shadow-[rgba(203,0,0,0.4)] hover:bg-dark-red-hover hover:translate-y-[-2px] hover:shadow-2xl hover:shadow-[rgba(203,0,0,0.6)] */
+    background-color: var(--primary-red);
+    color: white;
+    box-shadow: 0 5px 15px rgba(203, 0, 0, 0.4);
+    border: none;
+    cursor: pointer;
+}
+
+#btn-finalizar:hover {
+    background-color: var(--dark-red-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(203, 0, 0, 0.6);
+}
+
+#btn-finalizar:active {
+    transform: translateY(0);
+}
+
+/* --- ESTILO NEUMÓRFICO (Necessário para os botões de quantidade, se usados) --- */
+/* Assumindo que o HTML adicionará botões com a classe .btn-quantidade */
 .btn-quantidade {
-    /* Estilo Neumórfico Adaptado do .nav-button */
-    background: #ffffff; 
-    color: #FF4500; /* Ícone Laranja */
+    /* Estilo Neumórfico (Replicando o original) */
+    background: var(--card-bg); 
+    color: var(--icon-orange);
     border: none;
     padding: 8px 12px; 
     cursor: pointer;
     font-size: 1.2em;
     border-radius: 50%;
     
-    /* Sombra Neumórfica */
+    /* Sombra Neumórfica (Manual, pois o Tailwind não tem esta sombra exata por padrão) */
     box-shadow: 3px 3px 6px #dedede, -3px -3px 6px #ffffff; 
     
     transition: all 0.2s ease;
@@ -87,7 +233,7 @@ header h1 {
 }
 
 .btn-quantidade:hover {
-    color: #B22222; /* Fica mais escuro no hover */
+    color: var(--dark-red-hover); 
     box-shadow: 5px 5px 10px #dedede, -5px -5px 10px #ffffff; 
 }
 
@@ -98,93 +244,27 @@ header h1 {
 }
 
 .quantidade-valor {
-    margin: 0 15px;
+    /* Estilo para o valor no meio dos botões de quantidade */
+    /* Classes Tailwind: font-bold text-primary-red */
+    margin: 0 0.5rem;
     min-width: 20px;
     text-align: center;
     font-weight: bold;
-    color: rgb(203, 0, 0); /* Cor Vermelha */
+    color: var(--primary-red);
 }
 
-/* ------------------ PREÇO E REMOÇÃO ------------------ */
-.preco-item {
-    font-weight: 900;
-    color: rgb(203, 0, 0); 
-    font-size: 1.3em;
-    min-width: 100px;
-    text-align: right;
-}
-
-.btn-remover {
-    background-color: transparent;
-    border: none;
-    color: #FF4500; 
-    font-size: 1.5em;
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 20px;
-    transition: color 0.2s;
-}
-
-.btn-remover:hover {
-    color: #B22222;
-}
-
-/* ------------------ RESUMO E TOTAL ------------------ */
-.resumo-carrinho {
-    padding: 20px 0;
-}
-
-.resumo-carrinho h2 {
-    color: #4a4a4a;
-    font-size: 1.8em;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-
-.total-linha {
-    display: flex;
-    justify-content: space-between;
-    font-size: 1.5em;
-    font-weight: 900;
-    padding: 15px 0;
-    border-top: 3px solid rgb(203, 0, 0); 
-}
-
-#preco-total {
-    color: rgb(203, 0, 0);
-}
-
-.btn-comprar {
-    width: 100%;
-    padding: 18px;
-    margin-top: 25px;
-    
-    /* Botão Vermelho de destaque */
-    background-color: rgb(203, 0, 0); 
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.2em;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(203, 0, 0, 0.4); 
-    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-}
-
-.btn-comprar:hover {
-    background-color: #B22222; 
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(203, 0, 0, 0.6);
-}
-
-.btn-comprar:active {
-    transform: translateY(0);
-}
-
-.carrinho-vazio {
+/* --- LINK VOLTAR --- */
+.voltar {
+    /* Classes Tailwind: block text-center mt-6 text-sm text-gray-500 hover:text-primary-red transition */
+    display: block;
     text-align: center;
-    padding: 40px;
-    color: #888;
-    font-size: 1.2em;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: #6b7280; /* gray-500 */
+    transition: color 0.2s;
+    text-decoration: none;
+}
+
+.voltar:hover {
+    color: var(--primary-red);
 }

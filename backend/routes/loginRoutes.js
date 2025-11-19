@@ -12,7 +12,8 @@ router.get('/verificaSeUsuarioEstaLogado', loginController.verificaSeUsuarioEsta
 router.get('/logout', loginController.logout);
 
 // Rotas 
-router.get('/', loginController.listarPessoas);
+//Chat mandou comentar
+//router.get('/', loginController.listarPessoas);
 router.post('/', loginController.criarPessoa);
 router.get('/:id', loginController.obterPessoa);
 // router.put('/:id', loginController.atualizarPessoa);

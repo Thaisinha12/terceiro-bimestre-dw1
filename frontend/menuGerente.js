@@ -26,26 +26,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
   function adicionarAoCarrinho(idProduto) {
-    // Usa a mesma chave que o carrinho.js lê
-    let carrinho = JSON.parse(localStorage.getItem('carrinhoItens')) || [];
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
-    // Verifica se o produto já está no carrinho
-    const produtoExistente = carrinho.find(item => item.id === idProduto);
+    // Acha o produto completo no array produtosGlobais
+    const produto = produtosGlobais.find(p => p.id_produto == idProduto);
+    if (!produto) {
+        alert("Erro: produto não encontrado.");
+        return;
+    }
 
-    if (produtoExistente) {
-        produtoExistente.quantidade += 1;
+    // Verifica se já existe no carrinho
+    const itemExistente = carrinho.find(item => item.id == idProduto);
+
+    if (itemExistente) {
+        itemExistente.quantidade += 1;
     } else {
         carrinho.push({
-            id: idProduto,
+            id: produto.id_produto,
+            nome: produto.nome_produto,
+            preco: parseFloat(produto.preco_produto), 
             quantidade: 1
         });
     }
 
-    // Salva com a MESMA chave usada no carrinho.js
-    localStorage.setItem('carrinhoItens', JSON.stringify(carrinho));
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
-    alert('✅ Produto adicionado ao carrinho!');
-    console.log(`Produto ${idProduto} adicionado com sucesso!`);
+    alert("✅ Produto adicionado ao carrinho!");
 }
 
 
