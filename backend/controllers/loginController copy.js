@@ -65,12 +65,12 @@ exports.verificarSenha = async (req, res) => {
     FROM pessoa 
     WHERE email_pessoa = $1 AND senha_pessoa = $2
   `;
-  
-  const sqlFuncionario = `
-    SELECT id_cargo 
-    FROM funcionario 
-    WHERE id_pessoa = $1
-  `;
+  //Tudo que for de professor provavelmente é pra ver se é funcionário
+  /*const sqlProfessor = `
+    SELECT mnemonico_professor 
+    FROM professor 
+    WHERE pessoa_id_pessoa = $1
+  `;*/
 
   console.log('Rota verificarSenha:', sqlPessoa, email, senha);
 
@@ -85,17 +85,17 @@ exports.verificarSenha = async (req, res) => {
     const { id_pessoa, nome_pessoa } = resultPessoa.rows[0];
     console.log('Usuário encontrado:', resultPessoa.rows[0]);
 
-    // 2. Verifica se é funcionario
-    const resultFuncionario = await db.query(sqlFuncionario, [id_pessoa]);
+    // 2. Verifica se é professor
+    const resultProfessor = await db.query(sqlProfessor, [id_pessoa]);
 
-    const cargoFuncionario = resultFuncionario.rows.length > 0
-      ? resultFuncionario.rows[0].id_cargo
+    const mnemonicoProfessor = resultProfessor.rows.length > 0
+      ? resultProfessor.rows[0].mnemonico_professor
       : null;
 
-    if (cargoFuncionario) {
-      console.log('Usuário é funcionario, cargo:', cargoFuncionario);
+    if (mnemonicoProfessor) {
+      console.log('Usuário é professor, mnemonico:', mnemonicoProfessor);
     } else {
-      console.log('Usuário não é funcionario');
+      console.log('Usuário não é professor');
     }
 
     // 3. Define cookie
@@ -122,7 +122,7 @@ exports.verificarSenha = async (req, res) => {
     return res.json({
       status: 'ok',
       nome: nome_pessoa,
-      cargoFuncionario,
+      mnemonicoProfessor,
     });
 
   } catch (err) {
