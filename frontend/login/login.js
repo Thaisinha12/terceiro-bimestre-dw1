@@ -43,8 +43,10 @@ async function verificarSenha() {
    
 
     if (data.status === 'ok') {
-       // alert("Login bem-sucedido! Bem-vindo, " + data.nome);
-        window.location.href = API_BASE_URL + "/menu";
+        alert("Login bem-sucedido! Bem-vindo(a), " + data.nome);
+        //Chat mandou comentar essa linha de baixo
+        //window.location.href = API_BASE_URL + "/menu";
+        window.location.href = "/frontend/menu.html";
     } else {
         alert("Senha incorreta!");
     }
