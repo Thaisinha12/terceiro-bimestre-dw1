@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let categoriasGlobais = [];
     let produtosGlobais = [];
 
+    
+
     /**
      * Auxiliar para agrupar produtos pela chave id_categoria.
      */
@@ -249,7 +251,7 @@ function removerAcentos(texto) {
 
 //Chat mandou colocar, se der errado é só apagar tudo daqui pra baixo:
 // --- CONTROLE DO USUÁRIO (login / logout) ---
-function handleUserAction(action) {
+async function handleUserAction(action) {
     const select = document.getElementById("oUsuario");
 
     if (action === "") {
@@ -259,13 +261,48 @@ function handleUserAction(action) {
     }
 
     if (action === "sair") {
-        // Remove cookie de login
-        document.cookie = "usuarioLogado=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        try {
+            const resp = await fetch('http://localhost:3001/login/logout', {
+                method: 'GET',
+                credentials: 'include'  // IMPORTANTÍSSIMO para enviar o cookie httpOnly
+            });
 
-        // Vai para login
-        window.location.href = "/frontend/login/login.html";
+            const data = await resp.json();
+            console.log("Logout ->", data);
 
-        // Reseta o select para evitar ficar "Sair"
-        select.value = "";
+            //Limpa o carrinho para o próximo usuário
+            localStorage.removeItem("carrinho");
+
+            alert("Você saiu da sua conta!");
+
+            // Opcional: recarregar a página para limpar dados do cliente
+            //location.reload();
+
+        } catch (error) {
+            console.error("Erro ao fazer logout:", error);
+        }
     }
 }
+
+//Daqui pra baixo é pra trocar "Usuário" pelo nome do usuário
+function exibirNomeNoMenu(nome) {
+    const select = document.getElementById("oUsuario");
+
+    // Remove opções atuais
+    select.innerHTML = "";
+
+    // Cria nova opção com o nome do usuário
+    const optUsuario = document.createElement("option");
+    optUsuario.value = "";
+    optUsuario.textContent = nome;
+    select.appendChild(optUsuario);
+
+    // Opção "Sair"
+    const optSair = document.createElement("option");
+    optSair.value = "sair";
+    optSair.textContent = "Sair";
+    select.appendChild(optSair);
+}
+
+
+

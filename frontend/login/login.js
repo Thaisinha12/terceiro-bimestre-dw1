@@ -44,9 +44,20 @@ async function verificarSenha() {
 
     if (data.status === 'ok') {
         alert("Login bem-sucedido! Bem-vindo(a), " + data.nome);
-        //Chat mandou comentar essa linha de baixo
+
+        //Verifica se é gerente
+        const ehGerente = emailGlobal.endsWith(".gerente.com");
+
+        if (ehGerente) {
+            //Gerente vai para o menu do gerente
+            window.location.href = "/frontend/menuGerente.html";
+        } else {
+            //Se não é gerente vai para o menu normal
+            window.location.href = "/frontend/menu.html";
+        }
+        //Chat mandou comentar essas linhas de baixo
         //window.location.href = API_BASE_URL + "/menu";
-        window.location.href = "/frontend/menu.html";
+        //window.location.href = "/frontend/menu.html";
     } else {
         alert("Senha incorreta!");
     }
