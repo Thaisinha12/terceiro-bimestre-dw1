@@ -45,6 +45,9 @@ async function verificarSenha() {
     if (data.status === 'ok') {
         alert("Login bem-sucedido! Bem-vindo(a), " + data.nome);
 
+        //Ajuda a salvar o nome do usuário no menu
+        localStorage.setItem("nomeUsuario", data.nome);
+
         //Verifica se é gerente
         const ehGerente = emailGlobal.endsWith(".gerente.com");
 

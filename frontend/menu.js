@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const CATEGORIAS_API = 'http://localhost:3001/categoria/';
     const PRODUTOS_API = 'http://localhost:3001/produto/';
+
+    // --- MOSTRAR NOME DO USUÁRIO SE ELE ESTIVER LOGADO ---
+    const nomeSalvo = localStorage.getItem("nomeUsuario");
+    if (nomeSalvo) {
+        exibirNomeNoMenu(nomeSalvo);
+    }
     
     const containerPrincipal = document.getElementById('categorias-container');
     const loadingMessage = document.getElementById('loading-message');
@@ -255,7 +261,7 @@ async function handleUserAction(action) {
     const select = document.getElementById("oUsuario");
 
     if (action === "") {
-        // Clique em "Usuário" → vai para login
+        //O usuário clicou em "Usuário" → ir para login
         window.location.href = "/frontend/login/login.html";
         return;
     }
@@ -275,9 +281,6 @@ async function handleUserAction(action) {
 
             alert("Você saiu da sua conta!");
 
-            // Opcional: recarregar a página para limpar dados do cliente
-            //location.reload();
-
         } catch (error) {
             console.error("Erro ao fazer logout:", error);
         }
@@ -285,6 +288,27 @@ async function handleUserAction(action) {
 }
 
 //Daqui pra baixo é pra trocar "Usuário" pelo nome do usuário
+function exibirNomeNoMenu(nome) {
+    const select = document.getElementById("oUsuario");
+
+    // Remove opções atuais
+    select.innerHTML = "";
+
+    // Cria nova opção com o nome do usuário
+    const optUsuario = document.createElement("option");
+    optUsuario.value = "";
+    optUsuario.textContent = nome;
+    select.appendChild(optUsuario);
+
+    // Opção "Sair"
+    const optSair = document.createElement("option");
+    optSair.value = "sair";
+    optSair.textContent = "Sair";
+    select.appendChild(optSair);
+}
+
+
+//Daqui pra baixo é pra ver o nome no usuário
 function exibirNomeNoMenu(nome) {
     const select = document.getElementById("oUsuario");
 
