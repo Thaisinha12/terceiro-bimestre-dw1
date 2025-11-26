@@ -69,7 +69,7 @@ function finalizarPedido() {
         alert("Seu carrinho está vazio."); 
         return;
     }
-    window.location.href = "http://localhost:3001/login/visaoclientefinalizar";
+    window.location.href = "http://localhost:3001/finalizar/finalizar.html";
 }
 
 document.getElementById('btn-finalizar').addEventListener('click', finalizarPedido);

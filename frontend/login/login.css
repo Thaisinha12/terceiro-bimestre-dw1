@@ -1,92 +1,155 @@
-/* === CONTAINER MASTER === */
-body, html {
-    height: 100%;
+/* --- CONFIGURAÇÃO DE CORES E FONTES (Adaptado do Tailwind) --- */
+:root {
+    --theme-orange: #ff8630;
+    --primary-red: rgb(203, 0, 0);
+    --icon-orange: #FF4500;
+    --dark-red-hover: #B22222;
+    --light-text: #4a4a4a;
+    --card-bg: #FFFFFF;
+}
+
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
+/* Aplicação de fundos e texto principais */
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background-color: var(--theme-orange);
+    color: var(--light-text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinha ao topo, mas mantém no centro */
+    padding: 2rem;
+}
+@media (min-width: 640px) {
+    body {
+        align-items: center; /* Centraliza verticalmente em telas maiores */
+    }
+}
+
+
+/* --- CONTAINER PRINCIPAL (.master-container) --- */
+/* Adaptado de .container - Agora é o wrapper principal do formulário de login */
 .master-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* centraliza verticalmente */
-    align-items: center;     /* centraliza horizontalmente */
-    min-height: 100vh;       /* ocupa toda a altura da janela */
-    background: linear-gradient(135deg, #d4fcdc, #b8e7b8);
-}
-
-
-
-/* ===== CONTAINER PRINCIPAL ===== */
-.form-container {
-    width: 90%;
-    max-width: 450px;
-    min-height: 50vh;
-    background: white;
-    border-radius: 12px;
-    padding: 2.5rem;
-    box-shadow: 0 4px 15px rgba(45, 74, 45, 0.1);
-    border: 1px solid #011601;
-
-    /* Flexbox centraliza os filhos */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* centraliza horizontalmente os blocos */
-    justify-content: center; /* centraliza verticalmente */
-}
-
-/* ===== TÍTULO ===== */
-.form-container h2 {
-    color: #2d4a2d;
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    text-align: center;
-}
-
-/* ===== TEXTOS (p e label) ===== */
-.form-container label,
-.form-container p {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #2d4a2d;
-    text-align: center;
+    max-width: 400px; /* Reduzido para ser ideal para um formulário de login */
     width: 100%;
-    max-width: 320px;
-    margin: 0 auto 0.75rem auto; /* centraliza o bloco */
-    display: block; /* garante comportamento consistente */
+    margin-left: auto;
+    margin-right: auto;
+    /* Em telas grandes o body centraliza, em pequenas o margin-top ajuda */
+    margin-top: 4rem; 
+    margin-bottom: 2rem;
+    
+    /* Remove padding aqui, será aplicado no .form-container */
+}
+@media (min-width: 640px) {
+    .master-container {
+        margin-top: 0; /* Centralização vertical pelo body em telas maiores */
+    }
 }
 
-/* ===== INPUT ===== */
+
+/* --- FRAME DO FORMULÁRIO (.form-container) --- */
+/* Aplica o estilo de "card" de fundo branco e sombra */
+.form-container {
+    padding: 2rem;
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Estilo do Título Principal (h2 dentro de .form-container) */
+.form-container h2 {
+    color: var(--primary-red);
+    font-size: 2rem;
+    font-weight: 800;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    border-bottom: 4px solid var(--primary-red);
+}
+
+/* Parágrafo de usuário na tela de senha */
+#nomeUsuario {
+    font-weight: 600;
+    color: var(--light-text);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+/* Estilo para labels */
+.form-container label {
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 600;
+    color: var(--light-text);
+    margin-bottom: -0.5rem;
+}
+
+/* Estilo para Inputs (Campos de texto) */
 .form-container input {
     width: 100%;
-    max-width: 320px;
-    padding: 0.8rem;
-    border: 2px solid #0ba10b;
-    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.5rem;
     font-size: 1rem;
-    background: white;
-    text-align: center;
-    margin: 0 auto 1.5rem auto;
-    display: block;
+    color: var(--light-text);
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-/* ===== BOTÃO ===== */
+.form-container input:focus {
+    outline: none;
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(203, 0, 0, 0.1);
+}
+
+/* --- BOTÕES (Adaptado de #btn-finalizar) --- */
 .form-container button {
+    /* Estilo base do .btn */
     width: 100%;
-    max-width: 320px;
-    padding: 0.8rem 1.5rem;
-    border: 1px solid #2d4a2d;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    background: linear-gradient(135deg, aquamarine, #40e0d0);
-    color: #2d4a2d;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    font-size: 1.125rem;
+    transition: all 0.3s;
     text-align: center;
-    margin: 0 auto;
-    display: block;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    margin-top: 0.5rem; /* Espaçamento após o input */
+
+    /* Estilo de finalização (vermelho principal com sombra) */
+    background-color: var(--primary-red);
+    color: white;
+    border: none;
+    box-shadow: 0 5px 15px rgba(203, 0, 0, 0.4);
 }
 
 .form-container button:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 10px rgba(64, 224, 208, 0.5);
+    background-color: var(--dark-red-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(203, 0, 0, 0.6);
+}
+
+.form-container button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(203, 0, 0, 0.3);
+}
+
+/* --- MENSAGENS (.message-container) --- */
+.message-container {
+    /* Container abaixo do form para mensagens de erro/sucesso */
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    background-color: #ffe0b2; /* Laranja claro */
+    color: var(--theme-orange);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }

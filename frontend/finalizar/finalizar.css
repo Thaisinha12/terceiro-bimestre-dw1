@@ -1,3 +1,14 @@
+/* --- CONFIGURAÇÃO DE CORES TEMÁTICAS --- */
+:root {
+    --theme-orange: #ff8630; /* Fundo principal */
+    --primary-red: rgb(203, 0, 0); /* Cor principal de destaque (títulos, bordas, botões) */
+    --icon-orange: #FF4500; /* Cor de ícone (não usado aqui, mas mantido) */
+    --dark-red-hover: #B22222; /* Cor de hover/escurecida */
+    --light-text: #4a4a4a; /* Texto principal escuro */
+    --header-bg: #f7d331ed; /* Amarelo/Dourado para o cabeçalho */
+    --card-bg: #FFFFFF;
+}
+
 /* Reset básico */
 * {
   margin: 0;
@@ -7,25 +18,22 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: white;
-  color: #333;
-  /* Remove text-align: center; do body se quiser centralizar apenas o conteúdo principal */
-  /* Deixei, pois centraliza o h1 "Confirmar compra" */
+  background: #ff8630; /* Mantenho branco para o fundo, mas você pode mudar para var(--theme-orange); */
+  color: var(--light-text);
   text-align: center;
 }
 
 /* Cabeçalho */
 header {
   padding: 0rem 0rem 0rem 0rem;
-  background-color: aquamarine;
+  background-color: var(--header-bg); /* AMBIENTE: Amarelo/Dourado */
   margin-bottom: 20px;
-  /* Adicionado para separar o header do conteúdo */
 }
 
 header h1 {
   margin-bottom: 0rem;
   font-size: 1.8rem;
-  color: #1a5d3c;
+  color: var(--primary-red); /* DESTAQUE: Vermelho */
 }
 
 .topo {
@@ -43,7 +51,8 @@ header h1 {
 
 /* Menu principal */
 .nav {
-  background: linear-gradient(90deg, aquamarine, green);
+  /* Gradiente com as novas cores */
+  background: linear-gradient(90deg, var(--primary-red), var(--dark-red-hover)); /* DESTAQUE: Tons de Vermelho */
   padding: 0.5rem 0;
 }
 
@@ -80,13 +89,13 @@ header h1 {
 }
 
 .nav__submenu-item a {
-  color: #1a5d3c;
+  color: var(--primary-red); /* DESTAQUE: Vermelho */
   padding: 0.5rem 1rem;
   display: block;
 }
 
 .nav__submenu-item a:hover {
-  background: aquamarine;
+  background: var(--header-bg); /* AMBIENTE: Amarelo/Dourado no hover do submenu */
 }
 
 /* Hover para mostrar submenu */
@@ -96,21 +105,20 @@ header h1 {
 
 /* ======= Tabela (Centralização) ======= */
 #lista-finalizar {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.1);
+  background-color: var(--card-bg);
+  border-radius: 0;
+  /* Shadow com tom de vermelho */
+  box-shadow: 0 2px 6px rgba(203, 0, 0, 0.1); 
   width: 90%;
   max-width: 800px;
   border-collapse: collapse;
   margin-bottom: 20px;
   margin-left: auto;
-  /* NOVO */
   margin-right: auto;
-  /* NOVO */
 }
 
 #lista-finalizar thead {
-  background-color: #0d9488;
+  background-color: var(--primary-red); /* DESTAQUE: Vermelho */
   color: white;
 }
 
@@ -118,27 +126,21 @@ header h1 {
   padding: 15px 12px;
   text-align: left;
   font-weight: 600;
-  border-bottom: 2px solid #0d9488;
+  border-bottom: 2px solid var(--dark-red-hover); /* DESTAQUE: Vermelho Escuro */
 }
 
 #lista-finalizar td {
   padding: 12px;
-  border-bottom: 1px solid #e0f2f1;
-}
-
-#lista-finalizar tbody tr:hover {
-  background-color: #f0fdfa;
+  border-bottom: 1px solid #FFE0B2; /* Tom suave de Laranja/Pêssego para linha da tabela */
 }
 
 /* Alinhamento das colunas de valores à direita */
-/* Seleciona o cabeçalho das colunas "Código", "Preço" e "Subtotal" (1ª, 3ª e 5ª) */
 #lista-finalizar th:nth-child(1),
 #lista-finalizar th:nth-child(3),
 #lista-finalizar th:nth-child(5) {
   text-align: right;
 }
 
-/* Seleciona as células de dados das colunas "Código", "Preço" e "Subtotal" */
 #lista-finalizar td:nth-child(1),
 #lista-finalizar td:nth-child(3),
 #lista-finalizar td:nth-child(5) {
@@ -149,15 +151,13 @@ header h1 {
 #total-final {
   font-size: 1.4rem;
   font-weight: bold;
-  color: #0d9488;
+  color: var(--primary-red); /* DESTAQUE: Vermelho */
   margin-top: 20px;
   text-align: right;
   width: 90%;
   max-width: 800px;
   margin-left: auto;
-  /* NOVO */
   margin-right: auto;
-  /* NOVO */
 }
 
 /* ======= Botões e Container de Botões (Centralização) ======= */
@@ -169,13 +169,11 @@ header h1 {
   max-width: 800px;
   margin-top: 25px;
   margin-left: auto;
-  /* NOVO */
   margin-right: auto;
-  /* NOVO */
 }
 
 button {
-  background-color: #0d9488;
+  background-color: var(--primary-red); /* DESTAQUE: Vermelho */
   color: #fff;
   border: none;
   padding: 14px 28px;
@@ -188,7 +186,7 @@ button {
 }
 
 button:hover {
-  background-color: #0f766e;
+  background-color: var(--dark-red-hover); /* DESTAQUE: Vermelho Escuro (hover) */
 }
 
 /* ======= Responsividade ======= */

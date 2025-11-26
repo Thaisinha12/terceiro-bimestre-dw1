@@ -22,15 +22,14 @@ function carregarFinalizar() {
 
     carrinho.forEach(prod => {
         const codigo = prod.codigo || prod.id || '(sem código)';
-        // O cálculo original (preço * (quantidade / 1000)) implica que o preço é por KG.
-        const subtotal = prod.preco * (prod.quantidade / 1000);
+        const subtotal = prod.preco * prod.quantidade;
         total += subtotal;
 
         const linha = document.createElement('tr');
         linha.innerHTML = `
         <td>${codigo}</td>
         <td>${prod.nome}</td>
-        <td>R$ ${prod.preco.toFixed(2)}/kg</td> <td>${prod.quantidade} g</td>
+        <td>R$ ${prod.preco.toFixed(2)}</td> <td>${prod.quantidade} un</td>
         <td>R$ ${subtotal.toFixed(2)}</td>
     `;
         // Adiciona a linha ao corpo da tabela (tbody)
@@ -104,8 +103,8 @@ async function enviarDadosParaBD() {
         cliente_pessoa_cpf_pessoa: '1', // substitua pelo CPF real do cliente logado
         itens: carrinho.map(item => ({
             id_produto: item.id || item.codigo,
-            peso_gramas: item.quantidade,
-            preco_unitario_kg: item.preco
+            quantidade: item.quantidade,
+            preco_unitario: item.preco
         }))
     };
 
@@ -160,7 +159,7 @@ async function enviarDadosParaBD() {
         //adicionar no alert os itens do pedido
         let aux = "";
         dadosItensDoPedido.forEach(item => {
-            aux += `\n- ${dados.id_pedido} -  Produto: ${item.nome_produto}, Quantidade: ${item.quantidade} g, Preço: R$ ${item.preco.toFixed(2)}`;
+            aux += `\n- ${dados.id_pedido} -  Produto: ${item.nome_produto}, Quantidade: ${item.quantidade} un, Preço: R$ ${item.preco.toFixed(2)}`;
         });
 
         alert(`Pedido ${dados.id_pedido} \n\n` + aux);
@@ -174,8 +173,9 @@ async function enviarDadosParaBD() {
         sessionStorage.setItem('dadosPagamento', JSON.stringify(dadosPagamento));
 
         
-        // sessionStorage.removeItem('carrinho');
-        window.location.href = 'http://localhost:3001/pagamento/abrirTelaPagamento';
+        //sessionStorage.removeItem('carrinho');
+        window.location.href = 'http://localhost:3001/pagamento/pagamento.html';
+        //window.location.href = 'http://localhost:3001/pagamento/abrirTelaPagamento';
 
     } catch (erro) {
         console.error('❌ Erro ao enviar pedido:', erro);
