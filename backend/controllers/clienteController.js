@@ -10,6 +10,7 @@ exports.abrirCrudCliente = (req, res) => {
 }
 
 exports.listarClientes = async (req, res) => {
+  console.log("clienteController->listarCliente")
   try {
     const result = await query('SELECT * FROM cliente ORDER BY id_pessoa');
     // console.log('Resultado do SELECT:', result.rows);//verifica se está retornando algo

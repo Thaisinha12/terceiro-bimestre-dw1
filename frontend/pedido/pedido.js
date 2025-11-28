@@ -156,8 +156,7 @@ function preencherFormulario(pedido) {
     searchId.value = pedido.id_pedido;
     document.getElementById('data_pedido').value = formatarDataParaInputDate(pedido.data_pedido);
 
-    document.getElementById('cliente_pessoa_cpf_pessoa').value = pedido.cliente_pessoa_cpf_pessoa || 0;
-    document.getElementById('funcionario_pessoa_cpf_pessoa').value = pedido.funcionario_pessoa_cpf_pessoa || 0;
+    document.getElementById('id_cliente').value = pedido.id_cliente || 0;
 }
 
 
@@ -204,8 +203,7 @@ async function salvarOperacao() {
     const pedido = {
         id_pedido: searchId.value,
         data_pedido: formData.get('data_pedido'),
-        cliente_pessoa_cpf_pessoa: formData.get('cliente_pessoa_cpf_pessoa'),
-        funcionario_pessoa_cpf_pessoa: formData.get('funcionario_pessoa_cpf_pessoa'),
+        id_cliente: formData.get('id_cliente'),
     };
 
     console.log(pedido)
@@ -391,8 +389,7 @@ function renderizarTabelaPedidos(pedidos) {
                         </button>
                     </td>
                     <td>${formatarData(pedido.data_pedido)}</td>                  
-                    <td>${pedido.cliente_pessoa_cpf_pessoa}</td>                  
-                    <td>${pedido.funcionario_pessoa_cpf_pessoa}</td>                  
+                    <td>${pedido.id_cliente}</td>                               
                                  
                 `;
         pedidosTableBody.appendChild(row);

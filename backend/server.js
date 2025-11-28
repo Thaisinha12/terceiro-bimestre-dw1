@@ -107,8 +107,8 @@ app.use('/pedido', pedidoRoutes);
 //app.use('/pedido_has_produto', pedido_has_produtoRoutes);
 
 //clienteRoutes tem que vir antes de pessoaRoutes
-//const clienteRoutes = require('./routes/clienteRoutes');
-//app.use('/cliente', clienteRoutes);
+const clienteRoutes = require('./routes/clienteRoutes');
+app.use('/cliente', clienteRoutes);
 
 //funcionarioRoutes tem que vir antes de pessoaRoutes
 const funcionarioRoutes = require('./routes/funcionarioRoutes');

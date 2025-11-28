@@ -134,9 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Busca as duas rotas em paralelo
             const [categoriasRes, produtosRes] = await Promise.all([
-                fetch(CATEGORIAS_API),
-                fetch(PRODUTOS_API)
-            ]);
+    fetch(CATEGORIAS_API, { credentials: 'include' }),
+    fetch(PRODUTOS_API, { credentials: 'include' })
+]);
+
             
             // Verifica se a resposta foi bem sucedida
             if (!categoriasRes.ok || !produtosRes.ok) {

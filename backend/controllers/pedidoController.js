@@ -14,7 +14,8 @@ exports.abrirCrudPedido = (req, res) => {
    res.sendFile(path.join(__dirname, '../../frontend/pedido/pedido.html'));   
   } else {
     // Cookie não existe. Usuário NÃO está logado.
-    res.redirect('/login');
+    //res.redirect('/login');
+    res.redirect('/login/');
   }
   
 }

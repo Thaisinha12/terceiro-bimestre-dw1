@@ -6,7 +6,7 @@ exports.abrirTelaLogin = (req, res) => {
 
   // Certifique-se de ter o 'path' importado ou o 'express.static' configurado corretamente
   const path = require('path');
-  res.sendFile(path.resolve(__dirname, '../../frontend/login.html'));
+  res.sendFile(path.resolve(__dirname, '../../frontend/login/login.html'));
 };
 
 exports.verificaSeUsuarioEstaLogado = (req, res) => {
