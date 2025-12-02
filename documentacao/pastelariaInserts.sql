@@ -167,3 +167,4 @@ INSERT INTO pedido_has_produto (produto_id_produto, pedido_id_pedido, quantidade
 VALUES (21, 15, 1, 9.00); 
 
 
+

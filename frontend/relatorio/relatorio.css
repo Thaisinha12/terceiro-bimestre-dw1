@@ -1,0 +1,156 @@
+/* Reset básico, essencial para evitar problemas de layout */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILOS GERAIS E FUNDO (CORREÇÃO DO RODAPÉ COLADO) -- */
+/* ---------------------------------------------------------------------------------- */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ff8630; /* Fundo Laranja/Pêssego */
+    color: #4a4a4a; 
+    text-align: center;
+    
+    /* CORREÇÃO CHAVE: Usar Flexbox para esticar o conteúdo e empurrar o footer */
+    display: flex; 
+    flex-direction: column; 
+    min-height: 100vh; /* Garante que o body ocupe a altura total da viewport */
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILO DO BOTÃO VOLTAR (Integrado do seu código) -- */
+/* ---------------------------------------------------------------------------------- */
+#voltar-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background-color: rgb(203, 0, 0); /* Usando o vermelho primário */
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background 0.3s;
+    z-index: 1000;
+}
+
+#voltar-btn:hover {
+    background-color: #8a0000; /* Vermelho um pouco mais escuro para o hover */
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- CABEÇALHO (Ajustado para o HTML de Relatórios) -- */
+/* ---------------------------------------------------------------------------------- */
+header {
+    background-color: #f7d331ed; 
+    padding: 20px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
+    border-bottom: 5px solid rgb(203, 0, 0); 
+    margin-top: 0; 
+}
+
+header h1 {
+    color: rgb(203, 0, 0); 
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    margin: 0;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTRUTURA E CARDS DE RELATÓRIOS (Menu) -- */
+/* ---------------------------------------------------------------------------------- */
+
+main {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    /* CORREÇÃO CHAVE: Ocupa todo o espaço vertical restante */
+    flex-grow: 1; 
+    
+    /* Centraliza o conteúdo (cards) verticalmente no espaço livre */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.menu-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px; 
+    flex-wrap: wrap; 
+}
+
+.menu-card {
+    background-color: #FFFFFF; 
+    border: 1px solid #eeeeee; 
+    border-radius: 15px; 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); 
+    padding: 30px 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 350px; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2), 0 0 15px rgba(203, 0, 0, 0.5); 
+}
+
+.menu-card h2 {
+    color: rgb(203, 0, 0); 
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.menu-card a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: rgb(203, 0, 0); 
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.menu-card a:hover {
+    background-color: #B22222;
+    transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- RODAPÉ -- */
+/* ---------------------------------------------------------------------------------- */
+footer {
+    padding: 1rem;
+    background-color: #f7d331ed; 
+    color: rgb(203, 0, 0);
+    font-weight: bold;
+    /* margin-top: 30px; Removido ou reduzido para melhor controle pelo flex-grow */
+    border-top: 5px solid rgb(203, 0, 0); 
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- MEDIA QUERIES (RESPONSIVIDADE) -- */
+/* ---------------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .menu-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .menu-card {
+        max-width: 90%; 
+    }
+}

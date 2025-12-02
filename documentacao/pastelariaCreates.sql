@@ -92,3 +92,7 @@ CREATE TABLE public.pagamento (
         REFERENCES public.pedido (id_pedido)
         ON DELETE CASCADE
 );
+
+
+
+
