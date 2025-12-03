@@ -3,42 +3,73 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Relatório - Mês com mais pasteis vendidos</title>
+  <title>Relatório - Mês com mais pastéis vendidos</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    /* ======== TEMA DARK ======== */
+    /* Reset básico */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    /* FIX: Garante que o elemento raiz use 100% da altura da viewport para o footer */
+    html {
+        height: 100%;
+    }
+
+    /* ======== TEMA LARANJA/VERMELHO ======== */
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background-color: #121212;
-      color: #f1f1f1;
+      font-family: 'Poppins', sans-serif;
+      /* Fundo Laranja/Pêssego */
+      background-color: #ff8630; 
+      /* Texto escuro nos cards claros */
+      color: #4a4a4a; 
       text-align: center;
       padding: 30px;
+      
+      /* Estilo crucial para o rodapé ficar no fundo */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     h1 {
-      color: #ff4444;
+      /* Vermelho Forte */
+      color: rgb(203, 0, 0); 
       margin-bottom: 25px;
-      font-size: 1.8em;
+      font-size: 2.5em;
+      font-weight: 800;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
     }
 
     table {
       width: 60%;
       margin: 20px auto;
       border-collapse: collapse;
-      background: #1e1e1e;
-      color: #f1f1f1;
+      /* Fundo Branco */
+      background: #FFFFFF; 
+      color: #4a4a4a;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+      /* Sombra vermelha acentuada */
+      box-shadow: 0 4px 15px rgba(203, 0, 0, 0.2); 
     }
 
     th, td {
       padding: 12px 15px;
-      border-bottom: 1px solid #333;
+      /* Linha de divisão clara */
+      border-bottom: 1px solid #e0e0e0; 
+    }
+    
+    tr:hover {
+      /* Amarelo de acento com transparência */
+      background-color: #f7d33155; 
     }
 
     th {
-      background-color: #b30000;
+      /* Vermelho Forte */
+      background-color: rgb(203, 0, 0); 
       color: white;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -57,7 +88,8 @@
     }
 
     button {
-      background-color: #b30000;
+      /* Vermelho Forte */
+      background-color: rgb(203, 0, 0); 
       color: white;
       border: none;
       padding: 10px 16px;
@@ -68,18 +100,38 @@
     }
 
     button:hover {
-      background-color: #ff4444;
+      /* Vermelho mais escuro para hover */
+      background-color: #B22222; 
     }
 
     #grafico-container {
+      /* Força o crescimento para empurrar o footer */
+      flex-grow: 1;
+      
       width: 80%;
       max-width: 800px;
       margin: 50px auto;
-      background: #1e1e1e;
+      /* Fundo Branco */
+      background: #FFFFFF; 
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+      /* Sombra neutra/sutil */
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); 
     }
+
+    /* Rodapé (Adicionado para consistência) */
+    footer {
+      /* Garante que o rodapé vá para o final do body */
+      margin-top: auto; 
+      
+      font-size: 12px;
+      color: rgb(203, 0, 0); /* Vermelho Forte */
+      font-weight: bold;
+      background-color: #f7d331ed; /* Amarelo/Ouro de acento */
+      padding: 1rem;
+      border-top: 5px solid rgb(203, 0, 0); /* Borda Vermelha Forte */
+    }
+
 
     /* ======== IMPRESSÃO (A4) ======== */
     @media print {
@@ -98,6 +150,14 @@
         margin: 0;
         padding: 0;
       }
+      
+      /* Resetando o estilo do rodapé para impressão */
+      footer {
+        margin-top: 20px;
+        color: #555;
+        background: none;
+        border-top: none;
+      }
 
       @page {
         size: A4;
@@ -108,17 +168,16 @@
 </head>
 <body>
   <div id="botoes">
-    <button onclick="window.location.href='relatorio.html'">⬅ Voltar</button>
     <button onclick="window.print()">🖨️ Imprimir</button>
   </div>
 
-  <h1>📊 Relatório - Mês com mais pastéis vendidos</h1>
+  <h1>Relatório - Mês com mais pastéis vendidos</h1>
 
   <table>
     <thead>
       <tr>
         <th>Mês</th>
-        <th>Total de Pastéis Vendidas</th>
+        <th>Total de Pastéis Vendidos</th>
       </tr>
     </thead>
     <tbody id="tabela-mes"></tbody>
@@ -127,6 +186,10 @@
   <div id="grafico-container">
     <canvas id="graficoMes"></canvas>
   </div>
+  
+  <footer>
+    <p>Relatório gerado automaticamente pelo sistema da pastelaria</p>
+  </footer>
 
   <script>
     const mesesPT = {
@@ -155,18 +218,19 @@
         // Cria gráfico com gradiente
         const ctx = document.getElementById('graficoMes').getContext('2d');
         const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgba(255, 80, 80, 0.8)');
-        gradient.addColorStop(1, 'rgba(255, 0, 0, 0.3)');
+        // Cores do gradiente ajustadas para o tema Vermelho/Laranja
+        gradient.addColorStop(0, 'rgba(203, 0, 0, 0.8)'); // Vermelho Forte
+        gradient.addColorStop(1, 'rgba(255, 80, 80, 0.3)'); // Vermelho mais claro
 
         new Chart(ctx, {
           type: 'bar',
           data: {
             labels: todos.map(d => d.mes),
             datasets: [{
-              label: 'Pasteis Vendidos',
+              label: 'Pastéis Vendidos',
               data: todos.map(d => d.total),
               backgroundColor: gradient,
-              borderColor: '#ff4444',
+              borderColor: 'rgb(203, 0, 0)', // Borda Vermelho Forte
               borderWidth: 1.5,
               borderRadius: 6,
             }]
@@ -175,29 +239,32 @@
             responsive: true,
             plugins: {
               legend: {
-                labels: { color: '#f1f1f1', font: { weight: 'bold' } }
+                labels: { 
+                    color: '#4a4a4a', // Texto escuro
+                    font: { weight: 'bold' } 
+                }
               },
               title: {
                 display: true,
-                text: 'Vendas Mensais de Pasteis',
-                color: '#ff4444',
+                text: 'Vendas Mensais de Pastéis',
+                color: 'rgb(203, 0, 0)', // Título Vermelho Forte
                 font: { size: 18, weight: 'bold' }
               },
               tooltip: {
-                backgroundColor: '#333',
-                titleColor: '#ff4444',
-                bodyColor: '#fff'
+                backgroundColor: '#B22222', // Fundo Vermelho escuro
+                titleColor: '#FFFFFF', // Título Branco
+                bodyColor: '#FFFFFF' // Corpo Branco
               }
             },
             scales: {
               x: {
-                ticks: { color: '#ccc' },
-                grid: { color: '#333' }
+                ticks: { color: '#4a4a4a' }, // Ticks escuros
+                grid: { color: '#e0e0e0' } // Grid clara
               },
               y: {
                 beginAtZero: true,
-                ticks: { color: '#ccc' },
-                grid: { color: '#333' }
+                ticks: { color: '#4a4a4a' }, // Ticks escuros
+                grid: { color: '#e0e0e0' } // Grid clara
               }
             }
           }

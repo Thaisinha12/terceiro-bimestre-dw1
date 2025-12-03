@@ -1,4 +1,19 @@
 const db = require('../database');
+const path = require('path');
+
+// Abrir relatório: Pastéis mais vendidos
+exports.abrirRelatorioPasteisVendidos = (req, res) => {
+  res.sendFile(
+    path.join(__dirname, '..', '..', 'frontend', 'relatorio', 'relatorio_pastel.html')
+  );
+};
+
+// Abrir relatório: mês com mais vendas
+exports.abrirRelatorioMesVendas = (req, res) => {
+  res.sendFile(
+    path.join(__dirname, '..', '..', 'frontend', 'relatorio', 'relatorio_mes.html')
+  );
+};
 
 // ----------------------
 // MÊS COM MAIS VENDAS
@@ -35,15 +50,17 @@ exports.mesMaisVendas = async (req, res) => {
 exports.pasteisMaisVendidos = async (req, res) => {
   try {
     const query = `
-      SELECT 
-        p.nome_pastel AS nome,
-        SUM(pp.quantidade) AS quantidade
-      FROM pedido_has_produto pp
-      JOIN pastel p ON p.id_pastel = pp.pastel_id_pastel
-      GROUP BY p.nome_pastel
-      ORDER BY quantidade DESC
-      LIMIT 10;
-    `;
+  SELECT 
+    p.nome_produto AS nome,
+    SUM(pp.quantidade) AS quantidade
+  FROM pedido_has_produto pp
+  JOIN produto p ON p.id_produto = pp.produto_id_produto
+  WHERE p.id_categoria IN (1, 2)   -- ← aqui filtramos só os pastéis
+  GROUP BY p.nome_produto
+  ORDER BY quantidade DESC
+  LIMIT 10;
+`;
+
 
     const result = await db.pool.query(query);
     res.json(result.rows);

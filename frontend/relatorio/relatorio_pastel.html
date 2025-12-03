@@ -3,26 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Relatório - Pasteis mais vendidas</title>
+  <title>Relatório - Pastéis mais vendidas</title>
   <link rel="stylesheet" href="../menu.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
  <style>
+    /* Reset básico */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
     /* ==========================
-       ESTILO NORMAL (DARK MODE)
+       ESTILO NORMAL (Cores Adaptadas)
        ========================== */
     body {
-      font-family: Arial, sans-serif;
+      /* Fundo Laranja/Pêssego e fonte Poppins */
+      font-family: 'Poppins', sans-serif; 
       text-align: center;
       padding: 20px;
       margin: 0;
-      background-color: #121212;
-      color: #fff;
+      background-color: #ff8630; /* Fundo Laranja/Pêssego */
+      color: #4a4a4a; /* Dark Gray para o texto */
+      
+      /* Para empurrar o footer (essencial do seu primeiro CSS) */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     h1 {
       margin-bottom: 20px;
-      color: #ff5555;
+      color: rgb(203, 0, 0); /* Vermelho Forte */
+      font-size: 2.5rem;
+      font-weight: 800;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
     }
 
     #botoes {
@@ -35,7 +51,7 @@
     }
 
     button {
-      background-color: #b30000;
+      background-color: rgb(203, 0, 0); /* Vermelho Forte */
       color: white;
       border: none;
       padding: 10px 16px;
@@ -46,53 +62,66 @@
     }
 
     button:hover {
-      background-color: #ff4444;
+      background-color: #B22222; /* Vermelho mais escuro para hover */
     }
 
+    /* Tabela */
     table {
       width: 85%;
       margin: 25px auto;
       border-collapse: collapse;
-      background-color: #1e1e1e;
+      background-color: #FFFFFF; /* Branco como os cards do menu */
+      color: #4a4a4a;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+      /* Sombra vermelha acentuada */
+      box-shadow: 0 4px 15px rgba(203, 0, 0, 0.2); 
     }
 
     th, td {
       padding: 12px;
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid #e0e0e0; /* Linha de divisão clara */
       text-align: left;
     }
 
     th {
-      background-color: #b30000;
+      background-color: rgb(203, 0, 0); /* Vermelho Forte */
       color: white;
       text-align: center;
+      border-bottom: none;
     }
 
     tr:hover {
-      background-color: #2a2a2a;
+      /* Amarelo de acento com transparência */
+      background-color: #f7d33155; 
     }
 
+    /* Container do Gráfico */
     #grafico-container {
       width: 70%;
       max-width: 550px;
       margin: 30px auto;
-      background-color: #1e1e1e;
+      background-color: #FFFFFF; /* Branco como os cards do menu */
       border-radius: 10px;
       padding: 20px;
-      box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+      /* Sombra neutra/sutil */
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); 
     }
 
+    /* Rodapé */
     footer {
       font-size: 12px;
-      color: #aaa;
-      margin-top: 40px;
+      color: rgb(203, 0, 0); /* Vermelho Forte */
+      font-weight: bold;
+      /* Usa o espaço restante do flex-grow */
+      margin-top: auto; 
+      background-color: #f7d331ed; /* Amarelo/Ouro de acento */
+      padding: 1rem;
+      border-top: 5px solid rgb(203, 0, 0); /* Borda Vermelha Forte */
     }
 
     /* ==========================
-       MODO IMPRESSÃO (A4)
+       MODO IMPRESSÃO (A4) - Ajustando cores fortes
        ========================== */
     @media print {
       body {
@@ -100,6 +129,11 @@
         color: black;
         margin: 0;
         padding: 10mm 15mm;
+      }
+      
+      h1 {
+         color: rgb(203, 0, 0);
+         text-shadow: none;
       }
 
       #botoes {
@@ -115,7 +149,8 @@
       }
 
       th {
-        background-color: #b30000 !important;
+        /* Mantendo a cor forte para impressão */
+        background-color: rgb(203, 0, 0) !important;
         color: white !important;
       }
 
@@ -134,6 +169,8 @@
         text-align: center;
         font-size: 10px;
         color: #777;
+        background: none;
+        border-top: none;
       }
 
       @page {
@@ -145,7 +182,6 @@
 </head>
 <body>
   <div id="botoes">
-    <button onclick="window.location.href='relatorio.html'">⬅ Voltar</button>
     <button onclick="window.print()">🖨️ Imprimir</button>
   </div>
 
@@ -166,7 +202,7 @@
   </div>
 
   <footer>
-    <p>Relatório gerado automaticamente pelo sistema da Pastelaria</p>
+    <p>Relatório gerado automaticamente pelo sistema da pastelaria</p>
   </footer>
 
   <script>
@@ -175,8 +211,8 @@
         const response = await fetch('http://localhost:3001/relatorios/pasteis-mais-vendidos');
         const data = await response.json();
 
-        // limitar a no máximo 10 pasteis para caber bem na página
-        const topPasteis = data.slice(0, 10);
+        // limitar a no máximo 3 pasteis para caber bem na página
+        const topPasteis = data.slice(0, 3);
 
         const tabela = document.getElementById('tabela-pasteis');
         tabela.innerHTML = topPasteis.map(pastel => `
@@ -193,12 +229,20 @@
             labels: topPasteis.map(p => p.nome),
             datasets: [{
               data: topPasteis.map(p => p.quantidade),
-              backgroundColor: topPasteis.map(() => `hsl(${Math.random()*360},70%,60%)`)
+              // Cores do gráfico ajustadas para o tema (Vermelho, Amarelo, Laranja)
+              backgroundColor: ['#c30707', '#f7d331', '#ff8630'],
             }]
           },
           options: {
             plugins: {
-              legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 12 } } }
+              legend: { 
+                position: 'bottom', 
+                labels: { 
+                    boxWidth: 12, 
+                    font: { size: 12 },
+                    color: '#4a4a4a' // Cor da legenda em Dark Gray
+                } 
+              }
             },
             layout: { padding: 10 },
             responsive: true,

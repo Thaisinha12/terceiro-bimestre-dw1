@@ -102,8 +102,8 @@ const pedidoRoutes = require('./routes/pedidoRoutes');
 app.use('/pedido', pedidoRoutes);
 
 // Rotas dos relatórios (API JSON)
-//const relatorioRoutes = require('./routes/relatorioRoutes');
-//app.use('/relatorios', relatorioRoutes);
+const relatorioRoutes = require('./routes/relatorioRoutes');
+app.use('/relatorios', relatorioRoutes);
 
 //const pedido_has_produtoRoutes = require('./routes/pedido_has_produtoRoutes');
 //app.use('/pedido_has_produto', pedido_has_produtoRoutes);
