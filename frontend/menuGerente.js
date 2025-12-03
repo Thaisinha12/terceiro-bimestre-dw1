@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         produtosDaCategoria.forEach(produto => {
             const card = document.createElement('div');
             card.className = 'produto-card';
-            const imagemSrc = `imagens/${produto.id_produto}.jpeg`; 
+            const imagemSrc = `http://localhost:3001/imagens-produtos/${produto.id_produto}.png`;
 
             card.innerHTML = `
                 <img src="${imagemSrc}" alt="Imagem de ${produto.nome_produto}" onerror="this.onerror=null; this.src='https://placehold.co/300x200/cccccc/333333?text=Sem+Imagem'">
@@ -112,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!estado || estado.produtoCount <= 1) return;
 
         let newIndex = estado.currentIndex;
-
         if (direcao === 'proximo') {
             newIndex = (newIndex < estado.produtoCount - 1) ? newIndex + 1 : 0;
         } else if (direcao === 'anterior') {
