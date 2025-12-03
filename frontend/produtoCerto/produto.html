@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD - Produto</title>
-    <link rel="stylesheet" href="./produto.css">
+    <link rel="stylesheet" href="/produto/produto.css">
 </head>
 
 <body>
@@ -37,26 +37,24 @@
                     <legend>Dados do Produto</legend>
 
                     <div class="form-group">
-                        <label for="nome_produto">Nome do produto:</label>
+                        <label for="nome_produto">Nome:</label>
                         <input type="text" id="nome_produto" name="nome_produto" required>
-                        <label for="quant_estoque">Quantidade do produto no estoque:</label>
-                        <input type="number" id="quant_estoque" name="quant_estoque" required>
-                        <label for="preco_produto">Preço unitário do produto:</label>
+                    </div>                 
+
+                    <div class="form-group">
+                        <label for="quant_estoque">Quantidade de estoque:</label>
+                        <input type="text" id="quant_estoque" name="quant_estoque" required>
+                    </div>   
+
+                    <div class="form-group">
+                        <label for="preco_produto">Preço:</label>
                         <input type="number" id="preco_produto" name="preco_produto" required>
-                        <label for="id_categoria">ID da categoria:</label>
-                        <select id="id_categoria" name="id_categoria" required>
-                            <option value="">Selecione...</option>
-                        </select>
+                    </div> 
 
-
-                        <div class="image-upload-group">
-                            <img id="imgProdutoVisualizacao" src="" alt="Imagem do Produto 01">                           
-                            <input type="file" id="imgProdutoInput" accept="image/*">
-                            <input type="text" id="imgURL" placeholder="Ou insira a URL da imagem">
-                            <input type="button" value="Carregar Imagem" id="btnCarregarImagem">
-                        </div>
-
-                    </div>
+                    <div class="form-group">
+                        <label for="id_categoria">Id da categoria:</label>
+                        <input type="number" id="id_categoria" name="id_categoria" required>
+                    </div> 
                 </fieldset>
             </form>
         </section>
@@ -67,10 +65,10 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nome</th>
-                            <th>Estoque</th>
-                            <th>Preço unitário</th>
-                            <th>ID da categoria</th>
+                            <th>Nome</th> 
+                            <th>Quantidade de estoque</th>   
+                            <th>Preço</th>      
+                            <th>ID da categoria:</th>               
                         </tr>
                     </thead>
                     <tbody id="produtosTableBody">
@@ -87,7 +85,7 @@
 
     <div id="messageContainer" class="message-container"></div>
 
-    <script src="./produto.js" defer></script>
+    <script src="produto.js" defer></script>
 
 </body>
 

@@ -1,0 +1,308 @@
+/* Reset básico - Mantido, é essencial */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILOS GERAIS E FUNDO (Foco na Suavidade) -- */
+/* ---------------------------------------------------------------------------------- */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ff8630; /* Fundo Laranja/Pêssego */
+    color: #4a4a4a;
+    min-height: 100vh;
+    display: flex; /* Para layout flexível */
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1; /* Ocupa o espaço restante */
+    padding: 2rem;
+    max-width: 1200px; /* Limita a largura do conteúdo principal */
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- CABEÇALHO (Clean e Sofisticado) -- */
+/* ---------------------------------------------------------------------------------- */
+header {
+    background-color: #f7d331ed; /* Amarelo */
+    padding: 1.5rem 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border-bottom: 5px solid rgb(203, 0, 0); /* Vermelho */
+    text-align: center; /* Centraliza o texto */
+}
+
+header h1 {
+    color: rgb(203, 0, 0); /* Vermelho primário */
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- SEÇÕES DE FORMULÁRIO E LISTA (Cards de Conteúdo) -- */
+/* ---------------------------------------------------------------------------------- */
+.form-section, .list-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.form-section {
+    margin-top: 2rem; /* Espaço após o cabeçalho */
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: rgb(203, 0, 0);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #ff8630; /* Linha laranja para destaque */
+    padding-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILOS DO FORMULÁRIO -- */
+/* ---------------------------------------------------------------------------------- */
+
+#produtoForm { /* ADAPTADO */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #ff8630;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fff9f6; /* Fundo mais claro para a busca */
+}
+
+.search-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-input-group input[type="number"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#formFields {
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#formFields legend {
+    color: rgb(203, 0, 0);
+    font-weight: 600;
+    padding: 0 10px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #4a4a4a;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"] { /* ATUALIZADO: Inclui input[type="number"] */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILOS DOS BOTÕES -- */
+/* ---------------------------------------------------------------------------------- */
+.search-input-group button,
+.btn-primary, .btn-secondary, .btn-danger, .btn-save, .btn-cancel {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+}
+
+/* Botões de Ação Principal (Incluir/Salvar) */
+.btn-primary, .btn-save {
+    background-color: rgb(203, 0, 0);
+    color: white;
+}
+
+.btn-primary:hover, .btn-save:hover {
+    background-color: #B22222;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Botão de Alterar */
+.btn-secondary {
+    background-color: #f7d331;
+    color: rgb(203, 0, 0);
+}
+
+.btn-secondary:hover {
+    background-color: #ffde40;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Botão de Excluir */
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Botões de Cancelar/Buscar */
+#btnBuscar, .btn-cancel {
+    background-color: #e0e0e0;
+    color: #4a4a4a;
+}
+
+#btnBuscar:hover, .btn-cancel:hover {
+    background-color: #ccc;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILOS DA TABELA -- */
+/* ---------------------------------------------------------------------------------- */
+.table-container {
+    overflow-x: auto;
+    margin-top: 1.5rem;
+}
+
+#produtosTable { /* ADAPTADO */
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    text-align: left;
+}
+
+#produtosTable thead { /* ADAPTADO */
+    background-color: rgb(203, 0, 0);
+    color: white;
+}
+
+#produtosTable th, #produtosTable td { /* ADAPTADO */
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+#produtosTable tbody tr:nth-child(even) { /* ADAPTADO */
+    background-color: #f9f9f9;
+}
+
+#produtosTable tbody tr:hover { /* ADAPTADO */
+    background-color: #fff3e0;
+    cursor: pointer;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- FOOTER -- */
+/* ---------------------------------------------------------------------------------- */
+footer {
+    background-color:#f7d331ed; 
+    color: rgb(203, 0, 0); 
+    text-align: center;
+    padding: 1em 0;
+    margin-top: 2rem;
+    font-weight: bold;
+    border-top: 5px solid rgb(203, 0, 0);
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- Mensagens (Placeholder) -- */
+/* ---------------------------------------------------------------------------------- */
+.message-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILOS DO FIELDSET E LEGEND -- */
+/* ---------------------------------------------------------------------------------- */
+#formFields {
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+#formFields legend {
+    color: rgb(203, 0, 0);
+    font-weight: 600;
+    padding: 0 10px;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILOS DOS INPUTS DE DADOS -- */
+/* ---------------------------------------------------------------------------------- */
+#nome_produto:focus, /* ADAPTADO */
+#quant_estoque:focus, /* NOVO */
+#preco_produto:focus { /* NOVO */
+    border-color: rgb(203, 0, 0);
+    outline: none;
+    box-shadow: 0 0 5px rgba(203, 0, 0, 0.5);
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* -- ESTILO PARA O ID NA TABELA (Classe .btn-id usada no JS) -- */
+/* ---------------------------------------------------------------------------------- */
+.btn-id {
+    /* Cor de fundo: Laranja/Pêssego (similar ao fundo do body) */
+    background-color: #ff8630;
+    /* Cor do texto: O Vermelho principal do sistema */
+    color: #4a4a4a;
+
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9em;
+    font-weight: 700;
+
+    border-radius: 6px;
+    border: 1px solid rgb(203, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 35px;
+    text-align: center;
+    text-transform: none;
+}
+
+.btn-id:hover {
+    background-color: #ff964f;
+    transform: scale(1.03);
+    box-shadow: 0 2px 5px rgba(255, 134, 48, 0.4);
+}

@@ -1,8 +1,16 @@
-
 // Configuração da API, IP e porta.
 const API_BASE_URL = 'http://localhost:3001';
 let currentPersonId = null;
 let operacao = null;
+
+// --- CONSTANTES DE CAMINHO DE IMAGEM ---
+// Rota base para servir a imagem (do seu routerImagem.js)
+const VIEW_IMAGE_BASE_URL = `${API_BASE_URL}/view-image`;
+// Rota base para o upload/download da imagem (do seu routerImagem.js)
+const UPLOAD_IMAGE_ROUTE = `${API_BASE_URL}/upload-image`;
+// Fallback para quando a imagem não for encontrada
+const FALLBACK_IMAGE_PATH = '/imagens/produtos/000.png';
+// =====================================
 
 // Elementos do DOM
 const form = document.getElementById('produtoForm');
@@ -16,9 +24,20 @@ const btnSalvar = document.getElementById('btnSalvar');
 const produtosTableBody = document.getElementById('produtosTableBody');
 const messageContainer = document.getElementById('messageContainer');
 
+// >>> ELEMENTOS DOM PARA IMAGEM <<<
+const imgProdutoVisualizacao = document.getElementById('imgProdutoVisualizacao');
+const imgProdutoInput = document.getElementById('imgProdutoInput');
+const imgURL = document.getElementById('imgURL');
+const btnCarregarImagem = document.getElementById('btnCarregarImagem');
+
+
 // Carregar lista de produtos ao inicializar
 document.addEventListener('DOMContentLoaded', () => {
     carregarProdutos();
+    carregarCategorias();
+    // Garante que a imagem inicial seja o fallback
+    imgProdutoVisualizacao.src = FALLBACK_IMAGE_PATH;
+    imgProdutoVisualizacao.alt = 'Imagem Padrão';
 });
 
 // Event Listeners
@@ -28,6 +47,10 @@ btnAlterar.addEventListener('click', alterarProduto);
 btnExcluir.addEventListener('click', excluirProduto);
 btnCancelar.addEventListener('click', cancelarOperacao);
 btnSalvar.addEventListener('click', salvarOperacao);
+
+// >>> NOVO EVENT LISTENER PARA UPLOAD DA IMAGEM <<<
+btnCarregarImagem.addEventListener('click', handleImageUpload);
+
 
 mostrarBotoes(true, false, false, false, false, false);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
 bloquearCampos(false);//libera pk e bloqueia os demais campos
@@ -41,16 +64,14 @@ function mostrarMensagem(texto, tipo = 'info') {
 }
 
 function bloquearCampos(bloquearPrimeiro) {
-
-    
-    const inputs = form.querySelectorAll('input');
-    console.log("inputs "+ inputs)
-    inputs.forEach((input, index) => {
-        if (index === 0) {
-            // Primeiro elemento - bloqueia se bloquearPrimeiro for true, libera se for false
+    const inputs = form.querySelectorAll('input, select');
+    inputs.forEach((input) => {
+        // Se for o searchId (PK)
+        if (input.id === 'searchId') {
+            // Bloqueia searchId se 'bloquearPrimeiro' for TRUE, libera se for FALSE
             input.disabled = bloquearPrimeiro;
         } else {
-            // Demais elementos - faz o oposto do primeiro
+            // Demais campos: Bloqueia se 'bloquearPrimeiro' for FALSE, libera se for TRUE
             input.disabled = !bloquearPrimeiro;
         }
     });
@@ -59,6 +80,9 @@ function bloquearCampos(bloquearPrimeiro) {
 // Função para limpar formulário
 function limparFormulario() {
     form.reset();
+    // Garante que a imagem volta para o padrão quando o formulário é limpo
+    imgProdutoVisualizacao.src = FALLBACK_IMAGE_PATH;
+    imgProdutoVisualizacao.alt = 'Imagem Padrão';
 }
 
 
@@ -71,17 +95,38 @@ function mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCa
     btnCancelar.style.display = btCancelar ? 'inline-block' : 'none';
 }
 
-// Função para formatar data para exibição
+// Funções de formatação (mantidas)
 function formatarData(dataString) {
     if (!dataString) return '';
     const data = new Date(dataString);
     return data.toLocaleDateString('pt-BR');
 }
-
-// Função para converter data para formato ISO
 function converterDataParaISO(dataString) {
     if (!dataString) return null;
     return new Date(dataString).toISOString();
+}
+
+async function carregarCategorias() {
+    const select = document.getElementById('id_categoria');
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/categoria`);
+        if (!response.ok) throw new Error('Erro ao buscar categorias');
+
+        const categorias = await response.json();
+
+        select.innerHTML = '<option value="">Selecione...</option>';
+
+        categorias.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.id_categoria;
+            option.textContent = `${cat.id_categoria} - ${cat.nome_categoria}`;
+            select.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error('Erro ao carregar categorias', error);
+    }
 }
 
 // Função para buscar produto por ID
@@ -91,26 +136,25 @@ async function buscarProduto() {
         mostrarMensagem('Digite um ID para buscar', 'warning');
         return;
     }
-    bloquearCampos(false);
-    //focus no campo searchId
     searchId.focus();
     try {
         const response = await fetch(`${API_BASE_URL}/produto/${id}`);
+        // console.log(JSON.stringify(response));
 
         if (response.ok) {
             const produto = await response.json();
             preencherFormulario(produto);
 
-            mostrarBotoes(true, false, true, true, false, false);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
+            mostrarBotoes(true, false, true, true, false, true);// Mostrar Alterar/Excluir, Cancelar
+            bloquearCampos(false); // Libera PK (Search ID) e Bloqueia os demais.
             mostrarMensagem('Produto encontrado!', 'success');
 
         } else if (response.status === 404) {
             limparFormulario();
             searchId.value = id;
-            mostrarBotoes(true, true, false, false, false, false); //mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
+            mostrarBotoes(true, true, false, false, false, false); // Mostrar Buscar/Incluir
+            bloquearCampos(false); // Libera PK (Search ID) e Bloqueia os demais.
             mostrarMensagem('Produto não encontrado. Você pode incluir um novo produto.', 'info');
-            bloquearCampos(false);//bloqueia a pk e libera os demais campos
-            //enviar o foco para o campo de nome
         } else {
             throw new Error('Erro ao buscar produto');
         }
@@ -122,115 +166,211 @@ async function buscarProduto() {
 
 // Função para preencher formulário com dados da produto
 function preencherFormulario(produto) {
-    currentPersonId = produto.id_produto;
-    searchId.value = produto.id_produto;
-    document.getElementById('nome_produto').value = produto.nome_produto || ''; 
-    document.getElementById('quant_estoque').value = produto.quant_estoque || ''; 
-    document.getElementById('preco_produto').value = produto.preco_produto || ''; 
-    document.getElementById('id_categoria').value = produto.id_categoria || ''; 
+
+    // Assumindo que o backend retorna 'idproduto', 'nomeproduto', etc.,
+    // e o seu HTML usa 'id_produto', 'nome_produto', etc.
+    // Usaremos a coerência do backend onde possível, mas o HTML é o padrão:
+
+    const produtoId = produto.idproduto || produto.id_produto;
+    currentPersonId = produtoId;
+    searchId.value = produtoId;
+
+    // >>> USANDO OS NOVOS IDs DO HTML: nome_produto, quant_estoque, preco_produto, id_categoria <<<
+    document.getElementById('nome_produto').value = produto.nomeproduto || produto.nome_produto || '';
+    document.getElementById('quant_estoque').value = produto.quantidadeemestoque || produto.quant_estoque || 0;
+    document.getElementById('preco_produto').value = produto.precounitario || produto.preco_produto || 0;
+    document.getElementById('id_categoria').value = produto.idcategoria || produto.id_categoria || 0;
+
+    // Lógica para carregamento dinâmico da imagem com fallback
+    const imgElement = document.getElementById('imgProdutoVisualizacao');
+
+    if (imgElement) {
+        imgElement.style.width = '200px';
+        imgElement.style.height = '200px';
+    }
+
+    // Limpa erro anterior e define o handler de erro para o fallback
+    imgElement.onerror = function() {
+        // Se a imagem com o ID não for encontrada via /view-image, carrega o fallback.
+        imgElement.src = FALLBACK_IMAGE_PATH;
+        imgElement.alt = 'Imagem Padrão não encontrada';
+        imgElement.onerror = null; // Evita loop
+    };
+
+    if (imgElement && produtoId) {
+        // Tenta carregar a imagem usando a rota /view-image/:produtoId
+        // Adiciona um timestamp para forçar o navegador a recarregar (burlar o cache)
+        const imagePath = `${VIEW_IMAGE_BASE_URL}/${produtoId}?t=${new Date().getTime()}`;
+        imgElement.src = imagePath;
+        imgElement.alt = `Imagem do Produto ID ${produtoId}`;
+
+    } else if (imgElement) {
+        // Se não houver ID do produto, mostra o fallback imediatamente
+        imgElement.src = FALLBACK_IMAGE_PATH;
+        imgElement.alt = 'Imagem Padrão';
+        imgElement.onerror = null;
+    }
+}
+
+
+async function handleImageUpload() {
+    const id = searchId.value.trim();
+
+    // A imagem só pode ser salva/renomeada se houver um ID conhecido
+    if (!id || (operacao !== 'alterar' && operacao !== 'incluir')) {
+        mostrarMensagem('Busque ou inclua o produto e esteja no modo de Alteração/Inclusão para carregar a imagem.', 'warning');
+        return;
+    }
+
+    const file = imgProdutoInput.files[0];
+    const url = imgURL.value.trim();
+
+    if (!file && !url) {
+        mostrarMensagem('Selecione um arquivo local OU cole uma URL para carregar.', 'warning');
+        return;
+    }
+
+    // 1. Prepara os dados para envio
+    let formData = new FormData();
+    formData.append('produtoId', id); // O ID será o novo nome do arquivo, como esperado pelo backend
+
+    if (file) {
+        // Opção 1: Upload de arquivo local
+        formData.append('imageSource', 'local');
+        formData.append('imageFile', file);
+    } else if (url) {
+        // Opção 2: Download de URL
+        formData.append('imageSource', 'url');
+        formData.append('imageUrl', url);
+    } else {
+        return; // Caso nenhum dado válido
+    }
+
+    mostrarMensagem('Enviando imagem para o servidor...', 'info');
+
+    try {
+        // 2. Envia para o endpoint de upload (/upload-image)
+        const response = await fetch(UPLOAD_IMAGE_ROUTE, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            // 3. Sucesso: Recarrega a imagem na tela para bustar o cache
+            const imagePath = `${VIEW_IMAGE_BASE_URL}/${id}?t=${new Date().getTime()}`;
+            imgProdutoVisualizacao.src = imagePath;
+            mostrarMensagem('Imagem carregada e salva com sucesso!', 'success');
+
+            // 4. Limpa os campos após sucesso
+            imgProdutoInput.value = '';
+            imgURL.value = '';
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Falha ao salvar a imagem no servidor.');
+        }
+
+    } catch (error) {
+        console.error('Erro no upload da imagem:', error);
+        mostrarMensagem(`Erro no upload: ${error.message}`, 'error');
+    }
 }
 
 
 // Função para incluir produto
 async function incluirProduto() {
-
     mostrarMensagem('Digite os dados!', 'success');
     currentPersonId = searchId.value;
-    // console.log('Incluir nova produto - currentPersonId: ' + currentPersonId);
     limparFormulario();
     searchId.value = currentPersonId;
-    bloquearCampos(true);
+    bloquearCampos(true); // Bloqueia PK (Search ID) e Libera os demais.
 
-    mostrarBotoes(false, false, false, false, true, true); // mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
+    mostrarBotoes(false, false, false, false, true, true); // Mostrar Salvar/Cancelar
+    // >>> FOCA NO PRIMEIRO CAMPO DE DADOS <<<
     document.getElementById('nome_produto').focus();
     operacao = 'incluir';
-    }
+}
 
 // Função para alterar produto
 async function alterarProduto() {
     mostrarMensagem('Digite os dados!', 'success');
-    bloquearCampos(true);
-    mostrarBotoes(false, false, false, false, true, true);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
+    bloquearCampos(true); // Bloqueia PK (Search ID) e Libera os demais.
+    mostrarBotoes(false, false, false, false, true, true);// Mostrar Salvar/Cancelar
+    // >>> FOCA NO PRIMEIRO CAMPO DE DADOS <<<
     document.getElementById('nome_produto').focus();
     operacao = 'alterar';
 }
 
 // Função para excluir produto
 async function excluirProduto() {
-    mostrarMensagem('Excluindo produto...', 'info');
+    mostrarMensagem('Confirmar exclusão? Clique em Salvar!', 'info');
     currentPersonId = searchId.value;
-    //bloquear searchId
-    searchId.disabled = true;
-    bloquearCampos(false); // libera os demais campos
-    mostrarBotoes(false, false, false, false, true, true);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)           
+    searchId.disabled = true; // Bloqueia searchId para exclusão
+    bloquearCampos(false); // Mantém os campos bloqueados
+    mostrarBotoes(false, false, false, false, true, true);// Mostrar Salvar/Cancelar
     operacao = 'excluir';
 }
 
 async function salvarOperacao() {
     console.log('Operação:', operacao + ' - currentPersonId: ' + currentPersonId + ' - searchId: ' + searchId.value);
 
-    const formData = new FormData(form);
+    // >>> USANDO OS NOVOS IDs DO HTML PARA PEGAR OS VALORES <<<
     const produto = {
         id_produto: searchId.value,
-        nome_produto: formData.get('nome_produto'),
-        quant_estoque: formData.get('quant_estoque'),
-        preco_produto: formData.get('preco_produto'),
-        id_categoria: formData.get('id_categoria')
+        nome_produto: document.getElementById('nome_produto').value,
+        quant_estoque: document.getElementById('quant_estoque').value,
+        preco_produto: document.getElementById('preco_produto').value,
+        id_categoria: document.getElementById('id_categoria').value,
     };
+
+   // alert(JSON.stringify(produto));
+
     let response = null;
     try {
-        if (operacao === 'incluir') {
-            response = await fetch(`${API_BASE_URL}/produto`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(produto)
-            });
-        } else if (operacao === 'alterar') {
-            response = await fetch(`${API_BASE_URL}/produto/${currentPersonId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(produto)
-            });
-        } else if (operacao === 'excluir') {
-            // console.log('Excluindo produto com ID:', currentPersonId);
-            response = await fetch(`${API_BASE_URL}/produto/${currentPersonId}`, {
-                method: 'DELETE'
-            });
-            console.log('Produto excluído' + response.status);
-        }
-        if (response.ok && (operacao === 'incluir' || operacao === 'alterar')) {
-            const novoProduto = await response.json();
-            mostrarMensagem('Operação ' + operacao + ' realizada com sucesso!', 'success');
-            limparFormulario();
-            carregarProdutos();
+        let url = `${API_BASE_URL}/produto`;
 
-        } else if (operacao !== 'excluir') {
-            const error = await response.json();
-            mostrarMensagem(error.error || 'Erro ao incluir produto', 'error');
-        } else {
-            mostrarMensagem('Produto excluído com sucesso!', 'success');
+        let method = 'POST';
+        let body = JSON.stringify(produto);
+        let headers = { 'Content-Type': 'application/json' };
+
+        if (operacao === 'alterar') {
+            url = `${API_BASE_URL}/produto/${currentPersonId}`;
+            method = 'PUT';
+        } else if (operacao === 'excluir') {
+            url = `${API_BASE_URL}/produto/${currentPersonId}`;
+            method = 'DELETE';
+            body = undefined;
+            headers = {};
+        }
+
+        response = await fetch(url, { method, headers, body });
+
+        if (response.ok) {
+            if (operacao === 'excluir') {
+                mostrarMensagem('Produto excluído com sucesso!', 'success');
+            } else {
+                mostrarMensagem(`Operação ${operacao} realizada com sucesso!`, 'success');
+            }
             limparFormulario();
             carregarProdutos();
+        } else {
+            const error = await response.json();
+            mostrarMensagem(error.error || `Erro ao ${operacao} produto`, 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        mostrarMensagem('Erro ao incluir ou alterar a produto', 'error');
+        mostrarMensagem('Erro ao comunicar com o servidor', 'error');
     }
 
-    mostrarBotoes(true, false, false, false, false, false);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
-    bloquearCampos(false);//libera pk e bloqueia os demais campos
+    mostrarBotoes(true, false, false, false, false, false);// Mostrar Buscar
+    bloquearCampos(false);// Libera PK e Bloqueia os demais.
     document.getElementById('searchId').focus();
 }
 
 // Função para cancelar operação
 function cancelarOperacao() {
     limparFormulario();
-    mostrarBotoes(true, false, false, false, false, false);// mostrarBotoes(btBuscar, btIncluir, btAlterar, btExcluir, btSalvar, btCancelar)
-    bloquearCampos(false);//libera pk e bloqueia os demais campos
+    mostrarBotoes(true, false, false, false, false, false);// Mostrar Buscar
+    bloquearCampos(false);// Libera PK e Bloqueia os demais.
     document.getElementById('searchId').focus();
     mostrarMensagem('Operação cancelada', 'info');
 }
@@ -239,7 +379,7 @@ function cancelarOperacao() {
 async function carregarProdutos() {
     try {
         const response = await fetch(`${API_BASE_URL}/produto`);
-    //    debugger
+
         if (response.ok) {
             const produtos = await response.json();
             renderizarTabelaProdutos(produtos);
@@ -257,18 +397,24 @@ function renderizarTabelaProdutos(produtos) {
     produtosTableBody.innerHTML = '';
 
     produtos.forEach(produto => {
+        // Tenta usar os nomes mais comuns do backend/JSON
+        const id = produto.idproduto || produto.id_produto;
+        const nome = produto.nomeproduto || produto.nome_produto;
+        const estoque = produto.quantidadeemestoque || produto.quant_estoque;
+        const preco = produto.precounitario || produto.preco_produto;
+        const categoria = produto.idcategoria || produto.id_categoria;
+
         const row = document.createElement('tr');
         row.innerHTML = `
                     <td>
-                        <button class="btn-id" onclick="selecionarProduto(${produto.id_produto})">
-                            ${produto.id_produto}
+                        <button class="btn-id" onclick="selecionarProduto(${id})">
+                            ${id}
                         </button>
                     </td>
-                    <td>${produto.nome_produto}</td>
-                    <td>${produto.quant_estoque}</td>
-                    <td>${produto.preco_produto}</td>
-                    <td>${produto.id_categoria ?? 'Sem categoria'}</td>
-
+                    <td>${nome}</td>
+                    <td>${estoque}</td>
+                    <td>${preco}</td>
+                    <td>${produto.id_categoria}</td>
 
                 `;
         produtosTableBody.appendChild(row);
