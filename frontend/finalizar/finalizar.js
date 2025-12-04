@@ -4,7 +4,7 @@ function carregarFinalizar() {
     // MUDANÇA: Agora busca a tag <tbody> pelo ID 'listaFinalizar'
     const tbodyLista = document.getElementById('listaFinalizar');
     const totalFinal = document.getElementById('total-final');
-    const carrinho = JSON.parse(sessionStorage.getItem('carrinho')) || [];
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
     // Limpa apenas o corpo da tabela (mantendo o cabeçalho <thead>)
     tbodyLista.innerHTML = '';
@@ -128,7 +128,7 @@ async function enviarDadosParaBD() {
         console.log('Conteúdo do carrinho obtido do sessionStorage:', dadosItensDoPedido);
 
 
-        const rotaLote = 'http://localhost:3001/pedido_has_produto/lote'; // A rota que enviatrá os itens do pedido para tabela pedido_has_produto
+        const rotaLote = 'http://localhost:3001/pedido_has_produto/lote'; // A rota que enviará os itens do pedido para tabela pedido_has_produto
 
         fetch(rotaLote, {
             method: 'POST',

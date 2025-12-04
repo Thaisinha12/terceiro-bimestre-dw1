@@ -92,8 +92,8 @@ app.use('/', imageRoutes); // Rota /upload-image
 const cargoRoutes = require('./routes/cargoRoutes');
 app.use('/cargo', cargoRoutes);
 
-//const pagamentoRoutes = require('./pagamentoRoutes');
-//app.use('/pagamento', pagamentoRoutes);
+const pagamentoRoutes = require('./pagamentoRoutes');
+app.use('/pagamento', pagamentoRoutes);
 
 const produtoRoutes = require('./routes/produtoRoutes');
 app.use('/produto', produtoRoutes);
@@ -105,8 +105,8 @@ app.use('/pedido', pedidoRoutes);
 const relatorioRoutes = require('./routes/relatorioRoutes');
 app.use('/relatorios', relatorioRoutes);
 
-//const pedido_has_produtoRoutes = require('./routes/pedido_has_produtoRoutes');
-//app.use('/pedido_has_produto', pedido_has_produtoRoutes);
+const pedido_has_produtoRoutes = require('./routes/pedido_has_produtoRoutes');
+app.use('/pedido_has_produto', pedido_has_produtoRoutes);
 
 //clienteRoutes tem que vir antes de pessoaRoutes
 const clienteRoutes = require('./routes/clienteRoutes');

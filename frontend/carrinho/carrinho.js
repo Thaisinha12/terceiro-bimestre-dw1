@@ -64,7 +64,8 @@ function limparCarrinho() {
 }
 
 function finalizarPedido() {
-    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const  carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+   
     if (carrinho.length === 0) {
         alert("Seu carrinho está vazio."); 
         return;
