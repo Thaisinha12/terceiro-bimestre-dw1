@@ -22,7 +22,8 @@ async function verificarEmail() {
     } else {
         const cadastrar = confirm("E-mail não encontrado. Deseja se cadastrar?");
         if (cadastrar) {
-            alert("Redirecionando para tela de cadastro... (não implementado)");
+            window.location.href = "http://localhost:3001/criarConta/criarConta.html";
+            //alert("Redirecionando para tela de cadastro... (não implementado)");
         }
     }
 }

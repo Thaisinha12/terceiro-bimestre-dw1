@@ -129,7 +129,8 @@ app.use('/categoria', categoriaRoutes);
 const loginRoutes = require('./routes/loginRoutes');
 app.use('/login', loginRoutes);
 
-
+const criarContaRoutes = require('./routes/criarContaRoutes');
+app.use('/criarConta', criarContaRoutes);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

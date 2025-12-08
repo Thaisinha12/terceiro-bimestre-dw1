@@ -1,16 +1,13 @@
-// criarConta.js
-
 function criarConta() {
-    // Pegando os valores dos inputs
     const nome = document.getElementById('nome_pessoa').value.trim();
     const email = document.getElementById('email_pessoa').value.trim();
     const senha = document.getElementById('senha_pessoa').value;
     const confirmarSenha = document.getElementById('confirmarSenha').value;
     const cpf = document.getElementById('cpf_pessoa').value.trim();
+    const endereco = document.getElementById('endereco_cliente').value.trim();
     const resposta = document.getElementById('respostaDoServidor');
 
-    // Validações básicas
-    if (!nome || !email || !senha || !confirmarSenha || !cpf) {
+    if (!nome || !email || !senha || !confirmarSenha || !cpf || !endereco) {
         resposta.textContent = "Preencha todos os campos!";
         resposta.style.color = "red";
         return;
@@ -22,42 +19,40 @@ function criarConta() {
         return;
     }
 
-    // Validar CPF (apenas formato simples, 11 dígitos numéricos)
-    const cpfNumeros = cpf.replace(/\D/g, ''); // remove tudo que não for número
+    const cpfNumeros = cpf.replace(/\D/g, '');
     if (cpfNumeros.length !== 11) {
         resposta.textContent = "CPF inválido! Deve ter 11 números.";
         resposta.style.color = "red";
         return;
     }
 
-    // Checar se já existe um usuário com o mesmo email ou CPF
-    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+    // Faz a requisição para o backend
+    fetch('/criarConta/criar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, email, senha, cpf: cpfNumeros, endereco })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.erro) {
+            resposta.textContent = data.erro;
+            resposta.style.color = "red";
+        } else {
+            resposta.textContent = "Conta criada com sucesso!";
+            resposta.style.color = "green";
 
-    const usuarioExistente = usuarios.find(u => u.email === email || u.cpf === cpfNumeros);
-    if (usuarioExistente) {
-        resposta.textContent = "Já existe uma conta com este email ou CPF!";
+            // Limpa campos
+            document.getElementById('nome_pessoa').value = '';
+            document.getElementById('email_pessoa').value = '';
+            document.getElementById('senha_pessoa').value = '';
+            document.getElementById('confirmarSenha').value = '';
+            document.getElementById('cpf_pessoa').value = '';
+            document.getElementById('endereco_cliente').value = '';
+        }
+    })
+    .catch(err => {
+        resposta.textContent = "Erro ao criar conta!";
         resposta.style.color = "red";
-        return;
-    }
-
-    // Criar novo usuário
-    const novoUsuario = {
-        nome,
-        email,
-        senha,
-        cpf: cpfNumeros
-    };
-
-    usuarios.push(novoUsuario);
-    localStorage.setItem('usuarios', JSON.stringify(usuarios));
-
-    resposta.textContent = "Conta criada com sucesso!";
-    resposta.style.color = "green";
-
-    // Limpar campos
-    document.getElementById('nome_pessoa').value = '';
-    document.getElementById('email_pessoa').value = '';
-    document.getElementById('senha_pessoa').value = '';
-    document.getElementById('confirmarSenha').value = '';
-    document.getElementById('cpf_pessoa').value = '';
+        console.error(err);
+    });
 }
