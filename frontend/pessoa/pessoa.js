@@ -165,9 +165,9 @@ async function buscarPessoa() {
 
     // Verifica se a pessoa é funcionario
     const oFuncionario = await funcaoEhFuncionario(id);
-    alert("oi "+oFuncionario.ehFuncionario)
+
     if (oFuncionario.ehFuncionario) {
-         alert('É funcionario: ' + oFuncionario.ehFuncionario + ' - ' + oFuncionario.cargo + ' - ' + oFuncionario.salario);
+        
         document.getElementById('checkboxFuncionario').checked = true;
         document.getElementById('id_cargo').value = oFuncionario.cargo;
         document.getElementById('salario_funcionario').value = oFuncionario.salario;
@@ -250,6 +250,8 @@ async function salvarOperacao() {
         senha_pessoa: formData.get('senha_pessoa'),
         cpf_pessoa: formData.get('cpf_pessoa') || null
     };
+
+    const enderecoCliente = document.getElementById('endereco_cliente').value || null;
 
     let funcionario = null;
     if (document.getElementById('checkboxFuncionario').checked) {

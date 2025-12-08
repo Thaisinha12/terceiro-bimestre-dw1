@@ -33,7 +33,7 @@ exports.criarFuncionario = async (req, res) => {
     }
 
     const result = await query(
-      'INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES ($1, $2) RETURNING *',
+      'INSERT INTO funcionario (id_pessoa, id_cargo, salario_funcionario) VALUES ($1, $2, $3) RETURNING *',
       [id_pessoa, id_cargo, salario_funcionario]
     );
 
