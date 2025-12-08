@@ -53,10 +53,12 @@ async function verificarSenha() {
 
         if (ehGerente) {
             //Gerente vai para o menu do gerente
-            window.location.href = "/frontend/menuGerente.html";
+            //window.location.href = "/frontend/menuGerente.html";
+            window.location.href = "http://localhost:3001/menuGerente";
         } else {
             //Se não é gerente vai para o menu normal
-            window.location.href = "/frontend/menu.html";
+            //window.location.href = "/frontend/menu.html";
+            window.location.href = "http://localhost:3001/menu";
         }
         //Chat mandou comentar essas linhas de baixo
         //window.location.href = API_BASE_URL + "/menu";

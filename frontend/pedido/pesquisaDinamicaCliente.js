@@ -4,7 +4,7 @@ Ela não é um comando, e sim uma instrução especial que muda o comportamento 
 JavaScript — tornando o código mais seguro, previsível e menos propenso a erros silenciosos.*/
 
 /* lista de atributos e dados (exemplo) */
-const atributosParaPesquisar = ['cpf', 'nome'];
+const atributosParaPesquisar = ['id', 'nome'];
 
 
 //buscar dados no backend: rota http://localhost:3001/cliente
@@ -15,9 +15,9 @@ const osClientes = fetch('http://localhost:3001/cliente');
 osClientes.then(response => response.json())
     .then(data => {
      //   console.log("Dados dos clientes recebidos do backend:", data);
-        // mapeia os dados para o formato esperado (com 'cpf' e 'nome')
+        // mapeia os dados para o formato esperado (com 'id' e 'nome')
         window.osClientes = data.map(item => ({
-            cpf: item.pessoa_cpf_pessoa,
+            id: item.pessoa_id_pessoa,
             nome: item.nome_pessoa
         }));
      //   console.log("Dados dos clientes mapeados:", window.osClientes);
@@ -42,7 +42,7 @@ console.log("dadosParaFiltrar:", dadosParaFiltrar);
  * waitForSelection() retorna uma Promise que resolve quando o usuário clica num item
  * ou resolve com null caso o clique seja fora (cancelamento).
  */
-function createBuscaDinamica({ searchTypeId = 'searchType', searchInputId = 'cliente_pessoa_cpf_pessoa', resultsListId = 'resultsList', atributosParaPesquisar, dadosParaFiltrar }) {
+function createBuscaDinamica({ searchTypeId = 'searchType', searchInputId = 'id_pessoa', resultsListId = 'resultsList', atributosParaPesquisar, dadosParaFiltrar }) {
     const searchTypeElement = document.getElementById(searchTypeId);
     const searchInputElement = document.getElementById(searchInputId);
     const resultsList = document.getElementById(resultsListId);
@@ -64,7 +64,7 @@ function createBuscaDinamica({ searchTypeId = 'searchType', searchInputId = 'cli
         filtered.forEach(dado => {
             const li = document.createElement('li');
             li.className = 'result-item';
-            li.innerHTML = `<span class="result-main">${dado.nome}</span><span class="result-type">(${dado.cpf})</span>`;
+            li.innerHTML = `<span class="result-main">${dado.nome}</span><span class="result-type">(${dado.id})</span>`;
 
             li.addEventListener('click', () => {
                 const resp = {};
@@ -154,9 +154,9 @@ async function buscaDinamica() {
 
     // exemplo de uso do retorno:
     console.log("resposta em formato JSON =>", JSON.stringify(resposta));
-    // document.getElementById('searchInput').value = resposta.cpf || '';
-    console.log("Preenchendo campo com CPF:", resposta.cpf);
-    document.getElementById('cliente_pessoa_cpf_pessoa').value = resposta.cpf || '';
-    // deixa o tipo como CPF (se esse for o seu objetivo)
-    document.getElementById('searchType').value = 'cpf';
+    // document.getElementById('searchInput').value = resposta.id || '';
+    console.log("Preenchendo campo com id:", resposta.id);
+    document.getElementById('id_pessoa').value = resposta.id || '';
+    // deixa o tipo como id (se esse for o seu objetivo)
+    document.getElementById('searchType').value = 'id';
 }

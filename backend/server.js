@@ -86,14 +86,17 @@ app.use((err, req, res, next) => {
 const menuRoutes = require('./routes/menuRoutes');
 app.use('/menu', menuRoutes);
 
+const menuGerenteRoutes = require('./routes/menuGerenteRoutes');
+app.use('/menuGerente', menuGerenteRoutes);
+
 const imageRoutes = require('./routes/imageRoutes'); 
 app.use('/', imageRoutes); // Rota /upload-image
 
 const cargoRoutes = require('./routes/cargoRoutes');
 app.use('/cargo', cargoRoutes);
 
-const pagamentoRoutes = require('./pagamentoRoutes');
-app.use('/pagamento', pagamentoRoutes);
+//const pagamentoRoutes = require('./pagamentoRoutes');
+//app.use('/pagamento', pagamentoRoutes);
 
 const produtoRoutes = require('./routes/produtoRoutes');
 app.use('/produto', produtoRoutes);

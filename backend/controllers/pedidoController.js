@@ -35,11 +35,11 @@ exports.listarPedidos = async (req, res) => {
 exports.criarPedido = async (req, res) => {
   //  console.log('Criando pedido com dados:', req.body);
   try {
-    const { id_pedido, data_pedido, cliente_pessoa_cpf_pessoa, funcionario_pessoa_cpf_pessoa } = req.body;
+    const { id_pedido, data_pedido, id_cliente } = req.body;
 
     const result = await query(
-      'INSERT INTO pedido (id_pedido, data_pedido, cliente_pessoa_cpf_pessoa, funcionario_pessoa_cpf_pessoa) VALUES ($1, $2, $3,$4) RETURNING *',
-      [id_pedido, data_pedido, cliente_pessoa_cpf_pessoa, funcionario_pessoa_cpf_pessoa]
+      'INSERT INTO pedido (id_pedido, data_pedido, id_cliente) VALUES ($1, $2, $3) RETURNING *',
+      [id_pedido, data_pedido, id_cliente]
     );
 
     res.status(201).json(result.rows[0]);
@@ -91,7 +91,7 @@ exports.atualizarPedido = async (req, res) => {
     const id = parseInt(req.params.id, 10);
     if (isNaN(id)) return res.status(400).json({ error: 'ID inválido' });
 
-    const { data_pedido, cliente_pessoa_cpf_pessoa, funcionario_pessoa_cpf_pessoa } = req.body;
+    const { data_pedido, id_cliente} = req.body;
 
     // Verifica se o pedido existe
     const existing = await query('SELECT * FROM pedido WHERE id_pedido = $1', [id]);
@@ -102,12 +102,11 @@ exports.atualizarPedido = async (req, res) => {
     const sql = `
       UPDATE pedido
       SET data_pedido = $1,
-          cliente_pessoa_cpf_pessoa = $2,
-          funcionario_pessoa_cpf_pessoa = $3
-      WHERE id_pedido = $4
+          id_cliente = $2
+      WHERE id_pedido = $3
       RETURNING *
     `;
-    const values = [data_pedido, cliente_pessoa_cpf_pessoa, funcionario_pessoa_cpf_pessoa, id];
+    const values = [data_pedido, id_cliente, id];
 
     const updateResult = await query(sql, values);
     return res.json(updateResult.rows[0]);
