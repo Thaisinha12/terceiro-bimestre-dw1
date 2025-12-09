@@ -1,16 +1,22 @@
-exports.cadastrar = async (req, res) => {
+const { query } = require('../database');
+
+exports.criar = async (req, res) => {
+  console.log("Chegou no criar")
   try {
     const { nome, email, senha, cpf, endereco } = req.body;
+
+    console.log(req.body)
 
     if (!nome || !email || !senha || !cpf || !endereco) {
       return res.status(400).json({ erro: "Nome, email, senha, CPF e endereço são obrigatórios" });
     }
-
+console.log("antes chegou aqui")
     // Verifica duplicados
-    const check = await query(
-      "SELECT id_pessoa FROM pessoa WHERE email_pessoa = $1 OR cpf_pessoa = $2",
+    const check = await query("SELECT id_pessoa FROM pessoa WHERE email_pessoa = $1 OR cpf_pessoa = $2",
       [email, cpf]
     );
+
+    console.log("chegou aqui")
 
     if (check.rows.length > 0) {
       return res.status(400).json({ erro: "Email ou CPF já estão em uso" });
@@ -25,6 +31,8 @@ exports.cadastrar = async (req, res) => {
     );
 
     const pessoa = result.rows[0];
+
+    console.log(pessoa)
 
     // Cria cliente com endereço vinculado
     await query(

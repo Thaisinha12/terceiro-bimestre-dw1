@@ -2,6 +2,6 @@ const express = require('express');
 const router = express.Router();
 const criarContaController = require('../controllers/criarContaController');
 
-router.post('/cadastrar', criarContaController.cadastrar);
+router.post('/', criarContaController.criar);
 
 module.exports = router;

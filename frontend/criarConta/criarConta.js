@@ -27,7 +27,7 @@ function criarConta() {
     }
 
     // Faz a requisição para o backend
-    fetch('/criarConta/criar', {
+    fetch('http://localhost:3001/criarConta', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, email, senha, cpf: cpfNumeros, endereco })
