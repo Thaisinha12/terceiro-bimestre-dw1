@@ -49,6 +49,13 @@ async function verificarSenha() {
         //Ajuda a salvar o nome do usuário no menu
         localStorage.setItem("nomeUsuario", data.nome);
 
+        localStorage.setItem("usuarioLogado", JSON.stringify({
+    nome: data.nome,
+    email: emailGlobal,
+    tipo: emailGlobal.endsWith(".gerente.com") ? "gerente" : "cliente"
+}));
+
+
         //Verifica se é gerente
         const ehGerente = emailGlobal.endsWith(".gerente.com");
 

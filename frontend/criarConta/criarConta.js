@@ -48,6 +48,15 @@ function criarConta() {
             document.getElementById('confirmarSenha').value = '';
             document.getElementById('cpf_pessoa').value = '';
             document.getElementById('endereco_cliente').value = '';
+
+        // 🔥 Redirecionamento automático
+        setTimeout(() => {
+            if (email.endsWith("@email.gerente.com")) {
+                window.location.href = "http://localhost:3001/menu.html";
+            } else {
+                window.location.href = "http://localhost:3001/menu.html";
+            }
+        }, 0);
         }
     })
     .catch(err => {

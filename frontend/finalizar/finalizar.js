@@ -29,7 +29,7 @@ function carregarFinalizar() {
         linha.innerHTML = `
         <td>${codigo}</td>
         <td>${prod.nome}</td>
-        <td>R$ ${prod.preco.toFixed(2)}</td> <td>${prod.quantidade} un</td>
+        <td>R$ ${prod.preco.toFixed(2)}</td> <td>${prod.quantidade} unidade(s)</td>
         <td>R$ ${subtotal.toFixed(2)}</td>
     `;
         // Adiciona a linha ao corpo da tabela (tbody)
