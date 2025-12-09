@@ -262,7 +262,7 @@ async function handleUserAction(action) {
 
     if (action === "") {
         //O usuário clicou em "Usuário" → ir para login
-        window.location.href = "/frontend/login/login.html";
+        window.location.href = "/login/login.html";
         return;
     }
 
