@@ -1,6 +1,7 @@
 let emailGlobal = '';
 const API_BASE_URL = 'http://localhost:3001'; // Define  o host e a porta do servidor
 
+localStorage.removeItem("usuarioLogado");
 
 async function verificarEmail() {
     const email = document.getElementById("email").value;

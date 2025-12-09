@@ -65,13 +65,23 @@ function limparCarrinho() {
 
 function finalizarPedido() {
     const  carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-   
-    if (!usuario) {
-        alert("Você precisa estar logado para finalizar o pedido!");
-        window.location.href = "http://localhost:3001/login/login.html";
-        return;
-    }
+    const usuarioRaw = localStorage.getItem("usuarioLogado");
+
+if (!usuarioRaw) {
+    alert("Você precisa estar logado para finalizar o pedido!");
+    window.location.href = "http://localhost:3001/login/login.html";
+    return;
+}
+
+const usuario = JSON.parse(usuarioRaw);
+
+// Também impede objetos vazios:
+if (!usuario.email) {
+    alert("Você precisa estar logado para finalizar o pedido!");
+    window.location.href = "http://localhost:3001/login/login.html";
+    return;
+}
+
 
     if (carrinho.length === 0) {
         alert("Seu carrinho está vazio."); 

@@ -276,8 +276,12 @@ async function handleUserAction(action) {
             const data = await resp.json();
             console.log("Logout ->", data);
 
-            //Limpa o carrinho para o próximo usuário
-            localStorage.removeItem("carrinho");
+            //Remove usuário logado de verdade
+        localStorage.removeItem("usuarioLogado");
+        localStorage.removeItem("nomeUsuario");
+
+        //Limpa o carrinho também
+        localStorage.removeItem("carrinho");
 
             alert("Você saiu da sua conta!");
 
