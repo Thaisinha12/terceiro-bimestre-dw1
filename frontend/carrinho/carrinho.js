@@ -65,7 +65,14 @@ function limparCarrinho() {
 
 function finalizarPedido() {
     const  carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    const usuarioRaw = localStorage.getItem("usuarioLogado");
+    let usuarioRaw = localStorage.getItem("usuarioLogado");
+
+    // Se estiver salvo errado como texto simples, converte para JSON válido
+if (usuarioRaw && !usuarioRaw.startsWith("{")) {
+    usuarioRaw = JSON.stringify({ email: usuarioRaw });
+    localStorage.setItem("usuarioLogado", usuarioRaw);
+}
+
 
 if (!usuarioRaw) {
     alert("Você precisa estar logado para finalizar o pedido!");

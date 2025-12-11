@@ -41,6 +41,14 @@ function criarConta() {
             resposta.textContent = "Conta criada com sucesso!";
             resposta.style.color = "green";
 
+            // Salva login automático igual ao login normal
+localStorage.setItem(
+    "usuarioLogado",
+    JSON.stringify({ email: email, nome: nome })
+);
+localStorage.setItem("nomeUsuario", nome);
+
+
             // Limpa campos
             document.getElementById('nome_pessoa').value = '';
             document.getElementById('email_pessoa').value = '';
@@ -49,7 +57,18 @@ function criarConta() {
             document.getElementById('cpf_pessoa').value = '';
             document.getElementById('endereco_cliente').value = '';
 
-        // 🔥 Redirecionamento automático
+        // --- LOGIN AUTOMÁTICO APÓS CRIAR A CONTA ---
+localStorage.setItem("usuarioLogado", email);
+localStorage.setItem("nomeUsuario", nome);
+
+// Atualiza o menu para já aparecer o nome
+try {
+    exibirNomeNoMenu(nome);
+} catch (e) {
+    console.warn("exibirNomeNoMenu ainda não existe nesta página");
+}
+            
+        //Redirecionamento automático
         setTimeout(() => {
             if (email.endsWith("@email.gerente.com")) {
                 window.location.href = "http://localhost:3001/menu.html";
