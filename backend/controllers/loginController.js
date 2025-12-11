@@ -122,6 +122,8 @@ exports.verificarSenha = async (req, res) => {
     return res.json({
       status: 'ok',
       nome: nome_pessoa,
+      //Chat mandou colocar a linha de baixo:
+      id_pessoa: id_pessoa, // importante para o frontend
       cargoFuncionario,
     });
 

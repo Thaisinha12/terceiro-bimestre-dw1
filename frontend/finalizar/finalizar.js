@@ -90,26 +90,30 @@ function obterCarrinhoDoStorage(idPedido, dadosStorage) {
 
 // ======== Envia o pedido ao backend ========
 async function enviarDadosParaBD() {
-    const carrinho = JSON.parse(sessionStorage.getItem('carrinho')) || [];
+    //CHAT MANDOU TROCAR:
+    //const carrinho = JSON.parse(sessionStorage.getItem('carrinho')) || [];
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
     if (carrinho.length === 0) {
         alert("O carrinho está vazio.");
         return;
     }
 
-    // Monta o pedido
-    const pedido = {
-        data_pedido: new Date().toISOString(),
-        cliente_pessoa_cpf_pessoa: '1', // substitua pelo CPF real do cliente logado
-        itens: carrinho.map(item => ({
-            id_produto: item.id || item.codigo,
-            quantidade: item.quantidade,
-            preco_unitario: item.preco
-        }))
-    };
+   const idCliente = localStorage.getItem("id_pessoa"); // vem do login
+
+const pedido = {
+    data_pedido: new Date().toISOString().slice(0, 10),
+    id_cliente: idCliente,
+    itens: carrinho.map(item => ({
+        id_produto: item.id || item.codigo,
+        quantidade: item.quantidade,
+        preco_unitario: item.preco
+    }))
+};
+
 
     try {
-        const resposta = await fetch('http://localhost:3001/pedido/online', {
+        const resposta = await fetch('http://localhost:3001/pedido', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(pedido)
@@ -123,37 +127,11 @@ async function enviarDadosParaBD() {
         // MUDANÇA: Conteúdo do sessionStorage antes de limpar
         console.log('Conteúdo do sessionStorage antes de limpar:', sessionStorage);
 
-        // MUDANÇA: Passando sessionStorage
-        let dadosItensDoPedido = obterCarrinhoDoStorage(dados.id_pedido, sessionStorage);
+        //CHAT MANDOU TROCAR:
+        //let dadosItensDoPedido = obterCarrinhoDoStorage(dados.id_pedido, sessionStorage);
+        let dadosItensDoPedido = obterCarrinhoDoStorage(dados.id_pedido, localStorage);
+
         console.log('Conteúdo do carrinho obtido do sessionStorage:', dadosItensDoPedido);
-
-
-        const rotaLote = 'http://localhost:3001/pedido_has_produto/lote'; // A rota que enviará os itens do pedido para tabela pedido_has_produto
-
-        fetch(rotaLote, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(dadosItensDoPedido),
-        })
-            .then(response => {
-                if (!response.ok) {
-                    // Lida com erros HTTP (400, 409, 500, etc.)
-                    return response.json().then(errorData => {
-                        throw new Error(errorData.error || `Erro HTTP: ${response.status}`);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Itens inseridos com sucesso:', data);
-            })
-            .catch(error => {
-                console.error('Falha na inserção em lote:', error.message);
-            });
-
-
 
 
         //adicionar no alert os itens do pedido

@@ -50,6 +50,9 @@ async function verificarSenha() {
         //Ajuda a salvar o nome do usuário no menu
         localStorage.setItem("nomeUsuario", data.nome);
 
+        localStorage.setItem('id_pessoa', data.id_pessoa); // salva o id
+
+
         localStorage.setItem("usuarioLogado", JSON.stringify({
     nome: data.nome,
     email: emailGlobal,

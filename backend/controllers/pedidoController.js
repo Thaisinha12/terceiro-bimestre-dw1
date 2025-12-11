@@ -35,11 +35,11 @@ exports.listarPedidos = async (req, res) => {
 exports.criarPedido = async (req, res) => {
   //  console.log('Criando pedido com dados:', req.body);
   try {
-    const { id_pedido, data_pedido, id_cliente } = req.body;
+    const { data_pedido, id_cliente } = req.body;
 
     const result = await query(
-      'INSERT INTO pedido (id_pedido, data_pedido, id_cliente) VALUES ($1, $2, $3) RETURNING *',
-      [id_pedido, data_pedido, id_cliente]
+      'INSERT INTO pedido (data_pedido, id_cliente) VALUES ($1, $2) RETURNING *',
+      [data_pedido, id_cliente]
     );
 
     res.status(201).json(result.rows[0]);
