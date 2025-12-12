@@ -49,7 +49,7 @@ O QUE APRENDI NESSE ANO:
 - Como mexer com rotas 
 - Aprofundei meus conhecimentos sobre Controller
 - Aprendi MUITO sobre banco de dados 
-- Aprendi o que é um cookie como colocar cookies 
+- Aprendi o que é um cookie e como colocar cookies 
 - Aprendi o que é localhost
 - Aprendi o que é sessionStorage e localStorage
 - Aprendi o que é uma porta de servidor (3001, etc.)
@@ -65,12 +65,12 @@ DIFICULDADES QUE EU TIVE E COMO SUPEREI ELAS:
 - Tive dificuldade em enviar os dados para o BD. Às vezes eles até chegavam, mas vinham nulos, errados. Uma coisa que ajudou muito foi colocar um monte de console.log pra ver até onde os dados estavam vindo.
 - Dificuldade com cookies: às vezes aparecia que o cookie estava definido, mas isso era só visualmente, pq nada tinha sido enviado de verdade para o backend. A IA ajudou bastante nisso, pq é uma coisa que passa muito batida pra gente kkkk.
 
-
 O QUE EU ESPERAVA DO MEU PROJETO E O QUE CONSEGUI ENTREGAR:
 - Espereva um CSS bonito. Sabia que não ia dar tempo de fazer um no nível da Emilly (devido a provas e trabalhos), mas queria pelo menos que ficasse bem-feito. Acho que consegui entregar isso.
 - Como eu havia falado logo que comprei meu computador: "Esse projeto vai ter que ficar tinindo!". Depois de tanto tempo com um computador ruim, eu não tinha mais desculpa com o novo kkkk. Não deu tempo de fazer inovações/coisas mais legais, mas acho que consegui entregar um projeto funcional. 
 
 BACKEND OU FRONTEND?
+
 Prefiro backend, apesar de achar mais difícil que frontend. Mexer com CSS até que é legal, mas é muito melhor a sensação de conseguir resolver um problema que estava quebrando todo o seu programa kkkk.
 
---------------------------------------------------------------------FIM DO RELATÓRIO---------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------FIM DO RELATÓRIO--------------------------------------------------------------------------------------------
