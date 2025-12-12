@@ -41,7 +41,7 @@ CRUD Pessoa tem relacionamentos com professor, avaliado e avaliador (relações 
 Link do vídeo de DW1: https://youtu.be/-UtuCUB65rI?feature=shared
 yegd
 
--------------------------------------------------------------------------RELATÓRIO-------------------------------------------------------------------------------
+-------------------------------------------------------------------------RELATÓRIO------------------------------------------------------------------------------------------------------------
 
 O QUE APRENDI NESSE ANO:
 - O que é um servidor
@@ -62,12 +62,14 @@ O QUE APRENDI NESSE ANO:
 DIFICULDADES QUE EU TIVE E COMO SUPEREI ELAS:
 - No começo tive MUITA dificuldade em fazer a IA entender o que eu queria, mas ao longo do ano fui entendendo como melhorar meus prompts.
 - No começo também tive MUITA dificuldade com o banco de dados do meu projeto,porque eu mal entendia a matéria do Pena kkkk. Conforme eu fui fazendo meu projeto ao longo do tempo, eu fui entendendendo BD.
+- Tive dificuldade em enviar os dados para o BD. Às vezes eles até chegavam, mas vinham nulos, errados. Uma coisa que ajudou muito foi colocar um monte de console.log pra ver até onde os dados estavam vindo.
 
 
 O QUE EU ESPERAVA DO MEU PROJETO E O QUE CONSEGUI ENTREGAR:
-- Espereva um CSS bonito. Sabia que não ia dar tempo de fazer um no nível da Emilly (devido a provas e trabalhos),mas queria pelo menos que ficasse bem-feito. Acho que consegui entregar isso.
+- Espereva um CSS bonito. Sabia que não ia dar tempo de fazer um no nível da Emilly (devido a provas e trabalhos), mas queria pelo menos que ficasse bem-feito. Acho que consegui entregar isso.
 - Como eu havia falado logo que comprei meu computador: "Esse projeto vai ter que ficar tinindo!". Depois de tanto tempo com um computador ruim, eu não tinha mais desculpa com o novo kkkk. Não deu tempo de fazer inovações/coisas mais legais, mas acho que consegui entregar um projeto funcional. 
 
 BACKEND OU FRONTEND?
-Prefiro backend, apesar de achar mais difícil que frontend. Mexer com CSS até que é legal, mas é muito melhor a sensação de conseguir resolver um problema que estava quebrando o seu código kkkk.
+Prefiro backend, apesar de achar mais difícil que frontend. Mexer com CSS até que é legal, mas é muito melhor a sensação de conseguir resolver um problema que estava quebrando todo o seu programa kkkk.
 
+--------------------------------------------------------------------FIM DO RELATÓRIO---------------------------------------------------------------------------------------------------
