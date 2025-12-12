@@ -74,5 +74,7 @@ Prefiro backend, apesar de achar mais difícil que frontend. Mexer com CSS até 
 
 O QUE FOI MAIS FÁCIL:
 - Fazer os CSSs: eu pegava um CSS pronto e mandava a IA adaptar ele pra fazer outro CSS.
-- Fazer os CRUDs, apesar de alguns enroscos kkkk. 
+- Fazer os CRUDs, apesar de alguns enroscos kkkk.
+
+  
 --------------------------------------------------------------------FIM DO RELATÓRIO--------------------------------------------------------------------------------------------
