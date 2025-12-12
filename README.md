@@ -40,3 +40,34 @@ CRUD Pessoa tem relacionamentos com professor, avaliado e avaliador (relações 
 
 Link do vídeo de DW1: https://youtu.be/-UtuCUB65rI?feature=shared
 yegd
+
+-------------------------------------------------------------------------RELATÓRIO-------------------------------------------------------------------------------
+
+O QUE APRENDI NESSE ANO:
+- O que é um servidor
+- Como subir e derrubar um servidor 
+- Como mexer com rotas 
+- Aprofundei meus conhecimentos sobre Controller
+- Aprendi MUITO sobre banco de dados 
+- Aprendi o que é um cookie como colocar cookies 
+- Aprendi o que é localhost
+- Aprendi o que é sessionStorage e localStorage
+- Aprendi o que é uma porta de servidor (3001, etc.)
+- Aprendi a usar o Github e seus recursos
+- Aprendi a usar o PostgreSQL? E o DBeaver
+- Aprendi a "conversar com a IA" - entendi o que é Prompt Engineer
+- Aprendi o que é frontend e backend
+- Aprendi como "conectar" programação e banco de dados em um projeto
+
+DIFICULDADES QUE EU TIVE E COMO SUPEREI ELAS:
+- No começo tive MUITA dificuldade em fazer a IA entender o que eu queria, mas ao longo do ano fui entendendo como melhorar meus prompts.
+- No começo também tive MUITA dificuldade com o banco de dados do meu projeto,porque eu mal entendia a matéria do Pena kkkk. Conforme eu fui fazendo meu projeto ao longo do tempo, eu fui entendendendo BD.
+
+
+O QUE EU ESPERAVA DO MEU PROJETO E O QUE CONSEGUI ENTREGAR:
+- Espereva um CSS bonito. Sabia que não ia dar tempo de fazer um no nível da Emilly (devido a provas e trabalhos),mas queria pelo menos que ficasse bem-feito. Acho que consegui entregar isso.
+- Como eu havia falado logo que comprei meu computador: "Esse projeto vai ter que ficar tinindo!". Depois de tanto tempo com um computador ruim, eu não tinha mais desculpa com o novo kkkk. Não deu tempo de fazer inovações/coisas mais legais, mas acho que consegui entregar um projeto funcional. 
+
+BACKEND OU FRONTEND?
+Prefiro backend, apesar de achar mais difícil que frontend. Mexer com CSS até que é legal, mas é muito melhor a sensação de conseguir resolver um problema que estava quebrando o seu código kkkk.
+
