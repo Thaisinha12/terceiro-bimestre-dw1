@@ -54,15 +54,16 @@ O QUE APRENDI NESSE ANO:
 - Aprendi o que é sessionStorage e localStorage
 - Aprendi o que é uma porta de servidor (3001, etc.)
 - Aprendi a usar o Github e seus recursos
-- Aprendi a usar o PostgreSQL? E o DBeaver
+- Aprendi a usar o DBeaver
 - Aprendi a "conversar com a IA" - entendi o que é Prompt Engineer
 - Aprendi o que é frontend e backend
 - Aprendi como "conectar" programação e banco de dados em um projeto
 
 DIFICULDADES QUE EU TIVE E COMO SUPEREI ELAS:
 - No começo tive MUITA dificuldade em fazer a IA entender o que eu queria, mas ao longo do ano fui entendendo como melhorar meus prompts.
-- No começo também tive MUITA dificuldade com o banco de dados do meu projeto,porque eu mal entendia a matéria do Pena kkkk. Conforme eu fui fazendo meu projeto ao longo do tempo, eu fui entendendendo BD.
+- No começo também tive MUITA dificuldade com o banco de dados do meu projeto, porque eu mal entendia a matéria do Pena kkkk. Conforme eu fui fazendo meu projeto ao longo do tempo, eu fui entendendendo BD.
 - Tive dificuldade em enviar os dados para o BD. Às vezes eles até chegavam, mas vinham nulos, errados. Uma coisa que ajudou muito foi colocar um monte de console.log pra ver até onde os dados estavam vindo.
+- Dificuldade com cookies: às vezes aparecia que o cookie estava definido, mas isso era só visualmente, pq nada tinha sido enviado de verdade para o backend. A IA ajudou bastante nisso, pq é uma coisa que passa muito batida pra gente kkkk.
 
 
 O QUE EU ESPERAVA DO MEU PROJETO E O QUE CONSEGUI ENTREGAR:
