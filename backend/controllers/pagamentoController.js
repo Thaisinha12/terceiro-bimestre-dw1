@@ -34,11 +34,11 @@ exports.listarPagamentos = async (req, res) => {
 exports.criarPagamento = async (req, res) => {
   //  console.log('Criando pagamento com dados:', req.body);
   try {
-    const { id_pagamento, pedido_id_pedido, nome_cartao, numero_cartao, validade, cvv, tipo_cartao, data_pagamento, valor_total_pagamento } = req.body;
+    const { pedido_id_pedido, nome_cartao, numero_cartao, validade, cvv, tipo_cartao, data_pagamento, valor_total_pagamento } = req.body;
 
     const result = await query(
-      'INSERT INTO pagamento (id_pagamento, pedido_id_pedido, nome_cartao, numero_cartao, validade, cvv, tipo_cartao, data_pagamento, valor_total_pagamento) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-      [id_pagamento, pedido_id_pedido, nome_cartao, numero_cartao, validade, cvv, tipo_cartao, data_pagamento, valor_total_pagamento]
+      'INSERT INTO pagamento (pedido_id_pedido, nome_cartao, numero_cartao, validade, cvv, tipo_cartao, data_pagamento, valor_total_pagamento) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+      [pedido_id_pedido, nome_cartao, numero_cartao, validade, cvv, tipo_cartao, data_pagamento, valor_total_pagamento]
     );
 
     res.status(201).json(result.rows[0]);
