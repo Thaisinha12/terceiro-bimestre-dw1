@@ -6,9 +6,9 @@ const pagamentoController = require('./../controllers/pagamentoController');
 
 //router.get('/abrirCrudPedido', pedidoController.abrirCrudPedido);
 router.get('/', pagamentoController.listarPagamentos);
-router.post('/', pedidoController.criarPagamento);
-router.get('/:id', pedidoController.obterPagamento);
-router.put('/:id', pedidoController.atualizarPagamento);
-router.delete('/:id', pedidoController.deletarPagamento);
+router.post('/', pagamentoController.criarPagamento);
+router.get('/:id', pagamentoController.obterPagamento);
+router.put('/:id', pagamentoController.atualizarPagamento);
+router.delete('/:id', pagamentoController.deletarPagamento);
 
 module.exports = router;

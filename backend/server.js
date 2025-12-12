@@ -95,8 +95,8 @@ app.use('/', imageRoutes); // Rota /upload-image
 const cargoRoutes = require('./routes/cargoRoutes');
 app.use('/cargo', cargoRoutes);
 
-//const pagamentoRoutes = require('./pagamentoRoutes');
-//app.use('/pagamento', pagamentoRoutes);
+const pagamentoRoutes = require('./routes/pagamentoRoutes');
+app.use('/pagamento', pagamentoRoutes);
 
 const produtoRoutes = require('./routes/produtoRoutes');
 app.use('/produto', produtoRoutes);

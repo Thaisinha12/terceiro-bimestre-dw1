@@ -88,9 +88,8 @@ function obterCarrinhoDoStorage(idPedido, dadosStorage) {
     }
 }
 
-// ======== Envia o pedido ao backend ========
+/// ======== Envia o pedido ao backend ========
 async function enviarDadosParaBD() {
-    //CHAT MANDOU TROCAR:
     //const carrinho = JSON.parse(sessionStorage.getItem('carrinho')) || [];
     const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
@@ -101,59 +100,89 @@ async function enviarDadosParaBD() {
 
    const idCliente = localStorage.getItem("id_pessoa"); // vem do login
 
-const pedido = {
-    data_pedido: new Date().toISOString().slice(0, 10),
-    id_cliente: idCliente,
-    itens: carrinho.map(item => ({
-        id_produto: item.id || item.codigo,
-        quantidade: item.quantidade,
-        preco_unitario: item.preco
-    }))
-};
+   // Dados para o cabeçalho do pedido
+   const pedidoData = { 
+       data_pedido: new Date().toISOString().slice(0, 10),
+       id_cliente: idCliente
+   };
 
 
     try {
+        // 1. CRIAÇÃO DO PEDIDO (Tabela 'pedido')
         const resposta = await fetch('http://localhost:3001/pedido', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(pedido)
+            body: JSON.stringify(pedidoData)
         });
 
         if (!resposta.ok) throw new Error('Falha ao criar pedido na API.');
 
         const dados = await resposta.json();
+        // LINHA 126/127 (AQUI ESTÁ A CORREÇÃO PRINCIPAL)
+        const novoIdPedido = dados.id_pedido; // <--- DEFININDO A VARIÁVEL AQUI
 
-        console.log('✅ Pedido enviado:', pedido);
-        // MUDANÇA: Conteúdo do sessionStorage antes de limpar
+        console.log('✅ Pedido enviado:', dados);
         console.log('Conteúdo do sessionStorage antes de limpar:', sessionStorage);
 
-        //CHAT MANDOU TROCAR:
-        //let dadosItensDoPedido = obterCarrinhoDoStorage(dados.id_pedido, sessionStorage);
-        let dadosItensDoPedido = obterCarrinhoDoStorage(dados.id_pedido, localStorage);
+        // O seu código aqui chamava 'obterCarrinhoDoStorage' e 'console.log'
+
+        // 2. CRIAÇÃO DOS ITENS DO PEDIDO (Tabela 'pedido_has_produto') - UM POR UM
+        
+        let sucessoItens = true;
+        
+        // Usamos for...of para poder usar await dentro do loop
+        for (const item of carrinho) {
+            console.log(`2. Tentando inserir item ${item.id || item.codigo}...`);
+
+            const itemParaAPI = {
+                pedido_id_pedido: novoIdPedido, // <--- USANDO A VARIÁVEL CORRETAMENTE DEFINIDA
+                produto_id_produto: item.id || item.codigo,
+                quantidade: item.quantidade,
+                preco_unitario: item.preco
+            };
+
+            const respostaItem = await fetch('http://localhost:3001/pedido_has_produto', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(itemParaAPI)
+            });
+
+            if (!respostaItem.ok) {
+                sucessoItens = false;
+                console.error(`❌ Falha ao inserir item ${item.id || item.codigo}. Status: ${respostaItem.status}`);
+            } else {
+                console.log(`✅ Item ${item.id || item.codigo} inserido com sucesso.`);
+            }
+        }
+        
+        if (!sucessoItens) {
+            alert("Atenção: O pedido principal foi criado, mas houve falha na inserção de um ou mais itens. Verifique o console para detalhes.");
+        }
+
+        // Seus códigos após o loop
+        let dadosItensDoPedido = obterCarrinhoDoStorage(novoIdPedido, localStorage);
 
         console.log('Conteúdo do carrinho obtido do sessionStorage:', dadosItensDoPedido);
-
 
         //adicionar no alert os itens do pedido
         let aux = "";
         dadosItensDoPedido.forEach(item => {
-            aux += `\n- ${dados.id_pedido} -  Produto: ${item.nome_produto}, Quantidade: ${item.quantidade} un, Preço: R$ ${item.preco.toFixed(2)}`;
+            aux += `\n- ${novoIdPedido} -  Produto: ${item.nome_produto}, Quantidade: ${item.quantidade} un, Preço: R$ ${item.preco.toFixed(2)}`;
         });
 
-        alert(`Pedido ${dados.id_pedido} \n\n` + aux);
+        alert(`Pedido ${novoIdPedido} \n\n` + aux);
 
         //json para pagamento
         const dadosPagamento = {
-            id_pedido: dados.id_pedido,
+            id_pedido: novoIdPedido,
             valor_total: valorTotal          
         };
 
         sessionStorage.setItem('dadosPagamento', JSON.stringify(dadosPagamento));
 
         
-        //sessionStorage.removeItem('carrinho');
+        localStorage.removeItem('carrinho');
         window.location.href = 'http://localhost:3001/pagamento/pagamento.html';
-        //window.location.href = 'http://localhost:3001/pagamento/abrirTelaPagamento';
 
     } catch (erro) {
         console.error('❌ Erro ao enviar pedido:', erro);
