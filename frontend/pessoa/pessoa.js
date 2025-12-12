@@ -182,10 +182,14 @@ async function buscarPessoa() {
     try {
         const responseCliente = await fetch(`${API_BASE_URL}/cliente/${id}`);
         if (responseCliente.status === 200) {
-            document.getElementById('checkboxCliente').checked = true;
-        } else {
-            document.getElementById('checkboxCliente').checked = false;
-        }
+           const clienteData = await responseCliente.json();
+           document.getElementById('checkboxCliente').checked = true;
+           document.getElementById('endereco_cliente').value = clienteData.endereco_cliente || '';
+} else {
+           document.getElementById('checkboxCliente').checked = false;
+           document.getElementById('endereco_cliente').value = '';
+}
+
     } catch (error) {
         console.error('Erro ao verificar se é cliente:', error);
         document.getElementById('checkboxCliente').checked = false;
@@ -290,7 +294,7 @@ async function salvarOperacao() {
             if (ehCliente) {
                 const cliente = {
                     id_pessoa: pessoa.id_pessoa,
-                    endereco_cliente: pessoa.endereco_cliente
+                    endereco_cliente: enderecoCliente
                 };
                 responseCliente = await fetch(`${API_BASE_URL}/cliente`, {
                     method: 'POST',
@@ -314,39 +318,44 @@ async function salvarOperacao() {
             });
             responsePessoa = responseFuncionario;
             alert(ehCliente)
-            if (ehCliente) {
-                //se DEIXOU de ser cliente, excluir da tabela cliente
-                const caminhoRota = `${API_BASE_URL}/cliente/${currentPersonId}`;
-                console.log(caminhoRota)
-                let respObterCliente = await fetch(caminhoRota);
-                    console.log('Resposta ao obter cliente ao alterar pessoa: ' + respObterCliente.status);
-                let cliente = null;
-                if (respObterCliente.status === 404) {
-                    //incluir cliente
-                    cliente = {
-                        id_pessoa: pessoa.id_pessoa
-                    }
-                };
-                
-                respObterCliente = await fetch(`${API_BASE_URL}/cliente`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(cliente)
-                });
-            } else {
-                //se DEIXOU de ser cliente, excluir da tabela cliente
-                const caminhoRota = `${API_BASE_URL}/cliente/${currentPersonId}`;
-                let respObterCliente = await fetch(caminhoRota);
-                // console.log('Resposta ao obter cliente para exclusão: ' + respObterCliente.status);
-                if (respObterCliente.status === 200) {
-                    //existe, pode excluir
-                    respObterCliente = await fetch(caminhoRota, {
-                        method: 'DELETE'
-                    });
-                }
-            }
+
+            ////////////////////////////////////////////////////////////////////////////
+            // === CLIENTE ===
+if (ehCliente) {
+    const caminhoRotaCliente = `${API_BASE_URL}/cliente/${currentPersonId}`;
+    const respCliente = await fetch(caminhoRotaCliente);
+
+    const cliente = {
+        id_pessoa: pessoa.id_pessoa,
+        endereco_cliente: enderecoCliente
+    };
+
+    if (respCliente.status === 404) {
+        // Cliente não existe → criar
+        await fetch(`${API_BASE_URL}/cliente`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(cliente)
+        });
+    } else {
+        // Cliente existe → atualizar
+        await fetch(caminhoRotaCliente, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(cliente)
+        });
+    }
+
+} else {
+    // Apagar caso tenha deixado de ser cliente
+    const caminhoRotaCliente = `${API_BASE_URL}/cliente/${currentPersonId}`;
+    const respCliente = await fetch(caminhoRotaCliente);
+    if (respCliente.status === 200) {
+        await fetch(caminhoRotaCliente, { method: 'DELETE' });
+    }
+}
+
+            ///////////////////////////////////////////////////////////////////////////////
 
             if (document.getElementById('checkboxFuncionario').checked) {
                 //   console.log('Vai alterar funcionario: ' + JSON.stringify(funcionario));
