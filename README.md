@@ -70,7 +70,9 @@ O QUE EU ESPERAVA DO MEU PROJETO E O QUE CONSEGUI ENTREGAR:
 - Como eu havia falado logo que comprei meu computador: "Esse projeto vai ter que ficar tinindo!". Depois de tanto tempo com um computador ruim, eu não tinha mais desculpa com o novo kkkk. Não deu tempo de fazer inovações/coisas mais legais, mas acho que consegui entregar um projeto funcional. 
 
 BACKEND OU FRONTEND?
-
 Prefiro backend, apesar de achar mais difícil que frontend. Mexer com CSS até que é legal, mas é muito melhor a sensação de conseguir resolver um problema que estava quebrando todo o seu programa kkkk.
 
+O QUE FOI MAIS FÁCIL:
+- Fazer os CSSs: eu pegava um CSS pronto e mandava a IA adaptar ele pra fazer outro CSS.
+- Fazer os CRUDs, apesar de alguns enroscos kkkk. 
 --------------------------------------------------------------------FIM DO RELATÓRIO--------------------------------------------------------------------------------------------
