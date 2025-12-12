@@ -32,7 +32,7 @@ exports.listarPagamentos = async (req, res) => {
 
 
 exports.criarPagamento = async (req, res) => {
-  //  console.log('Criando pagamento com dados:', req.body);
+   console.log('Dados recebidos no backend:', req.body);
   try {
     const { pedido_id_pedido, nome_cartao, numero_cartao, validade, cvv, tipo_cartao, data_pagamento, valor_total_pagamento } = req.body;
 
@@ -107,7 +107,7 @@ exports.atualizarPagamento = async (req, res) => {
           cvv = $5,
           tipo_cartao = $6,
           data_pagamento = $7,
-          valor_total_pagamento = $8,
+          valor_total_pagamento = $8
       WHERE id_pagamento = $9
       RETURNING *
     `;

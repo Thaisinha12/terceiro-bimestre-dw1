@@ -60,8 +60,13 @@ form.addEventListener("submit", async (e) => { // Tornar a função assíncrona
     // --- Dados que precisam ser definidos/obtidos (EXEMPLOS) ---
     // Você precisará obter o pedido_id_pedido e o valor_total_pagamento
     // de alguma forma (variáveis de escopo, campos ocultos, etc.)
-    const pedido_id_pedido = 123; // <-- MUDAR: ID do Pedido associado
-    const valor_total_pagamento = 99.50; // <-- MUDAR: Valor total do pedido
+    const dadosPagamento = JSON.parse(sessionStorage.getItem("dadosPagamento")) || {};
+    const pedido_id_pedido = Number(dadosPagamento.id_pedido);
+    const valor_total_pagamento = Number(dadosPagamento.valor_total);
+
+console.log("ID do pedido recebido:", pedido_id_pedido);
+console.log("Valor total recebido:", valor_total_pagamento);
+
     const data_pagamento = new Date().toISOString(); // Data atual
     // O id_pagamento é geralmente gerado automaticamente pelo banco de dados (remover se for o caso)
     // Se o banco não gerar, você precisará definir um:
@@ -102,8 +107,7 @@ form.addEventListener("submit", async (e) => { // Tornar a função assíncrona
     }
 
     // Limpa espaços da validade
-const validadeFormatada = validade.replace(/\s/g, '');
-
+    const validadeFormatada = validade; // mantém "MM/AA"
 
     // Validação do CVV — exatamente 3 números
     if (!/^\d{3}$/.test(cvv)) {
@@ -120,17 +124,17 @@ const validadeFormatada = validade.replace(/\s/g, '');
     }
     
     // Prepara os dados para envio
-    const dadosPagamento = {
-        // id_pagamento, // Se o banco de dados for auto-incremental, REMOVA esta linha
-        pedido_id_pedido: pedido_id_pedido, // MUDAR: Obter o ID real do pedido
-        nome_cartao: nome_cartao,
-        numero_cartao: numero_cartao,
-        validade: validadeFormatada,
-        cvv: cvv,
-        tipo_cartao: tipo_cartao,
-        data_pagamento: data_pagamento,
-        valor_total_pagamento: valor_total_pagamento // MUDAR: Obter o valor real
-    };
+  const dadosPagamentoFinal = {
+    pedido_id_pedido,
+    nome_cartao,
+    numero_cartao,
+    validade: validadeFormatada,
+    cvv,
+    tipo_cartao,
+    data_pagamento,
+    valor_total_pagamento
+};
+
 
     // --- Lógica de envio para a API ---
     try {
@@ -139,13 +143,13 @@ const validadeFormatada = validade.replace(/\s/g, '');
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dadosPagamento)
+            body: JSON.stringify(dadosPagamentoFinal)
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            mensagem.textContent = `✅ Compra finalizada com sucesso no cartão de ${tipo_cartao}! Pagamento ID: ${data.id_pagamento}`;
+            mensagem.textContent = `Compra finalizada com sucesso no cartão de ${tipo_cartao}!`;
             mensagem.style.color = "green";
             form.reset();
         } else {
