@@ -149,8 +149,36 @@ console.log("Valor total recebido:", valor_total_pagamento);
         const data = await response.json();
 
         if (response.ok) {
-            mensagem.textContent = `Compra finalizada com sucesso no cartão de ${tipo_cartao}!`;
-            mensagem.style.color = "green";
+            if (response.ok) {
+    mensagem.textContent = `Compra finalizada com sucesso no cartão de ${tipo_cartao}!`;
+    mensagem.style.color = "green";
+    form.reset();
+
+    // Aguarda 1 segundo para mostrar a mensagem
+    setTimeout(() => {
+
+        // Recupera usuário logado
+        const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+        let tipoUsuario = "cliente"; // padrão
+
+        if (usuario && usuario.tipo) {
+            tipoUsuario = usuario.tipo;
+        } else if (usuario && usuario.email) {
+            // corrige contas criadas pelo criarConta.js
+            tipoUsuario = usuario.email.endsWith(".gerente.com") ? "gerente" : "cliente";
+        }
+
+        // Redireciona conforme o tipo
+        if (tipoUsuario === "gerente") {
+            window.location.href = "http://localhost:3001/menuGerente";
+        } else {
+            window.location.href = "http://localhost:3001/menu";
+        }
+
+    }, 2000);
+}
+
             form.reset();
         } else {
             // Tratar erros da API (como NOT NULL, ID duplicado, etc.)

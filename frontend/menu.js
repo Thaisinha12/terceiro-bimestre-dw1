@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         produtosDaCategoria.forEach(produto => {
             const card = document.createElement('div');
             card.className = 'produto-card';
-            const imagemSrc = `imagens/${produto.id_produto}.jpeg`; 
+            const imagemSrc = `http://localhost:3001/imagens-produtos/${produto.id_produto}.png`;
 
             card.innerHTML = `
                 <img src="${imagemSrc}" alt="Imagem de ${produto.nome_produto}" onerror="this.onerror=null; this.src='https://placehold.co/300x200/cccccc/333333?text=Sem+Imagem'">
@@ -290,27 +290,6 @@ async function handleUserAction(action) {
         }
     }
 }
-
-//Daqui pra baixo é pra trocar "Usuário" pelo nome do usuário
-function exibirNomeNoMenu(nome) {
-    const select = document.getElementById("oUsuario");
-
-    // Remove opções atuais
-    select.innerHTML = "";
-
-    // Cria nova opção com o nome do usuário
-    const optUsuario = document.createElement("option");
-    optUsuario.value = "";
-    optUsuario.textContent = nome;
-    select.appendChild(optUsuario);
-
-    // Opção "Sair"
-    const optSair = document.createElement("option");
-    optSair.value = "sair";
-    optSair.textContent = "Sair";
-    select.appendChild(optSair);
-}
-
 
 //Daqui pra baixo é pra ver o nome no usuário
 function exibirNomeNoMenu(nome) {

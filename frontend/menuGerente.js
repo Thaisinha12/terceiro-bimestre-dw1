@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const CATEGORIAS_API = 'http://localhost:3001/categoria/';
     const PRODUTOS_API = 'http://localhost:3001/produto/';
+
+    // --- MOSTRAR NOME DO USUÁRIO SE ELE ESTIVER LOGADO ---
+    const nomeSalvo = localStorage.getItem("nomeUsuario");
+    if (nomeSalvo) {
+        exibirNomeNoMenu(nomeSalvo);
+    }
     
     const containerPrincipal = document.getElementById('categorias-container');
     const loadingMessage = document.getElementById('loading-message');
@@ -10,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let categoriasGlobais = [];
     let produtosGlobais = [];
+
+    
 
     /**
      * Auxiliar para agrupar produtos pela chave id_categoria.
@@ -112,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!estado || estado.produtoCount <= 1) return;
 
         let newIndex = estado.currentIndex;
+
         if (direcao === 'proximo') {
             newIndex = (newIndex < estado.produtoCount - 1) ? newIndex + 1 : 0;
         } else if (direcao === 'anterior') {
@@ -133,10 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Busca as duas rotas em paralelo
             const [categoriasRes, produtosRes] = await Promise.all([
-    fetch(CATEGORIAS_API, { credentials: 'include' }),
-    fetch(PRODUTOS_API, { credentials: 'include' })
-]);
-
+                fetch(CATEGORIAS_API),
+                fetch(PRODUTOS_API)
+            ]);
             
             // Verifica se a resposta foi bem sucedida
             if (!categoriasRes.ok || !produtosRes.ok) {
@@ -246,3 +254,83 @@ function removerAcentos(texto) {
     // INICIA A RENDERIZAÇÃO
     inicializarCardapio();
 });
+
+//Chat mandou colocar, se der errado é só apagar tudo daqui pra baixo:
+// --- CONTROLE DO USUÁRIO (login / logout) ---
+async function handleUserAction(action) {
+    const select = document.getElementById("oUsuario");
+
+    if (action === "") {
+        //O usuário clicou em "Usuário" → ir para login
+        window.location.href = "/login/login.html";
+        return;
+    }
+
+    if (action === "sair") {
+        try {
+            const resp = await fetch('http://localhost:3001/login/logout', {
+                method: 'GET',
+                credentials: 'include'  // IMPORTANTÍSSIMO para enviar o cookie httpOnly
+            });
+
+            const data = await resp.json();
+            console.log("Logout ->", data);
+
+            //Remove usuário logado de verdade
+        localStorage.removeItem("usuarioLogado");
+        localStorage.removeItem("nomeUsuario");
+
+        //Limpa o carrinho também
+        localStorage.removeItem("carrinho");
+
+            alert("Você saiu da sua conta!");
+
+        } catch (error) {
+            console.error("Erro ao fazer logout:", error);
+        }
+    }
+}
+
+//Daqui pra baixo é pra trocar "Usuário" pelo nome do usuário
+function exibirNomeNoMenu(nome) {
+    const select = document.getElementById("oUsuario");
+
+    // Remove opções atuais
+    select.innerHTML = "";
+
+    // Cria nova opção com o nome do usuário
+    const optUsuario = document.createElement("option");
+    optUsuario.value = "";
+    optUsuario.textContent = nome;
+    select.appendChild(optUsuario);
+
+    // Opção "Sair"
+    const optSair = document.createElement("option");
+    optSair.value = "sair";
+    optSair.textContent = "Sair";
+    select.appendChild(optSair);
+}
+
+
+//Daqui pra baixo é pra ver o nome no usuário
+function exibirNomeNoMenu(nome) {
+    const select = document.getElementById("oUsuario");
+
+    // Remove opções atuais
+    select.innerHTML = "";
+
+    // Cria nova opção com o nome do usuário
+    const optUsuario = document.createElement("option");
+    optUsuario.value = "";
+    optUsuario.textContent = nome;
+    select.appendChild(optUsuario);
+
+    // Opção "Sair"
+    const optSair = document.createElement("option");
+    optSair.value = "sair";
+    optSair.textContent = "Sair";
+    select.appendChild(optSair);
+}
+
+
+
